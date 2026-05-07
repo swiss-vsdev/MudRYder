@@ -11,7 +11,7 @@ class Game extends DesktopApplication(1920, 1080) {
 
   override def onGraphicRender(g: GdxGraphics): Unit = {
     g.clear(Color.WHITE)
-    g.drawStringCentered(getWindowHeight / 2.0f, "Hello I'm a game")
+    g.drawStringCentered(getWindowHeight / 2.0f, "Hello I'm a small game")
     g.drawFPS(Color.BLACK)
     g.drawSchoolLogo()
   }
