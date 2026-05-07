@@ -1,4 +1,4 @@
-# MudRYder #cToMode
+# MudRYder
 The best game ever created
 
 By Aurélien Santi and Gabriel Zeizer extends coffee-s
@@ -13,9 +13,8 @@ The goal is to recreate a game similar to "Line Rider" fully in scala
 
 ### TO DO :
  - [ ] Créer la structure de base 
-  -- [ ] Utilisation des classes ?
+ - [ ] Utilisation des classes ?
  - [ ] Créer le système de drawing -> 
- - [ ] 
  - [ ] Créer (réutiliser) le système de physics
  - [ ] Créer (implémenter) le système de caméra sticky au Mudry
  - [ ] Trouver (créer) un Line Rider Mudry Asset
