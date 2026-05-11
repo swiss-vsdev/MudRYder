@@ -9,11 +9,8 @@ import com.badlogic.gdx.math.Vector2
 import scala.collection.mutable.ArrayBuffer
 
 class Game extends DesktopApplication(1920, 1080) {
-  val LineArray: ArrayBuffer[Line] = ArrayBuffer.empty
-  var startPoint: Vector2 = new Vector2()
-  var endPoint: Vector2 = new Vector2()
-  var lastEndPoint: Vector2 = new Vector2()
-  var isMousePressed: Boolean = false
+  val lineMachine = new LineDrawMachine
+  val modesMachine = new DrawingModesMachine
 
   override def onInit(): Unit = {
     setTitle("MudRYder")
@@ -25,24 +22,19 @@ class Game extends DesktopApplication(1920, 1080) {
     g.drawFPS(Color.BLACK)
     g.drawSchoolLogo()
     g.setColor(Color.BLACK)
-    if(endPoint.x != 0.0f && endPoint.y != 0.0f) g.drawLine(startPoint.x,startPoint.y,endPoint.x,endPoint.y)
-    for(line <- LineArray){
-      g.setColor(Color.BLACK)
-      g.drawLine(line.p1x,line.p1y,line.p2x,line.p2y)
-    }
+    lineMachine.drawLines(g)
+    modesMachine.drawModesMenu(g)
   }
   override def onClick(x: Int, y: Int, button: Int): Unit = {
     super.onClick(x, y, button)
 
     if (button == Input.Buttons.LEFT) {
-      if(lastEndPoint.x == endPoint.x && lastEndPoint.y == endPoint.y) endPoint.set(x,y)
-      startPoint.set(x, y)
-      Logger.log("Left button clicked")
-      isMousePressed = true
-
+      lineMachine.onClick("LEFT",x,y)
+      println("Left button clicked")
     }
     else{
-      Logger.log("Right button clicked")
+      lineMachine.onClick("RIGHT",x,y)
+      println("Right button clicked")
     }
 
 
@@ -50,25 +42,19 @@ class Game extends DesktopApplication(1920, 1080) {
 
   override def onDrag(x: Int, y: Int): Unit = {
     //println("I'm draaaged")
-    endPoint.set(x,y)
+    lineMachine.onDrag(x,y)
   }
 
   override def onRelease(x: Int, y: Int, button: Int): Unit = {
     super.onRelease(x, y, button)
 
     if (button == Input.Buttons.LEFT) {
-      isMousePressed = false
-      endPoint.set(x,y)
-      val l1 = Line(startPoint.x,startPoint.y,endPoint.x,endPoint.y)
-      LineArray.addOne(l1)
-      lastEndPoint.set(endPoint.x,endPoint.y)
-      Logger.log("Left button released")
+      lineMachine.onRelease("LEFT",x,y)
+      println("Left button released")
+    } else {
+      println("Right button released")
     }
   }
 }
 
-object HelloGdx2d {
-  def main(args: Array[String]): Unit = {
-    new Game().launch()
-  }
-}
+
