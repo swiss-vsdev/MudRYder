@@ -12,6 +12,7 @@ class Game extends DesktopApplication(1920, 1080) {
   val lineMachine = new LineDrawMachine
   val modesMachine = new DrawingModesMachine
   val freeMachine = new FreeDrawMachine
+  val playerMachine = new MudryMachine
   var currentMode = ""
 
   override def onInit(): Unit = {
@@ -24,11 +25,17 @@ class Game extends DesktopApplication(1920, 1080) {
     g.drawFPS(Color.BLACK)
     g.drawSchoolLogo()
     g.setColor(Color.BLACK)
+    onGameLogicUpdate()
+    playerMachine.drawMudry(g)
     lineMachine.drawLines(g)
     freeMachine.drawFreeLines(g)
     modesMachine.drawModesMenu(g)
     currentMode = modesMachine.currentMode()
   }
+  override def onGameLogicUpdate(): Unit = {
+    playerMachine.update()
+  }
+
   override def onClick(x: Int, y: Int, button: Int): Unit = {
     super.onClick(x, y, button)
 
@@ -42,12 +49,10 @@ class Game extends DesktopApplication(1920, 1080) {
     }
     else{
       currentMode match{
-        case "free" => {
+        case "free" =>
           modesMachine.modeSwitcher("lines")
-        }
-        case "lines" => {
+        case "lines" =>
           modesMachine.modeSwitcher("free")
-        }
       }
       println("Right button clicked")
 
