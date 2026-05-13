@@ -31,7 +31,7 @@ class DrawingModesMachine {
     return cm
   }
 
-  private def modeSwitcher(m:String) : Unit = {
+  def modeSwitcher(m:String) : Unit = {
     cm = m
   }
 

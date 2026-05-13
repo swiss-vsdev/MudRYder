@@ -11,6 +11,8 @@ import scala.collection.mutable.ArrayBuffer
 class Game extends DesktopApplication(1920, 1080) {
   val lineMachine = new LineDrawMachine
   val modesMachine = new DrawingModesMachine
+  val freeMachine = new FreeDrawMachine
+  var currentMode = ""
 
   override def onInit(): Unit = {
     setTitle("MudRYder")
@@ -23,18 +25,32 @@ class Game extends DesktopApplication(1920, 1080) {
     g.drawSchoolLogo()
     g.setColor(Color.BLACK)
     lineMachine.drawLines(g)
+    freeMachine.drawFreeLines(g)
     modesMachine.drawModesMenu(g)
+    currentMode = modesMachine.currentMode()
   }
   override def onClick(x: Int, y: Int, button: Int): Unit = {
     super.onClick(x, y, button)
 
     if (button == Input.Buttons.LEFT) {
-      lineMachine.onClick("LEFT",x,y)
+      currentMode match{
+        case "free" => freeMachine.onClick("LEFT",x,y)
+        case "lines" => lineMachine.onClick("LEFT",x,y)
+      }
+
       println("Left button clicked")
     }
     else{
-      lineMachine.onClick("RIGHT",x,y)
+      currentMode match{
+        case "free" => {
+          modesMachine.modeSwitcher("lines")
+        }
+        case "lines" => {
+          modesMachine.modeSwitcher("free")
+        }
+      }
       println("Right button clicked")
+
     }
 
 
@@ -42,14 +58,20 @@ class Game extends DesktopApplication(1920, 1080) {
 
   override def onDrag(x: Int, y: Int): Unit = {
     //println("I'm draaaged")
-    lineMachine.onDrag(x,y)
+    currentMode match{
+      case "free" => freeMachine.onDrag(x,y)
+      case "lines" => lineMachine.onDrag(x,y)
+    }
   }
 
   override def onRelease(x: Int, y: Int, button: Int): Unit = {
     super.onRelease(x, y, button)
 
     if (button == Input.Buttons.LEFT) {
-      lineMachine.onRelease("LEFT",x,y)
+      currentMode match{
+        case "free" => freeMachine.onRelease("LEFT",x,y)
+        case "lines" => lineMachine.onRelease("LEFT",x,y)
+      }
       println("Left button released")
     } else {
       println("Right button released")
