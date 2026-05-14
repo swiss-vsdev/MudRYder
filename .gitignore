@@ -1,3 +1,6 @@
 /.idea/
 /out/
+/.metals/
+/.vscode/
+/.scala-build/
 **/*.DS_Store

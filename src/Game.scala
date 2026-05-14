@@ -1,6 +1,7 @@
 import ch.hevs.gdx2d.components.physics.utils.PhysicsScreenBoundaries
 import ch.hevs.gdx2d.desktop.DesktopApplication
 import ch.hevs.gdx2d.lib.GdxGraphics
+import ch.hevs.gdx2d.lib.physics.PhysicsWorld
 import ch.hevs.gdx2d.lib.utils.Logger
 import com.badlogic.gdx.Input
 import com.badlogic.gdx.graphics.Color
@@ -25,15 +26,12 @@ class Game extends DesktopApplication(1920, 1080) {
     g.drawFPS(Color.BLACK)
     g.drawSchoolLogo()
     g.setColor(Color.BLACK)
-    onGameLogicUpdate()
     playerMachine.drawMudry(g)
     lineMachine.drawLines(g)
     freeMachine.drawFreeLines(g)
     modesMachine.drawModesMenu(g)
     currentMode = modesMachine.currentMode()
-  }
-  override def onGameLogicUpdate(): Unit = {
-    playerMachine.update()
+    PhysicsWorld.updatePhysics()
   }
 
   override def onClick(x: Int, y: Int, button: Int): Unit = {
