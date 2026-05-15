@@ -4,13 +4,13 @@ import ch.hevs.gdx2d.lib.GdxGraphics
 class MudryMachine() {
   private var saintMudry : Option[Mudry] = None
   var firstRun = true
-  var posX : Float = 15
-  var posY : Float = 15
+  var posX : Float = 900
+  var posY : Float = 900
   var angle : Int = 0
 
   private def loadImages() : Unit = {
     if(firstRun){
-      saintMudry = Some(Mudry(new BitmapImage("./icons/mudry.png"),100f,100f))
+      saintMudry = Some(Mudry(new BitmapImage("./icons/mudry.png"),900f,900f))
       firstRun = false
     }
   }
@@ -20,7 +20,7 @@ class MudryMachine() {
 
     saintMudry.foreach { m =>
       m.body.getBodyPosition
-      g.drawTransformedPicture(m.startX, m.startY, angle, 0.1f, m.getImg)
+      g.drawTransformedPicture(posX, posY, angle, 0.1f, m.getImg)
     }
   }
 

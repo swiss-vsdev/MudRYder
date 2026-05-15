@@ -8,13 +8,14 @@ class DrawingModesMachine {
   private var cm : String = "lines"
   private var firstRun : Boolean = true
 
-  val modes: ArrayBuffer[DrawingModes] = ArrayBuffer.empty
+  val modes: ArrayBuffer[MenuModes] = ArrayBuffer.empty
   loadModes()
   val icons: ArrayBuffer[BitmapImage] = ArrayBuffer.empty
 
   private def loadModes() : Unit = {
-    modes.addOne(DrawingModes("free"))
-    modes.addOne(DrawingModes("lines"))
+    modes.addOne(MenuModes("free", 0, 0, 10))
+    modes.addOne(MenuModes("lines", 0, 0, 10))
+    modes.addOne(MenuModes("play", 0, 0, 10))
   }
 
   private def loadIcons() : Unit = {
@@ -39,12 +40,30 @@ class DrawingModesMachine {
     loadIcons()
     val startPointH : Int = g.getScreenHeight - 20
     var startPointW : Int = 30
+    val radius = 18
     for(i <- modes.indices){
+      modes(i).x = startPointW
+      modes(i).y = startPointH
+      modes(i).radius = radius
+
       if(currentMode() == modes(i).name){
-        g.drawCircle(startPointW,startPointH,18,Color.BLUE)
+        g.drawCircle(startPointW,startPointH,radius,Color.BLUE)
       }
       g.drawTransformedPicture(startPointW,startPointH,0,0.05f,icons(i))
       startPointW += 50
+    }
+  }
+
+
+  def onMenuClick(x : Int, y: Int) = {
+
+    //vérifier pythagore vu que boutons ronds
+    for(m <- modes){
+      if(math.sqrt(math.pow(x - m.x, 2) + math.pow(y - m.y, 2)) < m.radius){
+        // bouton touché -> Changement de mode
+        println("bouton pressé")
+        modeSwitcher(m.name)
+      }
     }
   }
 }

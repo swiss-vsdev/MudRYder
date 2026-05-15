@@ -29,7 +29,7 @@ class LineDrawMachine {
         isMousePressed = true
       }
     }
-    }
+  }
 
   def onDrag(x:Int,y:Int):Unit = {
     endPoint.set(x,y)
@@ -50,5 +50,5 @@ class LineDrawMachine {
     }
   }
 
-  }
+}
 
