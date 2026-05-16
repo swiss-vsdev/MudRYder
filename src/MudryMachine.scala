@@ -17,15 +17,25 @@ class MudryMachine() {
       muBody.setTransform(positionMeters, 0)
       //muBody.setTransform(x.toFloat, y.toFloat, 0)
       m.body.setBodyLinearVelocity(new Vector2(0, 0))
-      m.body.setBodyAwake(true)
     }
     posX = x
     posY = y
   }
 
+  def awake(): Unit = {
+    saintMudry.foreach { m =>
+      m.body.setBodyAwake(true)
+    }
+  }
+  def sleep(): Unit = {
+    saintMudry.foreach { m =>
+      m.body.setBodyAwake(false)
+    }
+  }
+
   private def loadImages() : Unit = {
     if(firstRun){
-      saintMudry = Some(Mudry(new BitmapImage("./icons/mudry.png"),900f,900f))
+      saintMudry = Some(Mudry(new BitmapImage("./icons/mudry4.png"),900f,900f))
       firstRun = false
     }
   }

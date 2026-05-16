@@ -17,6 +17,7 @@ class Game extends DesktopApplication(1920, 1080){
   val modesMachine = new DrawingModesMachine
   val freeMachine = new FreeDrawMachine
   val playerMachine = new MudryMachine
+  var onMenuClick : Boolean = false
   var currentMode = ""
 
   override def onInit(): Unit = {
@@ -31,8 +32,9 @@ class Game extends DesktopApplication(1920, 1080){
     g.setColor(Color.BLACK)
     //g.drawTransformedPicture(450,450,0,0.05f,img)
     playerMachine.update()
-    if(currentMode == "play"){
-      playerMachine.drawMudry(g)
+    playerMachine.drawMudry(g)
+    if(currentMode != "play"){
+      playerMachine.sleep()
     }
     lineMachine.drawLines(g)
     freeMachine.drawFreeLines(g)
@@ -47,29 +49,42 @@ class Game extends DesktopApplication(1920, 1080){
     //var menuObjects : Array[Array[Int]] = Array(Array(20,40))
     super.onClick(x, y, button)
 
-    modesMachine.onMenuClick(x,y)
-
-    //if (x )
+    onMenuClick = modesMachine.onMenuClick(x,y)
+    currentMode = modesMachine.currentMode()
 
     if (button == Input.Buttons.LEFT) {
+      println("current mode = " + currentMode)
       currentMode match{
-        case "free" => freeMachine.onClick("LEFT",x,y)
-        case "lines" => lineMachine.onClick("LEFT",x,y)
+        case "free" => {
+          if (!onMenuClick) {
+            freeMachine.onClick("LEFT",x,y)
+          } else {
+            playerMachine.setPos(900, 900)
+          }
+        }
+        case "lines" => {
+          if (!onMenuClick) {
+            lineMachine.onClick("LEFT",x,y)
+          } else {
+            playerMachine.setPos(900, 900)
+          }
+        }
         case "play" => {
           playerMachine.setPos(900, 900)
+          playerMachine.awake()
         }
       }
 
       println("Left button clicked")
     } else {
-      currentMode match{
+      /*currentMode match{
         case "free" =>
           modesMachine.modeSwitcher("lines")
         case "lines" =>
           modesMachine.modeSwitcher("free")
         case "play" =>
           modesMachine.modeSwitcher("play")
-      }
+      }*/
       println("Right button clicked")
 
     }
@@ -79,25 +94,30 @@ class Game extends DesktopApplication(1920, 1080){
 
   override def onDrag(x: Int, y: Int): Unit = {
     //println("I'm draaaged")
-    currentMode match{
-      case "free" => freeMachine.onDrag(x,y)
-      case "lines" => lineMachine.onDrag(x,y)
-      case "play" => lineMachine.onDrag(x,y)
+    if (!onMenuClick){
+      currentMode match{
+        case "free" => freeMachine.onDrag(x,y)
+        case "lines" => lineMachine.onDrag(x,y)
+        case "play" => {}
+      }
     }
+
   }
 
   override def onRelease(x: Int, y: Int, button: Int): Unit = {
-    super.onRelease(x, y, button)
+    if (!onMenuClick) {
+      super.onRelease(x, y, button)
 
-    if (button == Input.Buttons.LEFT) {
-      currentMode match{
-        case "free" => freeMachine.onRelease("LEFT",x,y)
-        case "lines" => lineMachine.onRelease("LEFT",x,y)
-        case "play" => lineMachine.onRelease("LEFT",x,y)
+      if (button == Input.Buttons.LEFT) {
+        currentMode match {
+          case "free" => freeMachine.onRelease("LEFT", x, y)
+          case "lines" => lineMachine.onRelease("LEFT", x, y)
+          case "play" => {}
+        }
+        println("Left button released")
+      } else {
+        println("Right button released")
       }
-      println("Left button released")
-    } else {
-      println("Right button released")
     }
   }
 }
