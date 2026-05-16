@@ -6,7 +6,7 @@ import com.badlogic.gdx.math.Vector2
 class MudryMachine() {
   private var saintMudry : Option[Mudry] = None
   var firstRun = true
-  var posX : Float = 900
+  var posX : Float = 960
   var posY : Float = 900
   var angle : Int = 0
 

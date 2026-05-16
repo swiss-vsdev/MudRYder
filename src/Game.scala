@@ -5,7 +5,7 @@ import ch.hevs.gdx2d.lib.GdxGraphics
 import ch.hevs.gdx2d.lib.physics.PhysicsWorld
 import ch.hevs.gdx2d.lib.utils.Logger
 import com.badlogic.gdx.Input
-import com.badlogic.gdx.graphics.Color
+import com.badlogic.gdx.graphics.{Color, OrthographicCamera}
 import com.badlogic.gdx.math.Vector2
 import com.badlogic.gdx.scenes.scene2d.InputEvent
 import com.badlogic.gdx.scenes.scene2d.utils.ClickListener
@@ -22,7 +22,7 @@ class Game extends DesktopApplication(1920, 1080){
 
   override def onInit(): Unit = {
     setTitle("MudRYder")
-    new PhysicsScreenBoundaries(getWindowWidth.toFloat, getWindowHeight.toFloat)
+    new PhysicsScreenBoundaries(10000f, 10000f)
   }
 
   override def onGraphicRender(g: GdxGraphics): Unit = {
@@ -35,12 +35,25 @@ class Game extends DesktopApplication(1920, 1080){
     playerMachine.drawMudry(g)
     if(currentMode != "play"){
       playerMachine.sleep()
+    } else {
+      var cam: OrthographicCamera = g.getCamera
+      cam.position.set(playerMachine.posX, playerMachine.posY, 0)
+      cam.update()
+      //g.moveCamera(playerMachine.posX- 960, playerMachine.posY- 900)
     }
     lineMachine.drawLines(g)
     freeMachine.drawFreeLines(g)
-    modesMachine.drawModesMenu(g)
     currentMode = modesMachine.currentMode()
     PhysicsWorld.updatePhysics()
+
+    g.resetCamera()
+    modesMachine.drawModesMenu(g)
+    if(currentMode == "play"){
+      //g.moveCamera(playerMachine.posX - 960, playerMachine.posY - 900)
+      var cam: OrthographicCamera = g.getCamera
+      cam.position.set(playerMachine.posX, playerMachine.posY, 0)
+      cam.update()
+    }
   }
 
   /**/
@@ -59,18 +72,18 @@ class Game extends DesktopApplication(1920, 1080){
           if (!onMenuClick) {
             freeMachine.onClick("LEFT",x,y)
           } else {
-            playerMachine.setPos(900, 900)
+            playerMachine.setPos(960, 900)
           }
         }
         case "lines" => {
           if (!onMenuClick) {
             lineMachine.onClick("LEFT",x,y)
           } else {
-            playerMachine.setPos(900, 900)
+            playerMachine.setPos(960, 900)
           }
         }
         case "play" => {
-          playerMachine.setPos(900, 900)
+          playerMachine.setPos(960, 900)
           playerMachine.awake()
         }
       }
