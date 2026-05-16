@@ -31,7 +31,9 @@ class Game extends DesktopApplication(1920, 1080){
     g.setColor(Color.BLACK)
     //g.drawTransformedPicture(450,450,0,0.05f,img)
     playerMachine.update()
-    playerMachine.drawMudry(g)
+    if(currentMode == "play"){
+      playerMachine.drawMudry(g)
+    }
     lineMachine.drawLines(g)
     freeMachine.drawFreeLines(g)
     modesMachine.drawModesMenu(g)
@@ -54,7 +56,7 @@ class Game extends DesktopApplication(1920, 1080){
         case "free" => freeMachine.onClick("LEFT",x,y)
         case "lines" => lineMachine.onClick("LEFT",x,y)
         case "play" => {
-
+          playerMachine.setPos(900, 900)
         }
       }
 
