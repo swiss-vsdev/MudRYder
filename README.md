@@ -20,6 +20,8 @@ The goal is to recreate a game similar to "Line Rider" fully in scala
  - [ ] Créer (implémenter) le système de caméra moovement au dessin
  - [ ] Trouver (créer) un Line Rider Mudry Asset
  - [ ] Faire que la luge suive l'angle de la pente en dessous d'elle
+ - [ ] Ajouter un eraser
+ - [ ] Ajouter un bouton pour tout recommencer
  
  ### Note about commits
  Codé à l'aide de "CodeTogether Cloud", certains commit personnels sont donc le produit d'un travail commun sur un même mac 
