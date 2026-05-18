@@ -22,7 +22,7 @@ class Game extends DesktopApplication(1920, 1080){
 
   override def onInit(): Unit = {
     setTitle("MudRYder")
-    new PhysicsScreenBoundaries(10000f, 10000f)
+    //new PhysicsScreenBoundaries(10000f, 10000f)
   }
 
   override def onGraphicRender(g: GdxGraphics): Unit = {
