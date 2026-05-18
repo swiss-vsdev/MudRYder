@@ -45,7 +45,14 @@ class MudryMachine() {
 
     saintMudry.foreach { m =>
       m.body.getBodyPosition
-      g.drawTransformedPicture(posX, posY, angle, 0.1f, m.getImg)
+      
+      //println("Angle : " + m.body.getBodyAngularVelocity)
+
+      if (m.body.getBodyAngularVelocity < 0){
+        g.drawTransformedPicture(posX, posY, angle, 0.1f, m.getImgDown)
+      } else {
+        g.drawTransformedPicture(posX, posY, angle, 0.13f, m.getImg)
+      }
     }
   }
 

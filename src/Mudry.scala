@@ -9,5 +9,9 @@ case class Mudry(img : BitmapImage, startX: Float, startY : Float) {
   def getImg: BitmapImage = {
      img
   }
+
+  def getImgDown: BitmapImage = {
+      new BitmapImage("./icons/mudry2.png")
+  }
 }
 
