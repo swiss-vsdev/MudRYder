@@ -1,6 +1,5 @@
 import ch.hevs.gdx2d.components.physics.primitives.PhysicsStaticLine
 import ch.hevs.gdx2d.lib.physics.AbstractPhysicsObject
-import ch.hevs.gdx2d.lib.utils.Logger
 import com.badlogic.gdx.math.Vector2
 
 case class Line (p1x: Float, p1y: Float, p2x: Float, p2y: Float)

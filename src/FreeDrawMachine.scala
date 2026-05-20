@@ -6,13 +6,15 @@ import typesLibrary.Free
 import scala.collection.mutable.ArrayBuffer
 
 class FreeDrawMachine {
-  val FreeArray: ArrayBuffer[Free] = ArrayBuffer.empty
+  val calc : Calculator = new Calculator
+  var FreeArray: ArrayBuffer[Free] = ArrayBuffer.empty
   var startPoint: Vector2 = new Vector2()
   var endPoint: Vector2 = new Vector2()
   var lastEndPoint: Vector2 = new Vector2()
   var isMousePressed: Boolean = false
   var FreeCnt : Int = -1
   var SegCnt : Int = 0
+  var firstRun : Boolean = true
 
   def drawFreeLines(g:GdxGraphics) : Unit = {
     if(endPoint.x != 0.0f && endPoint.y != 0.0f) g.drawLine(startPoint.x,startPoint.y,endPoint.x,endPoint.y)
@@ -63,6 +65,32 @@ class FreeDrawMachine {
 
       }
     }
+  }
+
+  def clean(x: Int, y: Int) : Unit = {
+    val a : ArrayBuffer[Free] = FreeArray.map(_.clone())
+    var cnt : Int = -1
+    val pixelSquare : ArrayBuffer[Vector2] = ArrayBuffer.empty
+    val tolerence : Int = 12
+
+    for(i <- 0 to tolerence){
+      for(j <- 0 to tolerence){
+        pixelSquare.addOne(new Vector2((x-(tolerence/2))+i,(y-(tolerence/2))+j))
+      }
+    }
+
+    for(free <- FreeArray){
+        cnt += 1
+      for(segment <- free){
+        for(coordinate <- pixelSquare){
+          if (calc.isPointInSegment(segment,coordinate)){
+            a(cnt) -= segment
+            //println("Clean mee")
+          }
+        }
+      }
+    }
+    FreeArray = a
   }
 
   }

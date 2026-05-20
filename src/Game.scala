@@ -5,6 +5,7 @@ import ch.hevs.gdx2d.lib.GdxGraphics
 import ch.hevs.gdx2d.lib.physics.PhysicsWorld
 import ch.hevs.gdx2d.lib.utils.Logger
 import com.badlogic.gdx.Input
+import com.badlogic.gdx.graphics.glutils.{HdpiMode, HdpiUtils}
 import com.badlogic.gdx.graphics.{Color, OrthographicCamera}
 import com.badlogic.gdx.math.Vector2
 import com.badlogic.gdx.scenes.scene2d.InputEvent
@@ -18,6 +19,7 @@ class Game extends DesktopApplication(1920, 1080){
   val freeMachine = new FreeDrawMachine
   val playerMachine = new MudryMachine
   var onMenuClick : Boolean = false
+  var iAmClicked : Boolean = false
   var currentMode = ""
   var lastMouseClick = 1
   var cam = new OrthographicCamera
@@ -25,6 +27,7 @@ class Game extends DesktopApplication(1920, 1080){
   var camY : Int = 540
   var RDragX : Int = 0
   var RDragY : Int = 0
+  var lastMode = ""
 
   override def onInit(): Unit = {
     setTitle("MudRYder")
@@ -52,6 +55,8 @@ class Game extends DesktopApplication(1920, 1080){
     cam.update()
     lineMachine.drawLines(g)
     freeMachine.drawFreeLines(g)
+
+    lastMode = currentMode
     currentMode = modesMachine.currentMode()
     PhysicsWorld.updatePhysics()
 
@@ -106,6 +111,15 @@ class Game extends DesktopApplication(1920, 1080){
           playerMachine.setPos(960, 900)
           playerMachine.awake()
         }
+        case "eraser" => {
+          playerMachine.setPos(960, 900)
+          iAmClicked = true
+          freeMachine.clean(x,y)
+          lineMachine.clean(x,y)
+        }
+        case _ => {
+          playerMachine.setPos(960, 900)
+        }
       }
 
       println("Left button clicked")
@@ -130,6 +144,12 @@ class Game extends DesktopApplication(1920, 1080){
         case "free" => freeMachine.onDrag(inWorldClicX,inWorldClicY)
         case "lines" => lineMachine.onDrag(inWorldClicX,inWorldClicY)
         case "play" => {}
+        case "eraser" => {
+          freeMachine.clean(x,y)
+          lineMachine.clean(x,y)
+          //println("Draaaaaag")
+        }
+        case _ => {}
       }
     } else if (lastMouseClick == Input.Buttons.RIGHT){ // si drag sur clic droit
       println("I'm right draaaged")
@@ -150,12 +170,17 @@ class Game extends DesktopApplication(1920, 1080){
     val inWorldClicY : Int = y + (camY - 540)
 
     if (!onMenuClick) {
+      super.onRelease(x, y, button)
+      lineMachine.firstRun = false
+      freeMachine.firstRun = false
 
       if (button == Input.Buttons.LEFT) {
         currentMode match {
           case "free" => freeMachine.onRelease("LEFT", inWorldClicX, inWorldClicY)
           case "lines" => lineMachine.onRelease("LEFT", inWorldClicX, inWorldClicY)
           case "play" => {}
+          case "eraser" => iAmClicked = false
+          case _ => {}
         }
         println("Left button released")
       } else {
