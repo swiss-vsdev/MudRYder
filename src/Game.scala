@@ -19,7 +19,9 @@ class Game extends DesktopApplication(1920, 1080){
   val freeMachine = new FreeDrawMachine
   val playerMachine = new MudryMachine
   var onMenuClick : Boolean = false
+  var iAmClicked : Boolean = false
   var currentMode = ""
+  var lastMode = ""
 
   override def onInit(): Unit = {
     setTitle("MudRYder")
@@ -44,6 +46,8 @@ class Game extends DesktopApplication(1920, 1080){
     }
     lineMachine.drawLines(g)
     freeMachine.drawFreeLines(g)
+
+    lastMode = currentMode
     currentMode = modesMachine.currentMode()
     PhysicsWorld.updatePhysics()
 
@@ -87,6 +91,15 @@ class Game extends DesktopApplication(1920, 1080){
           playerMachine.setPos(960, 900)
           playerMachine.awake()
         }
+        case "eraser" => {
+          playerMachine.setPos(960, 900)
+          iAmClicked = true
+          freeMachine.clean(x,y)
+          lineMachine.clean(x,y)
+        }
+        case _ => {
+          playerMachine.setPos(960, 900)
+        }
       }
 
       println("Left button clicked")
@@ -98,6 +111,8 @@ class Game extends DesktopApplication(1920, 1080){
           modesMachine.modeSwitcher("free")
         case "play" =>
           modesMachine.modeSwitcher("play")
+        case _ =>
+           {}
       }*/
       println("Right button clicked")
 
@@ -113,6 +128,12 @@ class Game extends DesktopApplication(1920, 1080){
         case "free" => freeMachine.onDrag(x,y)
         case "lines" => lineMachine.onDrag(x,y)
         case "play" => {}
+        case "eraser" => {
+          freeMachine.clean(x,y)
+          lineMachine.clean(x,y)
+          //println("Draaaaaag")
+        }
+        case _ => {}
       }
     }
 
@@ -121,12 +142,16 @@ class Game extends DesktopApplication(1920, 1080){
   override def onRelease(x: Int, y: Int, button: Int): Unit = {
     if (!onMenuClick) {
       super.onRelease(x, y, button)
+      lineMachine.firstRun = false
+      freeMachine.firstRun = false
 
       if (button == Input.Buttons.LEFT) {
         currentMode match {
           case "free" => freeMachine.onRelease("LEFT", x, y)
           case "lines" => lineMachine.onRelease("LEFT", x, y)
           case "play" => {}
+          case "eraser" => iAmClicked = false
+          case _ => {}
         }
         println("Left button released")
       } else {

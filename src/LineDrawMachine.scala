@@ -4,11 +4,13 @@ import com.badlogic.gdx.math.Vector2
 import scala.collection.mutable.ArrayBuffer
 
 class LineDrawMachine {
-  val LineArray: ArrayBuffer[Line] = ArrayBuffer.empty
+  var LineArray: ArrayBuffer[Line] = ArrayBuffer.empty
+  val calc : Calculator = new Calculator
   var startPoint: Vector2 = new Vector2()
   var endPoint: Vector2 = new Vector2()
   var lastEndPoint: Vector2 = new Vector2()
   var isMousePressed: Boolean = false
+  var firstRun : Boolean = true
 
   def drawLines(g:GdxGraphics) : Unit = {
     if(endPoint.x != 0.0f && endPoint.y != 0.0f) g.drawLine(startPoint.x,startPoint.y,endPoint.x,endPoint.y)
@@ -50,5 +52,37 @@ class LineDrawMachine {
     }
   }
 
+  def clean(x: Int, y: Int) : Unit = {
+    val toRemove : ArrayBuffer[Line] = ArrayBuffer.empty
+    val pixelSquare : ArrayBuffer[Vector2] = ArrayBuffer.empty
+    val tolerence : Int = 15
+
+    for(i <- 0 to tolerence){
+      for(j <- 0 to tolerence){
+        pixelSquare.addOne(new Vector2((x-(tolerence/2))+i,(y-(tolerence/2))+j))
+      }
+    }
+    //println("Clean Time " + LineArray.length)
+
+    for(line <- LineArray){
+      for(coordinate <- pixelSquare){
+        if (calc.isPointInLine(line,coordinate)){
+          if(!toRemove.contains(line))toRemove.addOne(line)
+          //println("Clean mee")
+        }
+      }
+    }
+    for (line <- toRemove){
+      LineArray -= line
+      line.destroy()
+    }
+    if (LineArray.isEmpty) {
+      endPoint.set(0f, 0f)
+      startPoint.set(0f, 0f)
+    }
+  }
+
 }
+
+
 
