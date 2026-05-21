@@ -15,7 +15,7 @@ class LineDrawMachine {
   firstRunDef()
   private def firstRunDef() : Unit = {
     if(firstRun) {
-      val l1 = Line(0,0,0,0)
+      val l1 = Line(-10000,-10000,-10000,-10000)
       LineArray.addOne(l1)
     }
   }
