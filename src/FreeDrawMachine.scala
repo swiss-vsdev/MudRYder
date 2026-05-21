@@ -108,5 +108,17 @@ class FreeDrawMachine {
     }
   }
 
+  def mop() : Unit = {
+   for(free <- FreeArray) {
+     for(segmt <- free){
+       segmt.destroy()
+     }
+   }
+    for(free <- FreeArray) {
+      free.clear()
+      ArrayEmptyFix()
+    }
   }
+
+}
 

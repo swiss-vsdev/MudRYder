@@ -4,12 +4,12 @@ import ch.hevs.gdx2d.lib.physics.PhysicsWorld
 import com.badlogic.gdx.Input
 import com.badlogic.gdx.graphics.{Color, OrthographicCamera}
 
-
 class Game extends DesktopApplication(1920, 1080){
   val lineMachine = new LineDrawMachine
   val modesMachine = new DrawingModesMachine
   val freeMachine = new FreeDrawMachine
   val playerMachine = new MudryMachine
+  val uSure = new AreYouSureWindow
   var onMenuClick : Boolean = false
   var iAmClicked : Boolean = false
   var currentMode = ""
@@ -24,10 +24,11 @@ class Game extends DesktopApplication(1920, 1080){
   var currentY : Int = 0
   var stableXOfset : Int = 0
   var stableYOfset : Int = 0
+  var wasMopping : Boolean = false
 
   override def onInit(): Unit = {
     setTitle("MudRYder")
-    modesMachine.loadIcons
+    modesMachine.loadIcons()
     //new PhysicsScreenBoundaries(10000f, 10000f)
   }
 
@@ -60,7 +61,9 @@ class Game extends DesktopApplication(1920, 1080){
     //stableXOfset = ((-1920/2) + camX)
     //stableYOfset = ((1080/2) - camY)
     modesMachine.drawModesMenu(g, g.getScreenHeight, 0)
-
+    if(currentMode == "mop"){
+      uSure.drawWindow(g)
+    }
 
     if(currentMode == "play"){
       cam.position.set(playerMachine.posX, playerMachine.posY, 0)
@@ -70,7 +73,6 @@ class Game extends DesktopApplication(1920, 1080){
     cam.update()
     g.drawFPS(Color.BLACK)
     g.drawSchoolLogo()
-
     //println(stableXOfset + " ; " + stableYOfset)
 
   }
@@ -122,6 +124,23 @@ class Game extends DesktopApplication(1920, 1080){
           freeMachine.clean(inWorldClicX,inWorldClicY)
           lineMachine.clean(inWorldClicX,inWorldClicY)
         }
+        case "mop" => {
+          uSure.onClick(x,y)
+          wasMopping = true
+          if(uSure.getAnwser() == "yes"){
+            freeMachine.mop()
+            lineMachine.mop()
+            modesMachine.modeSwitcher("lines")
+            lineMachine.onClick("LEFT",-100000,-100000)
+            lineMachine.endPoint.set(0f, 0f)
+            lineMachine.startPoint.set(0f, 0f)
+          } else if (uSure.getAnwser() == "no"){
+            modesMachine.modeSwitcher("lines")
+            lineMachine.onClick("LEFT",-100000,-100000)
+            lineMachine.endPoint.set(0f, 0f)
+            lineMachine.startPoint.set(0f, 0f)
+          }
+        }
         case _ => {
           playerMachine.setPos(960, 900)
         }
@@ -153,7 +172,7 @@ class Game extends DesktopApplication(1920, 1080){
     if (!onMenuClick && lastMouseClick == Input.Buttons.LEFT){
       currentMode match{
         case "free" => freeMachine.onDrag(inWorldClicX,inWorldClicY)
-        case "lines" => lineMachine.onDrag(inWorldClicX,inWorldClicY)
+        case "lines" => if(!wasMopping) lineMachine.onDrag(inWorldClicX,inWorldClicY)
         case "play" => {}
         case "eraser" => {
           freeMachine.clean(inWorldClicX,inWorldClicY)
@@ -191,7 +210,11 @@ class Game extends DesktopApplication(1920, 1080){
       if (button == Input.Buttons.LEFT) {
         currentMode match {
           case "free" => freeMachine.onRelease("LEFT", inWorldClicX, inWorldClicY)
-          case "lines" => lineMachine.onRelease("LEFT", inWorldClicX, inWorldClicY)
+          case "lines" => if(!wasMopping) {
+            lineMachine.onRelease("LEFT", inWorldClicX, inWorldClicY)
+          } else {
+            wasMopping = false
+          }
           case "play" => {}
           case "eraser" => iAmClicked = false
           case _ => {}

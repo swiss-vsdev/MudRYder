@@ -17,6 +17,7 @@ class DrawingModesMachine {
     modes.addOne(MenuModes("lines", 0, 0, 10))
     modes.addOne(MenuModes("play", 0, 0, 10))
     modes.addOne(MenuModes("eraser", 0, 0, 10))
+    modes.addOne(MenuModes("mop",0,0,10))
   }
 
   def loadIcons() : Unit = {

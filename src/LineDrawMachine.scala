@@ -13,7 +13,7 @@ class LineDrawMachine {
   var firstRun : Boolean = true
 
   ArrayEmptyFix()
-  
+
   private def ArrayEmptyFix() : Unit = {
     if(LineArray.isEmpty) {
       val l1 = Line(-10000,-10000,-10000,-10000)
@@ -90,6 +90,14 @@ class LineDrawMachine {
       endPoint.set(0f, 0f)
       startPoint.set(0f, 0f)
     }
+  }
+
+  def mop() : Unit = {
+    for(line <- LineArray){
+      line.destroy()
+    }
+    LineArray.clear()
+    ArrayEmptyFix()
   }
 
 }
