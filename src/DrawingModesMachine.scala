@@ -19,8 +19,9 @@ class DrawingModesMachine {
     modes.addOne(MenuModes("eraser", 0, 0, 10))
   }
 
-  private def loadIcons() : Unit = {
+  def loadIcons() : Unit = {
     if(firstRun){
+      println("I'm loading the icons")
       for (mode <- modes) {
         val img = new BitmapImage(s"./icons/${mode.name}.png")
         icons.addOne(img)
@@ -38,7 +39,6 @@ class DrawingModesMachine {
   }
 
   def drawModesMenu(g : GdxGraphics, width : Int, height : Int): Unit = {
-    loadIcons()
 
     val startPointH : Int = width - 20
     var startPointW : Int = height + 30

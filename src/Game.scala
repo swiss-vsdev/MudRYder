@@ -27,7 +27,7 @@ class Game extends DesktopApplication(1920, 1080){
 
   override def onInit(): Unit = {
     setTitle("MudRYder")
-
+    modesMachine.loadIcons
     //new PhysicsScreenBoundaries(10000f, 10000f)
   }
 

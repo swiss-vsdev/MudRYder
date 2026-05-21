@@ -16,6 +16,15 @@ class FreeDrawMachine {
   var SegCnt : Int = 0
   var firstRun : Boolean = true
 
+  ArrayEmptyFix()
+
+  private def ArrayEmptyFix() : Unit = {
+    if(FreeArray.isEmpty) {
+      val l1 = Line(-10000,-10000,-10000,-10000)
+      FreeArray.addOne(new ArrayBuffer[Line]().addOne(l1))
+    }
+  }
+
   def drawFreeLines(g:GdxGraphics) : Unit = {
     if(endPoint.x != 0.0f && endPoint.y != 0.0f) g.drawLine(startPoint.x,startPoint.y,endPoint.x,endPoint.y)
     for(free <- FreeArray){
@@ -68,6 +77,7 @@ class FreeDrawMachine {
   }
 
   def clean(x: Int, y: Int) : Unit = {
+    ArrayEmptyFix()
     val toRemove : ArrayBuffer[Line] = ArrayBuffer.empty
     val pixelSquare : ArrayBuffer[Vector2] = ArrayBuffer.empty
     val tolerence : Int = 12

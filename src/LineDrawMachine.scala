@@ -12,9 +12,10 @@ class LineDrawMachine {
   var isMousePressed: Boolean = false
   var firstRun : Boolean = true
 
-  firstRunDef()
-  private def firstRunDef() : Unit = {
-    if(firstRun) {
+  ArrayEmptyFix()
+  
+  private def ArrayEmptyFix() : Unit = {
+    if(LineArray.isEmpty) {
       val l1 = Line(-10000,-10000,-10000,-10000)
       LineArray.addOne(l1)
     }
@@ -61,6 +62,7 @@ class LineDrawMachine {
   }
 
   def clean(x: Int, y: Int) : Unit = {
+    ArrayEmptyFix()
     val toRemove : ArrayBuffer[Line] = ArrayBuffer.empty
     val pixelSquare : ArrayBuffer[Vector2] = ArrayBuffer.empty
     val tolerence : Int = 15
