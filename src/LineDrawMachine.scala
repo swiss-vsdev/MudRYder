@@ -12,6 +12,14 @@ class LineDrawMachine {
   var isMousePressed: Boolean = false
   var firstRun : Boolean = true
 
+  firstRunDef()
+  private def firstRunDef() : Unit = {
+    if(firstRun) {
+      val l1 = Line(0,0,0,0)
+      LineArray.addOne(l1)
+    }
+  }
+
   def drawLines(g:GdxGraphics) : Unit = {
     if(endPoint.x != 0.0f && endPoint.y != 0.0f) g.drawLine(startPoint.x,startPoint.y,endPoint.x,endPoint.y)
     for(line <- LineArray){
