@@ -26,7 +26,10 @@ The goal is to recreate a game similar to "Line Rider" fully in scala
 - [ ] Allow loading a map from a file
 - [ ] Add a "decoration" drawer without physics
 - [ ] Add an "accelerator" drawer to speed up the Mudry
-- [ ] Make the sledding smoother during angled collisions (not sure if this is even possible without completely rewriting the physics engine) 
+- [ ] Make the sledding smoother during angled collisions (not sure if this is even possible without completely rewriting the physics engine)
+
+Suggestions :
+- Split Mudry into two separate assets: a sled that rotates according to the movement, and Mudry himself, who stays upright on top of it.
  
  ### Note about commits
 Coded using "CodeTogether Cloud", so some personal commits are actually the product of joint work on the same Mac

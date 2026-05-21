@@ -57,6 +57,10 @@ class Game extends DesktopApplication(1920, 1080){
     PhysicsWorld.updatePhysics()
 
     g.resetCamera()
+    //stableXOfset = ((-1920/2) + camX)
+    //stableYOfset = ((1080/2) - camY)
+    modesMachine.drawModesMenu(g, g.getScreenHeight, 0)
+
 
     if(currentMode == "play"){
       cam.position.set(playerMachine.posX, playerMachine.posY, 0)
@@ -64,13 +68,11 @@ class Game extends DesktopApplication(1920, 1080){
       cam.position.set(camX, camY, 0)
     }
     cam.update()
-
-    //println(stableXOfset + " ; " + stableYOfset)
-    stableXOfset = ((-1920/2) + camX)
-    stableYOfset = ((1080/2) - camY)
-    modesMachine.drawModesMenu(g, (1080 - stableYOfset), stableXOfset)
     g.drawFPS(Color.BLACK)
     g.drawSchoolLogo()
+
+    //println(stableXOfset + " ; " + stableYOfset)
+
   }
 
   override def onClick(x: Int, y: Int, button: Int): Unit = {
