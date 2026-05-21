@@ -37,18 +37,22 @@ class DrawingModesMachine {
     cm = m
   }
 
-  def drawModesMenu(g : GdxGraphics): Unit = {
+  def drawModesMenu(g : GdxGraphics, width : Int, height : Int): Unit = {
     loadIcons()
-    val startPointH : Int = g.getScreenHeight - 20
-    var startPointW : Int = 30
+
+    val startPointH : Int = width - 20
+    var startPointW : Int = height + 30
     val radius = 18
+
+    //println(startPointW + ";" + startPointH)
     for(i <- modes.indices){
       modes(i).x = startPointW
       modes(i).y = startPointH
       modes(i).radius = radius
 
       if(currentMode() == modes(i).name){
-        g.drawCircle(startPointW,startPointH,radius,Color.BLUE)
+        //println(modes(i).name + ";" + modes(i).x+";"+modes(i).y)
+        g.drawCircle(modes(i).x,modes(i).y,modes(i).radius,Color.BLUE)
       }
       g.drawTransformedPicture(startPointW,startPointH,0,0.05f,icons(i))
       startPointW += 50

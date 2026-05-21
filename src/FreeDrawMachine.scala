@@ -68,8 +68,7 @@ class FreeDrawMachine {
   }
 
   def clean(x: Int, y: Int) : Unit = {
-    val a : ArrayBuffer[Free] = FreeArray.map(_.clone())
-    var cnt : Int = -1
+    val toRemove : ArrayBuffer[Line] = ArrayBuffer.empty
     val pixelSquare : ArrayBuffer[Vector2] = ArrayBuffer.empty
     val tolerence : Int = 12
 
@@ -80,17 +79,23 @@ class FreeDrawMachine {
     }
 
     for(free <- FreeArray){
-        cnt += 1
       for(segment <- free){
         for(coordinate <- pixelSquare){
           if (calc.isPointInSegment(segment,coordinate)){
-            a(cnt) -= segment
+            if(!toRemove.contains(segment)) toRemove.addOne(segment)
             //println("Clean mee")
           }
         }
       }
     }
-    FreeArray = a
+    for(free <- FreeArray){
+      for (segment <- toRemove){
+        if(free.contains(segment)){
+          free -= segment
+          segment.destroy()
+        }
+      }
+    }
   }
 
   }

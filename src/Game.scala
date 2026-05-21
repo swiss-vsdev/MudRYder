@@ -1,17 +1,9 @@
-import ch.hevs.gdx2d.components.bitmaps.BitmapImage
-import ch.hevs.gdx2d.components.physics.utils.PhysicsScreenBoundaries
 import ch.hevs.gdx2d.desktop.DesktopApplication
 import ch.hevs.gdx2d.lib.GdxGraphics
 import ch.hevs.gdx2d.lib.physics.PhysicsWorld
-import ch.hevs.gdx2d.lib.utils.Logger
 import com.badlogic.gdx.Input
-import com.badlogic.gdx.graphics.glutils.{HdpiMode, HdpiUtils}
 import com.badlogic.gdx.graphics.{Color, OrthographicCamera}
-import com.badlogic.gdx.math.Vector2
-import com.badlogic.gdx.scenes.scene2d.InputEvent
-import com.badlogic.gdx.scenes.scene2d.utils.ClickListener
 
-import scala.collection.mutable.ArrayBuffer
 
 class Game extends DesktopApplication(1920, 1080){
   val lineMachine = new LineDrawMachine
@@ -28,6 +20,10 @@ class Game extends DesktopApplication(1920, 1080){
   var RDragX : Int = 0
   var RDragY : Int = 0
   var lastMode = ""
+  var currentX : Int = 0
+  var currentY : Int = 0
+  var stableXOfset : Int = 0
+  var stableYOfset : Int = 0
 
   override def onInit(): Unit = {
     setTitle("MudRYder")
@@ -36,10 +32,10 @@ class Game extends DesktopApplication(1920, 1080){
   }
 
   override def onGraphicRender(g: GdxGraphics): Unit = {
+    //println(camX + ";" + camY)
     g.clear(Color.WHITE)
-    g.drawFPS(Color.BLACK)
-    g.drawSchoolLogo()
     g.setColor(Color.BLACK)
+
     cam = g.getCamera
     //g.drawTransformedPicture(450,450,0,0.05f,img)
     playerMachine.update()
@@ -60,9 +56,7 @@ class Game extends DesktopApplication(1920, 1080){
     currentMode = modesMachine.currentMode()
     PhysicsWorld.updatePhysics()
 
-
     g.resetCamera()
-    modesMachine.drawModesMenu(g)
 
     if(currentMode == "play"){
       cam.position.set(playerMachine.posX, playerMachine.posY, 0)
@@ -70,17 +64,26 @@ class Game extends DesktopApplication(1920, 1080){
       cam.position.set(camX, camY, 0)
     }
     cam.update()
+
+    //println(stableXOfset + " ; " + stableYOfset)
+    stableXOfset = ((-1920/2) + camX)
+    stableYOfset = ((1080/2) - camY)
+    modesMachine.drawModesMenu(g, (1080 - stableYOfset), stableXOfset)
+    g.drawFPS(Color.BLACK)
+    g.drawSchoolLogo()
   }
 
   override def onClick(x: Int, y: Int, button: Int): Unit = {
     println("x = " + x)
+    currentX = x
+    currentY = y
 
     //var menuObjects : Array[Array[Int]] = Array(Array(20,40))
     lastMouseClick = button //On enregistre si click droit ou gache pour prevent le drag sur clic droit
 
     super.onClick(x, y, button)
     if (button == Input.Buttons.LEFT) {
-      onMenuClick = modesMachine.onMenuClick(x,y)
+      onMenuClick = modesMachine.onMenuClick(x + stableXOfset, y - stableYOfset)
       currentMode = modesMachine.currentMode()
       println("current mode = " + currentMode)
 
@@ -114,8 +117,8 @@ class Game extends DesktopApplication(1920, 1080){
         case "eraser" => {
           playerMachine.setPos(960, 900)
           iAmClicked = true
-          freeMachine.clean(x,y)
-          lineMachine.clean(x,y)
+          freeMachine.clean(inWorldClicX,inWorldClicY)
+          lineMachine.clean(inWorldClicX,inWorldClicY)
         }
         case _ => {
           playerMachine.setPos(960, 900)
@@ -126,6 +129,10 @@ class Game extends DesktopApplication(1920, 1080){
     } else {
       RDragX = x
       RDragY = y
+      if(currentMode == "play") {
+        modesMachine.modeSwitcher("lines")
+        playerMachine.setPos(960, 900)
+      }
       println("Right button clicked")
 
     }
@@ -135,6 +142,8 @@ class Game extends DesktopApplication(1920, 1080){
 
   override def onDrag(x: Int, y: Int): Unit = {
     //println("I'm draaaged")
+    currentX = x
+    currentY = y
 
     val inWorldClicX : Int = x + (camX - 960)
     val inWorldClicY : Int = y + (camY - 540)
@@ -145,14 +154,14 @@ class Game extends DesktopApplication(1920, 1080){
         case "lines" => lineMachine.onDrag(inWorldClicX,inWorldClicY)
         case "play" => {}
         case "eraser" => {
-          freeMachine.clean(x,y)
-          lineMachine.clean(x,y)
+          freeMachine.clean(inWorldClicX,inWorldClicY)
+          lineMachine.clean(inWorldClicX,inWorldClicY)
           //println("Draaaaaag")
         }
         case _ => {}
       }
     } else if (lastMouseClick == Input.Buttons.RIGHT){ // si drag sur clic droit
-      println("I'm right draaaged")
+      //println("I'm right draaaged")
       camX = camX - ( x - RDragX)
       camY = camY - ( y - RDragY)
       RDragX = x
@@ -164,6 +173,9 @@ class Game extends DesktopApplication(1920, 1080){
   }
 
   override def onRelease(x: Int, y: Int, button: Int): Unit = {
+    currentX = x
+    currentY = y
+
     super.onRelease(x, y, button)
 
     val inWorldClicX : Int = x + (camX - 960)
