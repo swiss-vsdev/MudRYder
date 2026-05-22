@@ -114,8 +114,8 @@ class FreeDrawMachine {
    }
     for(free <- FreeArray) {
       free.clear()
-      ArrayEmptyFix()
     }
+    ArrayEmptyFix()
   }
 
 }
