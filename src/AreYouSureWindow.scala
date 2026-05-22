@@ -1,5 +1,6 @@
 import ch.hevs.gdx2d.components.graphics.Polygon
 import ch.hevs.gdx2d.lib.GdxGraphics
+import com.badlogic.gdx.graphics.Color
 import com.badlogic.gdx.math.Vector2
 
 class AreYouSureWindow {
@@ -39,6 +40,7 @@ class AreYouSureWindow {
   )
 
   def drawWindow(g: GdxGraphics): Unit = {
+    g.drawFilledPolygon(new Polygon(windowCo),Color.WHITE)
     g.drawPolygon(new Polygon(windowCo))
     g.drawString(firstWindowPoint.x + 13, firstWindowPoint.y + windowHeight - buttonMargin, "Are you sure ?")
     g.drawPolygon(new Polygon(yesButton))
