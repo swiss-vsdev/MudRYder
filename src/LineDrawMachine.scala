@@ -86,10 +86,10 @@ class LineDrawMachine {
       LineArray -= line
       line.destroy()
     }
-    if (LineArray.isEmpty) {
       endPoint.set(0f, 0f)
       startPoint.set(0f, 0f)
-    }
+      ArrayEmptyFix()
+
   }
 
   def mop() : Unit = {

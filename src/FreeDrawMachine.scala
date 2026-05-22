@@ -19,10 +19,8 @@ class FreeDrawMachine {
   ArrayEmptyFix()
 
   private def ArrayEmptyFix() : Unit = {
-    if(FreeArray.isEmpty) {
       val l1 = Line(-10000,-10000,-10000,-10000)
       FreeArray.addOne(new ArrayBuffer[Line]().addOne(l1))
-    }
   }
 
   def drawFreeLines(g:GdxGraphics) : Unit = {
