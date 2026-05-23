@@ -25,6 +25,7 @@ class Game extends DesktopApplication(1920, 1080){
   var stableXOfset : Int = 0
   var stableYOfset : Int = 0
   var wasMopping : Boolean = false
+  var drawMode : String = "physic"
 
   override def onInit(): Unit = {
     setTitle("MudRYder")
@@ -50,8 +51,8 @@ class Game extends DesktopApplication(1920, 1080){
     }
 
     cam.update()
-    lineMachine.drawLines(g)
-    freeMachine.drawFreeLines(g)
+    lineMachine.drawLines(g, modesMachine.currentMode())
+    freeMachine.drawFreeLines(g, modesMachine.currentMode())
 
     lastMode = currentMode
     currentMode = modesMachine.currentMode()
@@ -165,13 +166,14 @@ class Game extends DesktopApplication(1920, 1080){
     //println("I'm draaaged")
     currentX = x
     currentY = y
+    val physicMode: String = modesMachine.getDrawMode()
 
     val inWorldClicX : Int = x + (camX - 960)
     val inWorldClicY : Int = y + (camY - 540)
 
     if (!onMenuClick && lastMouseClick == Input.Buttons.LEFT){
       currentMode match{
-        case "free" => freeMachine.onDrag(inWorldClicX,inWorldClicY)
+        case "free" => freeMachine.onDrag(inWorldClicX,inWorldClicY, physicMode)
         case "lines" => if(!wasMopping) lineMachine.onDrag(inWorldClicX,inWorldClicY)
         case "play" => {}
         case "eraser" => {
@@ -196,6 +198,7 @@ class Game extends DesktopApplication(1920, 1080){
   override def onRelease(x: Int, y: Int, button: Int): Unit = {
     currentX = x
     currentY = y
+    val physicMode: String = modesMachine.getDrawMode()
 
     super.onRelease(x, y, button)
 
@@ -211,7 +214,7 @@ class Game extends DesktopApplication(1920, 1080){
         currentMode match {
           case "free" => freeMachine.onRelease("LEFT", inWorldClicX, inWorldClicY)
           case "lines" => if(!wasMopping) {
-            lineMachine.onRelease("LEFT", inWorldClicX, inWorldClicY)
+            lineMachine.onRelease("LEFT", inWorldClicX, inWorldClicY, physicMode)
           } else {
             wasMopping = false
           }

@@ -16,16 +16,23 @@ class LineDrawMachine {
 
   private def ArrayEmptyFix() : Unit = {
     if(LineArray.isEmpty) {
-      val l1 = Line(-10000,-10000,-10000,-10000)
+      val l1 = PhysicLine(-10000,-10000,-10000,-10000)
       LineArray.addOne(l1)
     }
   }
 
-  def drawLines(g:GdxGraphics) : Unit = {
+  def drawLines(g:GdxGraphics, dm : String) : Unit = {
+    g.setColor(Color.BLACK)
     if(endPoint.x != 0.0f && endPoint.y != 0.0f) g.drawLine(startPoint.x,startPoint.y,endPoint.x,endPoint.y)
     for(line <- LineArray){
-      g.setColor(Color.BLACK)
-      g.drawLine(line.p1x,line.p1y,line.p2x,line.p2y)
+      if(line.isInstanceOf[DecoLine] && dm != "play"){
+        line.color = Color.BLUE
+      } else {
+        line.color = Color.BLACK
+      }
+      line.draw(g)
+      //g.setColor(Color.BLACK)
+      //g.drawLine(line.p1x,line.p1y,line.p2x,line.p2y)
     }
   }
 
@@ -46,7 +53,7 @@ class LineDrawMachine {
     endPoint.set(x,y)
   }
 
-  def onRelease(mode:String, x:Int,y:Int) : Unit = {
+  def onRelease(mode:String, x:Int,y:Int, dm : String) : Unit = {
     mode match {
       case "RIGHT" => {
 
@@ -54,9 +61,19 @@ class LineDrawMachine {
       case "LEFT" => {
         isMousePressed = false
         endPoint.set(x,y)
-        val l1 = Line(startPoint.x,startPoint.y,endPoint.x,endPoint.y)
-        LineArray.addOne(l1)
-        lastEndPoint.set(endPoint.x,endPoint.y)
+
+        dm match {
+          case "physic" => {
+            val l1 = PhysicLine(startPoint.x,startPoint.y,endPoint.x,endPoint.y)
+            LineArray.addOne(l1)
+            lastEndPoint.set(endPoint.x,endPoint.y)
+          }
+          case "decoration" => {
+            val l1 = DecoLine(startPoint.x,startPoint.y,endPoint.x,endPoint.y)
+            LineArray.addOne(l1)
+            lastEndPoint.set(endPoint.x,endPoint.y)
+          }
+        }
       }
     }
   }
