@@ -19,8 +19,8 @@ The goal is to recreate a game similar to "Line Rider" fully in scala
 - [x] Create (implement) the camera system sticky to the Mudry
 - [x] Create (implement) the camera movement system when drawing
 - [x] Find (create) a Line Rider Mudry Asset
+- [x] Add an eraser
 - [ ] Make the sled follow the angle of the slope underneath it
-- [ ] Add an eraser
 - [ ] Add a "restart all over" button
 - [ ] Allow saving the map to a file
 - [ ] Allow loading a map from a file

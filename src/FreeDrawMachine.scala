@@ -20,17 +20,22 @@ class FreeDrawMachine {
 
   private def ArrayEmptyFix() : Unit = {
     if(FreeArray.isEmpty) {
-      val l1 = Line(-10000,-10000,-10000,-10000)
+      val l1 = PhysicLine(-10000,-10000,-10000,-10000)
       FreeArray.addOne(new ArrayBuffer[Line]().addOne(l1))
     }
   }
 
-  def drawFreeLines(g:GdxGraphics) : Unit = {
+  def drawFreeLines(g : GdxGraphics, dm : String) : Unit = {
+    g.setColor(Color.BLACK)
     if(endPoint.x != 0.0f && endPoint.y != 0.0f) g.drawLine(startPoint.x,startPoint.y,endPoint.x,endPoint.y)
     for(free <- FreeArray){
       for(segment <- free){
-        g.setColor(Color.BLACK)
-        g.drawLine(segment.p1x,segment.p1y,segment.p2x,segment.p2y)
+        if(segment.isInstanceOf[DecoLine] && dm != "play"){
+          segment.color = Color.BLUE
+        } else {
+          segment.color = Color.BLACK
+        }
+        segment.draw(g)
       }
     }
   }
@@ -51,15 +56,26 @@ class FreeDrawMachine {
     }
     }
 
-  def onDrag(x:Int,y:Int):Unit = {
+  def onDrag(x:Int,y:Int, dm : String):Unit = {
     endPoint.set(x,y)
     SegCnt += 1
-    if(SegCnt > 0){
-      val seg1 = Line(startPoint.x,startPoint.y,endPoint.x,endPoint.y)
-      lastEndPoint.set(endPoint.x,endPoint.y)
-      FreeArray(FreeCnt).addOne(seg1)
-      SegCnt = 0
-      startPoint.set(endPoint.x,endPoint.y)
+    if(SegCnt > 0){dm match {
+      case "physic" => {
+        val seg1 = PhysicLine(startPoint.x,startPoint.y,endPoint.x,endPoint.y)
+        lastEndPoint.set(endPoint.x,endPoint.y)
+        FreeArray(FreeCnt).addOne(seg1)
+        SegCnt = 0
+        startPoint.set(endPoint.x,endPoint.y)
+      }
+      case "decoration" => {
+        val seg1 = DecoLine(startPoint.x,startPoint.y,endPoint.x,endPoint.y)
+        lastEndPoint.set(endPoint.x,endPoint.y)
+        FreeArray(FreeCnt).addOne(seg1)
+        SegCnt = 0
+        startPoint.set(endPoint.x,endPoint.y)
+      }
+    }
+
     }
 
   }
@@ -107,6 +123,5 @@ class FreeDrawMachine {
       }
     }
   }
-
-  }
+}
 

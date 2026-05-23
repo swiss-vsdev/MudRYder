@@ -6,6 +6,7 @@ import scala.collection.mutable.ArrayBuffer
 
 class DrawingModesMachine {
   private var cm : String = "lines"
+  private var dm : String = "physic"
   private var firstRun : Boolean = true
 
   val modes: ArrayBuffer[MenuModes] = ArrayBuffer.empty
@@ -17,6 +18,8 @@ class DrawingModesMachine {
     modes.addOne(MenuModes("lines", 0, 0, 10))
     modes.addOne(MenuModes("play", 0, 0, 10))
     modes.addOne(MenuModes("eraser", 0, 0, 10))
+    modes.addOne(MenuModes("physic", 0, 0, 10))
+    modes.addOne(MenuModes("decoration", 0, 0, 10))
   }
 
   def loadIcons() : Unit = {
@@ -34,12 +37,20 @@ class DrawingModesMachine {
     return cm
   }
 
+  def getDrawMode() : String = {
+    return dm
+  }
+
   def modeSwitcher(m:String) : Unit = {
-    cm = m
+    if (m == "physic" || m == "decoration"){
+      dm = m
+    } else {
+      cm = m
+    }
+
   }
 
   def drawModesMenu(g : GdxGraphics, width : Int, height : Int): Unit = {
-
     val startPointH : Int = width - 20
     var startPointW : Int = height + 30
     val radius = 18
@@ -52,6 +63,9 @@ class DrawingModesMachine {
 
       if(currentMode() == modes(i).name){
         //println(modes(i).name + ";" + modes(i).x+";"+modes(i).y)
+        g.drawCircle(modes(i).x,modes(i).y,modes(i).radius,Color.BLUE)
+      }
+      if(getDrawMode() == modes(i).name){
         g.drawCircle(modes(i).x,modes(i).y,modes(i).radius,Color.BLUE)
       }
       g.drawTransformedPicture(startPointW,startPointH,0,0.05f,icons(i))
