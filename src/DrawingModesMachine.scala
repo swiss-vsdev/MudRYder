@@ -43,8 +43,12 @@ class DrawingModesMachine {
   }
 
   def modeSwitcher(m:String) : Unit = {
-    if (m == "physic" || m == "decoration"){
-      dm = m
+    if (m == "physic" ){
+      if (dm == "physic"){
+        dm = "decoration"
+      } else {
+        dm = "physic"
+      }
     } else {
       cm = m
     }
@@ -58,19 +62,34 @@ class DrawingModesMachine {
 
     //println(startPointW + ";" + startPointH)
     for(i <- modes.indices){
-      modes(i).x = startPointW
-      modes(i).y = startPointH
-      modes(i).radius = radius
 
-      if(currentMode() == modes(i).name){
-        //println(modes(i).name + ";" + modes(i).x+";"+modes(i).y)
-        g.drawCircle(modes(i).x,modes(i).y,modes(i).radius,Color.BLUE)
+      if(modes(i).name == "physic" || modes(i).name == "decoration"){
+        if (getDrawMode() == modes(i).name) {
+          modes(i).x = startPointW
+          modes(i).y = startPointH
+          modes(i).radius = radius
+
+          if(getDrawMode() == modes(i).name){
+            g.drawCircle(modes(i).x,modes(i).y,modes(i).radius,Color.BLUE)
+          }
+          g.drawTransformedPicture(startPointW,startPointH,0,0.05f,icons(i))
+          startPointW += 50
+        }
+      } else {
+        modes(i).x = startPointW
+        modes(i).y = startPointH
+        modes(i).radius = radius
+
+        if(currentMode() == modes(i).name){
+          //println(modes(i).name + ";" + modes(i).x+";"+modes(i).y)
+          g.drawCircle(modes(i).x,modes(i).y,modes(i).radius,Color.BLUE)
+        }
+        if(getDrawMode() == modes(i).name){
+          g.drawCircle(modes(i).x,modes(i).y,modes(i).radius,Color.BLUE)
+        }
+        g.drawTransformedPicture(startPointW,startPointH,0,0.05f,icons(i))
+        startPointW += 50
       }
-      if(getDrawMode() == modes(i).name){
-        g.drawCircle(modes(i).x,modes(i).y,modes(i).radius,Color.BLUE)
-      }
-      g.drawTransformedPicture(startPointW,startPointH,0,0.05f,icons(i))
-      startPointW += 50
     }
   }
 
@@ -82,7 +101,6 @@ class DrawingModesMachine {
     for(m <- modes){
       if(math.sqrt(math.pow(x - m.x, 2) + math.pow(y - m.y, 2)) < m.radius){
         // bouton touché -> Changement de mode
-        println("bouton pressé")
         modeSwitcher(m.name)
         return true
       }

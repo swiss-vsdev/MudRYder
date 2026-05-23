@@ -54,7 +54,7 @@ class FreeDrawMachine {
         isMousePressed = true
       }
     }
-    }
+  }
 
   def onDrag(x:Int,y:Int, dm : String):Unit = {
     endPoint.set(x,y)

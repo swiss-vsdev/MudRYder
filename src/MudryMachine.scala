@@ -35,7 +35,7 @@ class MudryMachine() {
 
   private def loadImages() : Unit = {
     if(firstRun){
-      saintMudry = Some(Mudry(new BitmapImage("./icons/mudry4.png"),900f,900f))
+      saintMudry = Some(Mudry(new BitmapImage("./icons/mudry4.png"),960f,900f))
       firstRun = false
     }
   }

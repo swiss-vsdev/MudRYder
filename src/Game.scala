@@ -79,7 +79,6 @@ class Game extends DesktopApplication(1920, 1080){
   }
 
   override def onClick(x: Int, y: Int, button: Int): Unit = {
-    println("x = " + x)
     currentX = x
     currentY = y
 
@@ -222,9 +221,9 @@ class Game extends DesktopApplication(1920, 1080){
           case "eraser" => iAmClicked = false
           case _ => {}
         }
-        println("Left button released")
+        //println("Left button released")
       } else {
-        println("Right button released")
+        //println("Right button released")
       }
     }
   }
