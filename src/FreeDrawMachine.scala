@@ -25,12 +25,12 @@ class FreeDrawMachine {
     }
   }
 
-  def drawFreeLines(g : GdxGraphics, dm : String) : Unit = {
-    g.setColor(Color.BLACK)
+  def drawFreeLines(g : GdxGraphics, cm : String, dm : String) : Unit = {
+    if(dm != "decoration") g.setColor(Color.BLACK) else g.setColor(Color.BLUE)
     if(endPoint.x != 0.0f && endPoint.y != 0.0f) g.drawLine(startPoint.x,startPoint.y,endPoint.x,endPoint.y)
     for(free <- FreeArray){
       for(segment <- free){
-        if(segment.isInstanceOf[DecoLine] && dm != "play"){
+        if(segment.isInstanceOf[DecoLine] && cm != "play"){
           segment.color = Color.BLUE
         } else {
           segment.color = Color.BLACK

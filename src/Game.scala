@@ -51,8 +51,8 @@ class Game extends DesktopApplication(1920, 1080){
     }
 
     cam.update()
-    lineMachine.drawLines(g, modesMachine.currentMode())
-    freeMachine.drawFreeLines(g, modesMachine.currentMode())
+    lineMachine.drawLines(g, modesMachine.currentMode(), modesMachine.getDrawMode())
+    freeMachine.drawFreeLines(g, modesMachine.currentMode(), modesMachine.getDrawMode())
 
     lastMode = currentMode
     currentMode = modesMachine.currentMode()

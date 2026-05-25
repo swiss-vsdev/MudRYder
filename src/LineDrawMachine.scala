@@ -21,11 +21,11 @@ class LineDrawMachine {
     }
   }
 
-  def drawLines(g:GdxGraphics, dm : String) : Unit = {
-    g.setColor(Color.BLACK)
+  def drawLines(g:GdxGraphics, cm : String, dm : String) : Unit = {
+    if(dm != "decoration") g.setColor(Color.BLACK) else g.setColor(Color.BLUE)
     if(endPoint.x != 0.0f && endPoint.y != 0.0f) g.drawLine(startPoint.x,startPoint.y,endPoint.x,endPoint.y)
     for(line <- LineArray){
-      if(line.isInstanceOf[DecoLine] && dm != "play"){
+      if(line.isInstanceOf[DecoLine] && cm != "play"){
         line.color = Color.BLUE
       } else {
         line.color = Color.BLACK
