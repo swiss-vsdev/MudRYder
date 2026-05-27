@@ -4,7 +4,7 @@ import com.badlogic.gdx.math.Vector2
 
 case class Mudry(img : BitmapImage, startX: Float, startY : Float) {
   val radius = 10f
-  val body = new PhysicsCircle("rider", new Vector2(startX, startY), radius, 1f, 0.1f, 0.6f)
+  val body = new PhysicsCircle("rider", new Vector2(startX, startY), radius, 0f, 0f, 0.001f)
 
   def getImg: BitmapImage = {
      img
