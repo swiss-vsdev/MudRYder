@@ -40,6 +40,8 @@ class AreYouSureWindow {
   )
 
   def drawWindow(g: GdxGraphics): Unit = {
+    val oldColor = g.sbGetColor()
+    g.setColor(Color.BLACK)
     g.drawFilledPolygon(new Polygon(windowCo),Color.WHITE)
     g.drawPolygon(new Polygon(windowCo))
     g.drawString(firstWindowPoint.x + 13, firstWindowPoint.y + windowHeight - buttonMargin, "Are you sure ?")
@@ -47,6 +49,7 @@ class AreYouSureWindow {
     g.drawString(firstButtonPoint.x + 12, firstButtonPoint.y + buttonHeight - 5, "Yes")
     g.drawPolygon(new Polygon(noButton))
     g.drawString(noButtonPoint.x + 15, noButtonPoint.y + buttonHeight - 5, "No")
+    g.setColor(oldColor)
   }
 
   def onClick(x: Int, y: Int): Unit = {
