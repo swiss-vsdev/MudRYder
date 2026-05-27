@@ -20,11 +20,11 @@ The goal is to recreate a game similar to "Line Rider" fully in scala
 - [x] Create (implement) the camera movement system when drawing
 - [x] Find (create) a Line Rider Mudry Asset
 - [x] Add an eraser
+- [x] Add a "restart all over" button
+- [x] Add a "decoration" drawer without physics
 - [ ] Make the sled follow the angle of the slope underneath it
-- [ ] Add a "restart all over" button
 - [ ] Allow saving the map to a file
 - [ ] Allow loading a map from a file
-- [ ] Add a "decoration" drawer without physics
 - [ ] Add an "accelerator" drawer to speed up the Mudry
 - [ ] Make the sledding smoother during angled collisions (not sure if this is even possible without completely rewriting the physics engine)
 
