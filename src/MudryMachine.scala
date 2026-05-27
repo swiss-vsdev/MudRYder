@@ -4,7 +4,7 @@ import ch.hevs.gdx2d.lib.GdxGraphics
 import com.badlogic.gdx.math.Vector2
 
 class MudryMachine() {
-  private var saintMudry : Option[Mudry] = None
+  var saintMudry : Option[Mudry] = None
   var firstRun = true
   var posX : Float = 960
   var posY : Float = 900
@@ -33,7 +33,7 @@ class MudryMachine() {
     }
   }
 
-  private def loadImages() : Unit = {
+  def loadImages() : Unit = {
     if(firstRun){
       saintMudry = Some(Mudry(new BitmapImage("./icons/mudry4.png"),960f,900f))
       firstRun = false
