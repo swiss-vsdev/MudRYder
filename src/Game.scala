@@ -141,6 +141,11 @@ class Game extends DesktopApplication(1920, 1080){
             lineMachine.startPoint.set(0f, 0f)
           }
         }
+        case "return" => {
+          camX = playerMachine.posX.toInt
+          camY = playerMachine.posY.toInt
+          modesMachine.modeSwitcher("lines")
+        }
         case _ => {
           playerMachine.setPos(960, 900)
         }
@@ -153,6 +158,8 @@ class Game extends DesktopApplication(1920, 1080){
       if(currentMode == "play") {
         modesMachine.modeSwitcher("lines")
         playerMachine.setPos(960, 900)
+        camX = playerMachine.posX.toInt
+        camY = playerMachine.posY.toInt
       }
       println("Right button clicked")
 
