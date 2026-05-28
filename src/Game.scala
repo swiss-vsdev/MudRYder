@@ -14,6 +14,7 @@ class Game extends DesktopApplication(1920, 1080) {
   var playerMachine : MudryMachine = _
   val uSure = new AreYouSureWindow
   val saveWin = new SavingWindow
+  val walkman = new MusicPlayer
   val s = new ScreenManager
   val s1 = new ScreenManager
   val startTime = System.currentTimeMillis()
@@ -115,9 +116,12 @@ class Game extends DesktopApplication(1920, 1080) {
     lastMouseClick = button //On enregistre si click droit ou gache pour prevent le drag sur clic droit
 
     super.onClick(x, y, button)
+
     if (button == Input.Buttons.LEFT) {
       onMenuClick = modesMachine.onMenuClick(x + stableXOfset, y - stableYOfset)
       currentMode = modesMachine.currentMode()
+
+      walkman.play(currentMode)
       //println("current mode = " + currentMode)
 
       //Maintenant que le monde bouge il faut calculer différement l'emplacement de la souris
