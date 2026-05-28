@@ -41,7 +41,7 @@ class Game extends DesktopApplication(1920, 1080) {
   var saveTime : Long = _
 
   override def onInit(): Unit = {
-    playerMachine = new MudryMachine("rider", new Vector2(960, 900), radius = 10f, density = 0f, restitution = 0f, friction = 0.001f)
+    playerMachine = new MudryMachine("rider", new Vector2(960, 900), radius = 20f, density = 0f, restitution = 0f, friction = 0.001f)
     camX = playerMachine.posX.toInt
     camY = playerMachine.posY.toInt
     setTitle("MudRYder")
