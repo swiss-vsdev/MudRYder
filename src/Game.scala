@@ -3,6 +3,7 @@ import ch.hevs.gdx2d.lib.physics.PhysicsWorld
 import ch.hevs.gdx2d.lib.{GdxGraphics, ScreenManager}
 import com.badlogic.gdx.Input
 import com.badlogic.gdx.graphics.{Color, OrthographicCamera}
+import com.badlogic.gdx.math.Vector2
 
 import java.util.Calendar
 
@@ -10,7 +11,7 @@ class Game extends DesktopApplication(1920, 1080) {
   val lineMachine = new LineDrawMachine
   val modesMachine = new DrawingModesMachine
   val freeMachine = new FreeDrawMachine
-  val playerMachine = new MudryMachine
+  var playerMachine : MudryMachine = _
   val uSure = new AreYouSureWindow
   val saveWin = new SavingWindow
   val s = new ScreenManager
@@ -40,11 +41,13 @@ class Game extends DesktopApplication(1920, 1080) {
   var saveTime : Long = _
 
   override def onInit(): Unit = {
+    playerMachine = new MudryMachine("rider", new Vector2(960, 900), radius = 10f, density = 0f, restitution = 0f, friction = 0.001f)
+    camX = playerMachine.posX.toInt
+    camY = playerMachine.posY.toInt
     setTitle("MudRYder")
     modesMachine.loadIcons()
     s.registerScreen(classOf[SplashScreenWindow])
     s1.registerScreen(classOf[LoadWindow])
-    //new PhysicsScreenBoundaries(10000f, 10000f)
   }
 
   override def onGraphicRender(g: GdxGraphics): Unit = {
@@ -54,6 +57,7 @@ class Game extends DesktopApplication(1920, 1080) {
       if (firstRun) {
         l.destroy()
         l2.destroy()
+        playerMachine.setPos(camX, camY)
       }
       if (currentMode == "load") {
         camX = 1920 / 2
@@ -63,33 +67,25 @@ class Game extends DesktopApplication(1920, 1080) {
         s1.render(g)
       } else {
         firstRun = false
-        //println(camX + ";" + camY)
         g.clear(Color.WHITE)
         g.setColor(Color.BLACK)
 
-        cam = g.getCamera
-        //g.drawTransformedPicture(450,450,0,0.05f,img)
-        playerMachine.update()
-        playerMachine.drawMudry(g)
+      cam = g.getCamera
+      playerMachine.update()
+      playerMachine.draw(g)
 
-        if (currentMode != "play") {
-          cam.position.set(camX, camY, 0)
-          playerMachine.sleep()
-        } else {
-          cam.position.set(playerMachine.posX, playerMachine.posY, 0)
-        }
+      if (currentMode != "play") {
+        playerMachine.sleep()
+      }
 
-        cam.update()
-        lineMachine.drawLines(g, modesMachine.currentMode(), modesMachine.getDrawMode())
-        freeMachine.drawFreeLines(g, modesMachine.currentMode(), modesMachine.getDrawMode())
+      lineMachine.drawLines(g, modesMachine.currentMode(), modesMachine.getDrawMode())
+      freeMachine.drawFreeLines(g, modesMachine.currentMode(), modesMachine.getDrawMode())
 
         lastMode = currentMode
         currentMode = modesMachine.currentMode()
         PhysicsWorld.updatePhysics()
 
         g.resetCamera()
-        //stableXOfset = ((-1920/2) + camX)
-        //stableYOfset = ((1080/2) - camY)
         modesMachine.drawModesMenu(g, g.getScreenHeight, 0)
         if (currentMode == "mop") {
           uSure.drawWindow(g)
@@ -99,19 +95,17 @@ class Game extends DesktopApplication(1920, 1080) {
           saveWin.drawWindow(g,savefile)
         }
 
-        if (currentMode == "play") {
-          cam.position.set(playerMachine.posX, playerMachine.posY, 0)
-        } else {
-          cam.position.set(camX, camY, 0)
-        }
-        cam.update()
-        g.drawFPS(Color.BLACK)
-        g.drawSchoolLogo()
-        //println(stableXOfset + " ; " + stableYOfset)
-
+      if (currentMode == "play") {
+        cam.position.set(playerMachine.posX, playerMachine.posY, 0)
+      } else {
+        cam.position.set(camX, camY, 0)
       }
+      cam.update()
+      g.drawFPS(Color.BLACK)
+      g.drawSchoolLogo()
     }
   }
+}
 
   override def onClick(x: Int, y: Int, button: Int): Unit = {
     currentX = x

@@ -1,64 +1,75 @@
 import ch.hevs.gdx2d.components.bitmaps.BitmapImage
+import ch.hevs.gdx2d.components.physics.primitives.PhysicsCircle
 import ch.hevs.gdx2d.components.physics.utils.PhysicsConstants
 import ch.hevs.gdx2d.lib.GdxGraphics
+import ch.hevs.gdx2d.lib.interfaces.DrawableObject
+import ch.hevs.gdx2d.lib.physics.AbstractPhysicsObject
+import ch.hevs.gdx2d.lib.utils.Logger
 import com.badlogic.gdx.math.Vector2
 
-class MudryMachine() {
-  var saintMudry : Option[Mudry] = None
+class MudryMachine( /*m: Mudry,*/ name: String, position: Vector2, radius: Float, density: Float, restitution: Float, friction: Float)
+  extends PhysicsCircle(name, position, radius, density, restitution, friction) with DrawableObject {
+
   var firstRun = true
   var posX : Float = 960
   var posY : Float = 900
-  var angle : Int = 0
+  var angle : Float = 0
+  var img : BitmapImage = _
+  private var lastCollision = 0.5f
 
   def setPos(x: Int, y: Int): Unit = {
-    saintMudry.foreach { m =>
-      val muBody = m.body.getBody()
-      val positionMeters = new Vector2(x, y).scl(PhysicsConstants.P2M)
-      muBody.setTransform(positionMeters, 0)
-      //muBody.setTransform(x.toFloat, y.toFloat, 0)
-      m.body.setBodyLinearVelocity(new Vector2(0, 0))
-    }
+    val muBody = this.getBody
+    val positionMeters = new Vector2(x, y).scl(PhysicsConstants.P2M)
+    muBody.setTransform(positionMeters, 0)
+    this.setBodyLinearVelocity(new Vector2(0, 0))
     posX = x
     posY = y
   }
 
   def awake(): Unit = {
-    saintMudry.foreach { m =>
-      m.body.setBodyAwake(true)
-    }
+    this.setBodyAwake(true)
+    this.enableCollisionListener()
   }
+
   def sleep(): Unit = {
-    saintMudry.foreach { m =>
-      m.body.setBodyAwake(false)
-    }
+    this.setBodyAwake(false)
   }
 
   def loadImages() : Unit = {
     if(firstRun){
-      saintMudry = Some(Mudry(new BitmapImage("./icons/mudry4.png"),960f,900f))
+      if(img == null)
+        img = new BitmapImage("./icons/mudry.png")
+
       firstRun = false
     }
   }
 
-  def drawMudry(g:GdxGraphics) : Unit = {
+  def draw(g:GdxGraphics) : Unit = {
     loadImages()
 
-    saintMudry.foreach { m =>
-      m.body.getBodyPosition
+    this.getBodyPosition
+    g.drawTransformedPicture(posX, posY, this.angle, 0.1f, img)
 
-      if (m.body.getBodyAngularVelocity < 0 && m.body.getBodyLinearVelocity.x > 0.1
-        && m.body.getBodyLinearVelocity.x < 4.5){
-        g.drawTransformedPicture(posX, posY, angle, 0.1f, m.getImgDown)
-      } else {
-        g.drawTransformedPicture(posX, posY, angle, 0.13f, m.getImg)
-      }
-    }
+    /*if (this.getBodyAngularVelocity < 0 && this.getBodyLinearVelocity.x > 0.1
+      && this.getBodyLinearVelocity.x < 4.5){
+      g.drawTransformedPicture(posX, posY, this.angle, 0.1f, this.getImgDown)
+    } else {
+      g.drawTransformedPicture(posX, posY, this.angle, 0.13f, this.getImg)
+    }*/
   }
 
   def update(): Unit = {
-    saintMudry.foreach { m =>
-      posX = m.body.getBodyPosition.x
-      posY = m.body.getBodyPosition.y
-    }
+    posX = this.getBodyPosition.x
+    posY = this.getBodyPosition.y
+  }
+
+  /** Called for every collision. */
+  override def collision(other: AbstractPhysicsObject, energy: Float): Unit = {
+    //this.angle = this.angle + 1 //prout <----- (commentaire relique de St-Mui)
+    angle = (other.getBodyAngle * 180 / math.Pi).toFloat
+    println(s"$name angle ${this.angle} and other angle = ${other.getBodyAngle}")
+    //Logger.log(s"$name collided ${other.getBodyAngle} with energy $energy")
+
+    lastCollision = 1.0f
   }
 }
