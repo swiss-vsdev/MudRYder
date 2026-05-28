@@ -3,4 +3,5 @@
 /.metals/
 /.vscode/
 /.scala-build/
+/saves/save_*.csv
 **/*.DS_Store

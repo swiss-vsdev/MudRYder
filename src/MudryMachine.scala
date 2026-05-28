@@ -14,10 +14,12 @@ class MudryMachine(name: String, position: Vector2, radius: Float, density: Floa
   var posY : Float = 900
   var angle : Float = 0
   var img : BitmapImage = _
+  var imgDown : BitmapImage = _
+  var selectedImage : BitmapImage = _
   private var lastCollision = 0.5f
 
   def setPos(x: Int, y: Int): Unit = {
-    val muBody = this.getBody()
+    val muBody = this.getBody
     val positionMeters = new Vector2(x, y).scl(PhysicsConstants.P2M)
     muBody.setTransform(positionMeters, 0)
     this.setBodyLinearVelocity(new Vector2(0, 0))
@@ -36,9 +38,11 @@ class MudryMachine(name: String, position: Vector2, radius: Float, density: Floa
 
   def loadImages() : Unit = {
     if(firstRun){
-      if(img == null)
+      if(img == null) {
         img = new BitmapImage("./icons/mudry.png")
-
+        imgDown = new BitmapImage("./icons/mudry5.png")
+        selectedImage = img
+      }
       firstRun = false
     }
   }
@@ -47,7 +51,14 @@ class MudryMachine(name: String, position: Vector2, radius: Float, density: Floa
     loadImages()
 
     this.getBodyPosition
-    g.drawTransformedPicture(posX, posY, this.angle, 0.1f, img)
+
+    if (math.abs(this.angle) > 30){
+      selectedImage = imgDown
+    } else {
+      selectedImage = img
+    }
+
+    g.drawTransformedPicture(posX, posY, this.angle, 0.1f, selectedImage)
 
     /*if (this.getBodyAngularVelocity < 0 && this.getBodyLinearVelocity.x > 0.1
       && this.getBodyLinearVelocity.x < 4.5){
@@ -66,6 +77,12 @@ class MudryMachine(name: String, position: Vector2, radius: Float, density: Floa
   override def collision(other: AbstractPhysicsObject, energy: Float): Unit = {
     //this.angle = this.angle + 1 //prout <----- (commentaire relique de St-Mui)
     angle = (other.getBodyAngle * 180 / math.Pi).toFloat
+    if (angle < -90 && other.getBodyAngle.toInt != 3){
+      angle += 180
+    }
+    if(other.getBodyAngle.toInt == 3 || other.getBodyAngle.toInt == -3){
+      angle -= 180
+    }
     println(s"$name angle ${this.angle} and other angle = ${other.getBodyAngle}")
 
     lastCollision = 1.0f

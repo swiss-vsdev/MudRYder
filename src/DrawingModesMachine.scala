@@ -21,6 +21,7 @@ class DrawingModesMachine {
     modes.addOne(MenuModes("mop",0,0,10))
     modes.addOne(MenuModes("return",0,0,10))
     modes.addOne(MenuModes("save",0,0,10))
+    modes.addOne(MenuModes("load",0,0,10))
     modes.addOne(MenuModes("physic", 0, 0, 10))
     modes.addOne(MenuModes("decoration", 0, 0, 10))
   }
