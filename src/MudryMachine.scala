@@ -83,7 +83,7 @@ class MudryMachine(name: String, position: Vector2, radius: Float, density: Floa
     if(other.getBodyAngle.toInt == 3 || other.getBodyAngle.toInt == -3){
       angle -= 180
     }
-    println(s"$name angle ${this.angle} and other angle = ${other.getBodyAngle}")
+    //println(s"$name angle ${this.angle} and other angle = ${other.getBodyAngle}")
 
     lastCollision = 1.0f
   }
