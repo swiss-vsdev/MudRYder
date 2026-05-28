@@ -3,6 +3,7 @@ import com.badlogic.gdx.graphics.Color
 import com.badlogic.gdx.math.Vector2
 import typesLibrary.Free
 
+import java.io.{FileOutputStream, PrintWriter}
 import scala.collection.mutable.ArrayBuffer
 
 class FreeDrawMachine {
@@ -136,5 +137,16 @@ class FreeDrawMachine {
     ArrayEmptyFix()
   }
 
+  def save(filename:String) : Unit = {
+    val pw = new PrintWriter(
+      new FileOutputStream(s"./saves/$filename.csv",true)
+    )
+    for (free <- FreeArray) {
+      for (sgmt <- free) {
+        pw.println(sgmt)
+      }
+    }
+    pw.close()
+  }
 }
 

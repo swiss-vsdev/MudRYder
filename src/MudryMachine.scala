@@ -45,9 +45,6 @@ class MudryMachine() {
 
     saintMudry.foreach { m =>
       m.body.getBodyPosition
-      
-      //println("AngularVelocity : " + m.body.getBodyAngularVelocity)
-      //println("Angle : " + m.body.getBodyAngleDeg)
 
       if (m.body.getBodyAngularVelocity < 0 && m.body.getBodyLinearVelocity.x > 0.1
         && m.body.getBodyLinearVelocity.x < 4.5){

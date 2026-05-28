@@ -22,7 +22,7 @@ The goal is to recreate a game similar to "Line Rider" fully in scala
 - [x] Add an eraser
 - [x] Add a "restart all over" button
 - [x] Add a "decoration" drawer without physics
-- [ ] Button to move the camera back to center
+- [x] Button to move the camera back to center
 - [ ] Make the sled follow the angle of the slope underneath it
 - [ ] Allow saving the map to a file
 - [ ] Allow loading a map from a file

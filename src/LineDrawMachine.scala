@@ -1,6 +1,10 @@
 import ch.hevs.gdx2d.lib.GdxGraphics
 import com.badlogic.gdx.graphics.Color
 import com.badlogic.gdx.math.Vector2
+
+import java.awt.{Desktop, FileDialog}
+import java.io.{File, FileOutputStream, PrintWriter}
+import javax.swing.{JFileChooser, JFrame}
 import scala.collection.mutable.ArrayBuffer
 
 class LineDrawMachine {
@@ -116,6 +120,20 @@ class LineDrawMachine {
     LineArray.clear()
     ArrayEmptyFix()
   }
+
+  def save(filename:String) : Unit = {
+    val pw = new PrintWriter(
+      new FileOutputStream(s"./saves/$filename.csv",true)
+    )
+    for(line <- LineArray){
+      pw.println(line)
+    }
+    pw.close()
+  }
+
+  def load() : Unit = {
+    
+    }
 
 }
 

@@ -20,13 +20,14 @@ class DrawingModesMachine {
     modes.addOne(MenuModes("eraser", 0, 0, 10))
     modes.addOne(MenuModes("mop",0,0,10))
     modes.addOne(MenuModes("return",0,0,10))
+    modes.addOne(MenuModes("save",0,0,10))
     modes.addOne(MenuModes("physic", 0, 0, 10))
     modes.addOne(MenuModes("decoration", 0, 0, 10))
   }
 
   def loadIcons() : Unit = {
     if(firstRun){
-      println("I'm loading the icons")
+      //println("I'm loading the icons")
       for (mode <- modes) {
         val img = new BitmapImage(s"./icons/${mode.name}.png")
         icons.addOne(img)

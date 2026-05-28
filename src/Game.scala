@@ -4,6 +4,8 @@ import ch.hevs.gdx2d.lib.physics.PhysicsWorld
 import com.badlogic.gdx.Input
 import com.badlogic.gdx.graphics.{Color, OrthographicCamera}
 
+import java.util.Calendar
+
 class Game extends DesktopApplication(1920, 1080){
   val lineMachine = new LineDrawMachine
   val modesMachine = new DrawingModesMachine
@@ -30,6 +32,7 @@ class Game extends DesktopApplication(1920, 1080){
   val startTime = System.currentTimeMillis()
   var firstRun = true
   val l = PhysicLine(0,100,1920,100)
+  val l2 = PhysicLine(0,1000,1920,100)
 
   override def onInit(): Unit = {
     setTitle("MudRYder")
@@ -42,7 +45,10 @@ class Game extends DesktopApplication(1920, 1080){
     if (System.currentTimeMillis() - startTime < 3000) {
       s.render(g)
     } else {
-      if (firstRun) l.destroy()
+      if (firstRun){
+        l.destroy()
+        l2.destroy()
+      }
       firstRun = false
       //println(camX + ";" + camY)
       g.clear(Color.WHITE)
@@ -100,7 +106,7 @@ class Game extends DesktopApplication(1920, 1080){
     if (button == Input.Buttons.LEFT) {
       onMenuClick = modesMachine.onMenuClick(x + stableXOfset, y - stableYOfset)
       currentMode = modesMachine.currentMode()
-      println("current mode = " + currentMode)
+      //println("current mode = " + currentMode)
 
       //Maintenant que le monde bouge il faut calculer différement l'emplacement de la souris
       // x et y du clic sont relatif à la fenêtre et non au monde, le pixel haut gauche sera toujours à (0,0)
@@ -157,13 +163,27 @@ class Game extends DesktopApplication(1920, 1080){
           camY = playerMachine.posY.toInt
           modesMachine.modeSwitcher("lines")
         }
+        case "save" => {
+          val c : Calendar = Calendar.getInstance()
+          val fn : String = "save_" +
+            s"${c.get(Calendar.DAY_OF_YEAR)}" +
+            s"${c.get(Calendar.HOUR_OF_DAY)}" +
+            s"${c.get(Calendar.MINUTE)}" +
+            s"${c.get(Calendar.SECOND)}"
+
+          lineMachine.save(fn)
+          freeMachine.save(fn)
+          println(s"Game saved : $fn.csv")
+          modesMachine.modeSwitcher("lines")
+        }
         case _ => {
           playerMachine.setPos(960, 900)
         }
       }
 
-      println("Left button clicked")
+      //println("Left button clicked")
     } else {
+      lineMachine.load()
       RDragX = x
       RDragY = y
       if(currentMode == "play") {
@@ -172,8 +192,7 @@ class Game extends DesktopApplication(1920, 1080){
         camX = playerMachine.posX.toInt
         camY = playerMachine.posY.toInt
       }
-      println("Right button clicked")
-
+      //println("Right button clicked")
     }
 
 
