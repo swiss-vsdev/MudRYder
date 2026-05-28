@@ -104,6 +104,13 @@ class Game extends DesktopApplication(1920, 1080) {
         cam.position.set(camX, camY, 0)
       }
       cam.update()
+      if (currentMode == "play"){
+        g.drawString(5, 50, s"X : ${playerMachine.posX.toInt}")
+        g.drawString(5, 35, s"Y : ${playerMachine.posY.toInt}")
+      } else {
+        g.drawString(5, 50, s"X : ${camX}")
+        g.drawString(5, 35, s"Y : ${camY}")
+      }
       g.drawFPS(Color.BLACK)
       g.drawSchoolLogo()
     }
