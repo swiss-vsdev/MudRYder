@@ -21,15 +21,16 @@ class SplashScreenWindow extends RenderingScreen {
   private val customFont : BitmapFont =
     new FreeTypeFontGenerator(Gdx.files.local("font/Acme-Regular.ttf")).generateFont(param)
 
-  val mM = new MudryMachine
+  var mM : MudryMachine = _
   var c = 0
 
   override def onInit(): Unit = {
     imgBitmap = new BitmapImage("icons/mudry2.png")
+    mM = new MudryMachine("rider2", new Vector2(960, 900), 10, 1f, 0.65f, 0.6f)
     mM.loadImages()
-    mM.saintMudry.foreach { m =>
-      m.body = new PhysicsCircle("rider", new Vector2(m.startX, m.startY), m.radius, 1f, 0.65f, 0.6f)
-    }
+    /*mM.saintMudry.foreach { m =>
+      m.body = new BumpyBall(m, "rider", new Vector2(m.startX, m.startY), m.radius, 1f, 0.65f, 0.6f)
+    }*/
     mM.setPos(100,1200)
   }
 
@@ -46,14 +47,13 @@ class SplashScreenWindow extends RenderingScreen {
 
     //mM.drawMudry(g)
 
-    mM.saintMudry match {
-      case Some(sm) => {
+    //mM.saintMudry match {
+      //case Some(sm) => {
         //println(mM.posX + " " + mM.posY)
         g.drawTransformedPicture(mM.posX, mM.posY, 0, 0.7f, imgBitmap)
-      }
-      case None => {}
-    }
-
+      //}
+      //case None => {}
+    //}
     g.drawSchoolLogo()
   }
 

@@ -3,6 +3,7 @@ import ch.hevs.gdx2d.lib.{GdxGraphics, ScreenManager}
 import ch.hevs.gdx2d.lib.physics.PhysicsWorld
 import com.badlogic.gdx.Input
 import com.badlogic.gdx.graphics.{Color, OrthographicCamera}
+import com.badlogic.gdx.math.Vector2
 
 import java.util.Calendar
 
@@ -10,7 +11,7 @@ class Game extends DesktopApplication(1920, 1080){
   val lineMachine = new LineDrawMachine
   val modesMachine = new DrawingModesMachine
   val freeMachine = new FreeDrawMachine
-  val playerMachine = new MudryMachine
+  var playerMachine : MudryMachine = _
   val uSure = new AreYouSureWindow
   var onMenuClick : Boolean = false
   var iAmClicked : Boolean = false
@@ -35,10 +36,12 @@ class Game extends DesktopApplication(1920, 1080){
   val l2 = PhysicLine(0,1000,1920,100)
 
   override def onInit(): Unit = {
+    playerMachine = new MudryMachine("rider", new Vector2(960, 900), radius = 10f, density = 0f, restitution = 0f, friction = 0.001f)
+    camX = playerMachine.posX.toInt
+    camY = playerMachine.posY.toInt
     setTitle("MudRYder")
     modesMachine.loadIcons()
     s.registerScreen(classOf[SplashScreenWindow])
-    //new PhysicsScreenBoundaries(10000f, 10000f)
   }
 
   override def onGraphicRender(g: GdxGraphics): Unit = {
@@ -48,25 +51,20 @@ class Game extends DesktopApplication(1920, 1080){
       if (firstRun){
         l.destroy()
         l2.destroy()
+        playerMachine.setPos(camX, camY)
       }
       firstRun = false
-      //println(camX + ";" + camY)
       g.clear(Color.WHITE)
       g.setColor(Color.BLACK)
 
       cam = g.getCamera
-      //g.drawTransformedPicture(450,450,0,0.05f,img)
       playerMachine.update()
-      playerMachine.drawMudry(g)
+      playerMachine.draw(g)
 
       if (currentMode != "play") {
-        cam.position.set(camX, camY, 0)
         playerMachine.sleep()
-      } else {
-        cam.position.set(playerMachine.posX, playerMachine.posY, 0)
       }
 
-      cam.update()
       lineMachine.drawLines(g, modesMachine.currentMode(), modesMachine.getDrawMode())
       freeMachine.drawFreeLines(g, modesMachine.currentMode(), modesMachine.getDrawMode())
 
@@ -75,8 +73,6 @@ class Game extends DesktopApplication(1920, 1080){
       PhysicsWorld.updatePhysics()
 
       g.resetCamera()
-      //stableXOfset = ((-1920/2) + camX)
-      //stableYOfset = ((1080/2) - camY)
       modesMachine.drawModesMenu(g, g.getScreenHeight, 0)
       if (currentMode == "mop") {
         uSure.drawWindow(g)
@@ -90,8 +86,6 @@ class Game extends DesktopApplication(1920, 1080){
       cam.update()
       g.drawFPS(Color.BLACK)
       g.drawSchoolLogo()
-      //println(stableXOfset + " ; " + stableYOfset)
-
     }
   }
 
