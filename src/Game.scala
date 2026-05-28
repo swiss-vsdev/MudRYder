@@ -52,6 +52,7 @@ class Game extends DesktopApplication(1920, 1080) {
   }
 
   override def onGraphicRender(g: GdxGraphics): Unit = {
+    walkman.play(currentMode)
     if (System.currentTimeMillis() - startTime < 3000) {
       s.render(g)
     } else {
@@ -120,8 +121,6 @@ class Game extends DesktopApplication(1920, 1080) {
     if (button == Input.Buttons.LEFT) {
       onMenuClick = modesMachine.onMenuClick(x + stableXOfset, y - stableYOfset)
       currentMode = modesMachine.currentMode()
-
-      walkman.play(currentMode)
       //println("current mode = " + currentMode)
 
       //Maintenant que le monde bouge il faut calculer différement l'emplacement de la souris
