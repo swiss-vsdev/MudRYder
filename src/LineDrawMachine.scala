@@ -6,6 +6,7 @@ import java.awt.{Desktop, FileDialog}
 import java.io.{File, FileOutputStream, PrintWriter}
 import javax.swing.{JFileChooser, JFrame}
 import scala.collection.mutable.ArrayBuffer
+import scala.io.Source
 
 class LineDrawMachine {
   var LineArray: ArrayBuffer[Line] = ArrayBuffer.empty
@@ -126,14 +127,25 @@ class LineDrawMachine {
       new FileOutputStream(s"./saves/$filename.csv",true)
     )
     for(line <- LineArray){
-      pw.println(line)
+      pw.println(line.getClass.getSimpleName + "," +
+        line.p1x + "," + line.p1y + "," + line.p2x + "," + line.p2y)
     }
     pw.close()
   }
 
-  def load() : Unit = {
-    
+  def load(fp : String) : Unit = {
+    val src = Source.fromFile(s"./saves/$fp")
+    val lines = src.getLines().toArray
+    for(line <- lines){
+      val a = line.split(",")
+      if(line.contains("PhysicLine")){
+        LineArray.addOne(PhysicLine(a(1).toFloat,a(2).toFloat,a(3).toFloat,a(4).toFloat))
+      }
+      if(line.contains("DecoLine")){
+        LineArray.addOne(DecoLine(a(1).toFloat,a(2).toFloat,a(3).toFloat,a(4).toFloat))
+      }
     }
+  }
 
 }
 

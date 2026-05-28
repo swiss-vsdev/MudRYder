@@ -143,10 +143,12 @@ class FreeDrawMachine {
     )
     for (free <- FreeArray) {
       for (sgmt <- free) {
-        pw.println(sgmt)
+        pw.println(sgmt.getClass.getSimpleName + "," +
+          sgmt.p1x + "," + sgmt.p1y + "," + sgmt.p2x + "," + sgmt.p2y)
       }
     }
     pw.close()
   }
+
 }
 
