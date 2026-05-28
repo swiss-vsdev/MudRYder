@@ -36,7 +36,7 @@ class Game extends DesktopApplication(1920, 1080){
   val l2 = PhysicLine(0,1000,1920,100)
 
   override def onInit(): Unit = {
-    playerMachine = new MudryMachine("rider", new Vector2(960, 900), radius = 10f, density = 0f, restitution = 0f, friction = 0.001f)
+    playerMachine = new MudryMachine("rider", new Vector2(960, 900), 20f, 0f, 0f, 0.001f)
     camX = playerMachine.posX.toInt
     camY = playerMachine.posY.toInt
     setTitle("MudRYder")
@@ -63,6 +63,7 @@ class Game extends DesktopApplication(1920, 1080){
 
       if (currentMode != "play") {
         playerMachine.sleep()
+        playerMachine.angle = 0
       }
 
       lineMachine.drawLines(g, modesMachine.currentMode(), modesMachine.getDrawMode())

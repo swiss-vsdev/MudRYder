@@ -4,10 +4,9 @@ import ch.hevs.gdx2d.components.physics.utils.PhysicsConstants
 import ch.hevs.gdx2d.lib.GdxGraphics
 import ch.hevs.gdx2d.lib.interfaces.DrawableObject
 import ch.hevs.gdx2d.lib.physics.AbstractPhysicsObject
-import ch.hevs.gdx2d.lib.utils.Logger
 import com.badlogic.gdx.math.Vector2
 
-class MudryMachine( /*m: Mudry,*/ name: String, position: Vector2, radius: Float, density: Float, restitution: Float, friction: Float)
+class MudryMachine(name: String, position: Vector2, radius: Float, density: Float, restitution: Float, friction: Float)
   extends PhysicsCircle(name, position, radius, density, restitution, friction) with DrawableObject {
 
   var firstRun = true
@@ -68,7 +67,6 @@ class MudryMachine( /*m: Mudry,*/ name: String, position: Vector2, radius: Float
     //this.angle = this.angle + 1 //prout <----- (commentaire relique de St-Mui)
     angle = (other.getBodyAngle * 180 / math.Pi).toFloat
     println(s"$name angle ${this.angle} and other angle = ${other.getBodyAngle}")
-    //Logger.log(s"$name collided ${other.getBodyAngle} with energy $energy")
 
     lastCollision = 1.0f
   }
