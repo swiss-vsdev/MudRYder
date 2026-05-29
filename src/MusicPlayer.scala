@@ -10,6 +10,7 @@ class MusicPlayer () {
       lastmode = currentMode
       currentMode match {
         case "play" => {
+          clip.stop()
           val musicfile = new File(s"./music/$currentMode.wav")
           val audio = AudioSystem.getAudioInputStream(musicfile)
           clip.open(audio)

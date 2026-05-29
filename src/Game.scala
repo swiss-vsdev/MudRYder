@@ -104,6 +104,8 @@ class Game extends DesktopApplication(1920, 1080) {
         cam.position.set(camX, camY, 0)
       }
       cam.update()
+        val oldColor = g.sbGetColor()
+        g.setColor(Color.BLACK)
       if (currentMode == "play"){
         g.drawString(5, 50, s"X : ${playerMachine.posX.toInt}")
         g.drawString(5, 35, s"Y : ${playerMachine.posY.toInt}")
@@ -111,6 +113,7 @@ class Game extends DesktopApplication(1920, 1080) {
         g.drawString(5, 50, s"X : ${camX}")
         g.drawString(5, 35, s"Y : ${camY}")
       }
+        g.setColor(oldColor)
       g.drawFPS(Color.BLACK)
       g.drawSchoolLogo()
     }
