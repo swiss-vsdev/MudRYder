@@ -4,13 +4,13 @@ import ch.hevs.gdx2d.lib.{GdxGraphics, ScreenManager}
 import com.badlogic.gdx.Input
 import com.badlogic.gdx.graphics.{Color, OrthographicCamera}
 import com.badlogic.gdx.math.Vector2
+
 import java.util.Calendar
 
 class Game extends DesktopApplication(1920, 1080) {
   val lineMachine = new LineDrawMachine
   val modesMachine = new DrawingModesMachine
   val freeMachine = new FreeDrawMachine
-  var playerMachine : MudryMachine = _
   val uSure = new AreYouSureWindow
   val saveWin = new SavingWindow
   val walkman = new MusicPlayer
@@ -19,6 +19,7 @@ class Game extends DesktopApplication(1920, 1080) {
   val startTime = System.currentTimeMillis()
   val l = PhysicLine(0, 100, 1920, 100)
   val l2 = PhysicLine(0, 1000, 1920, 100)
+  var playerMachine: MudryMachine = _
   var onMenuClick: Boolean = false
   var iAmClicked: Boolean = false
   var currentMode = ""
@@ -38,7 +39,7 @@ class Game extends DesktopApplication(1920, 1080) {
   var firstRun = true
   var isSaving = false
   var savefile = ""
-  var saveTime : Long = _
+  var saveTime: Long = _
 
   override def onInit(): Unit = {
     playerMachine = new MudryMachine("rider", new Vector2(960, 900), 4f, 0f, 0f, 0.00001f)
@@ -71,21 +72,30 @@ class Game extends DesktopApplication(1920, 1080) {
         g.clear(Color.WHITE)
         g.setColor(Color.BLACK)
 
-      cam = g.getCamera
-      playerMachine.update()
-      playerMachine.draw(g)
+        cam = g.getCamera
+        PhysicsWorld.updatePhysics()
+        playerMachine.update()
 
-      if (currentMode != "play") {
-        playerMachine.sleep()
-        playerMachine.angle = 0
-      }
+        if (currentMode == "play") {
+          cam.position.set(playerMachine.posX, playerMachine.posY, 0)
+        } else {
+          cam.position.set(camX, camY, 0)
+        }
+        cam.update()
 
-      lineMachine.drawLines(g, modesMachine.currentMode(), modesMachine.getDrawMode())
-      freeMachine.drawFreeLines(g, modesMachine.currentMode(), modesMachine.getDrawMode())
+        playerMachine.draw(g)
+
+        if (currentMode != "play") {
+          playerMachine.sleep()
+          playerMachine.angle = 0
+        }
+
+        lineMachine.drawLines(g, modesMachine.currentMode(), modesMachine.getDrawMode())
+        freeMachine.drawFreeLines(g, modesMachine.currentMode(), modesMachine.getDrawMode())
 
         lastMode = currentMode
         currentMode = modesMachine.currentMode()
-        PhysicsWorld.updatePhysics()
+
 
         g.resetCamera()
         modesMachine.drawModesMenu(g, g.getScreenHeight, 0)
@@ -93,31 +103,25 @@ class Game extends DesktopApplication(1920, 1080) {
           uSure.drawWindow(g)
         }
         if (isSaving && currentMode != "mop" &&
-          (System.currentTimeMillis() - saveTime) < 5000){
-          saveWin.drawWindow(g,savefile)
+          (System.currentTimeMillis() - saveTime) < 5000) {
+          saveWin.drawWindow(g, savefile)
         }
 
-      if (currentMode == "play") {
-        cam.position.set(playerMachine.posX, playerMachine.posY, 0)
-      } else {
-        cam.position.set(camX, camY, 0)
-      }
-      cam.update()
         val oldColor = g.sbGetColor()
         g.setColor(Color.BLACK)
-      if (currentMode == "play"){
-        g.drawString(5, 50, s"X : ${playerMachine.posX.toInt}")
-        g.drawString(5, 35, s"Y : ${playerMachine.posY.toInt}")
-      } else {
-        g.drawString(5, 50, s"X : ${camX}")
-        g.drawString(5, 35, s"Y : ${camY}")
-      }
+        if (currentMode == "play") {
+          g.drawString(5, 50, s"X : ${playerMachine.posX.toInt}")
+          g.drawString(5, 35, s"Y : ${playerMachine.posY.toInt}")
+        } else {
+          g.drawString(5, 50, s"X : ${camX}")
+          g.drawString(5, 35, s"Y : ${camY}")
+        }
         g.setColor(oldColor)
-      g.drawFPS(Color.BLACK)
-      g.drawSchoolLogo()
+        g.drawFPS(Color.BLACK)
+        g.drawSchoolLogo()
+      }
     }
   }
-}
 
   override def onClick(x: Int, y: Int, button: Int): Unit = {
     currentX = x
@@ -207,7 +211,7 @@ class Game extends DesktopApplication(1920, 1080) {
             case lw: LoadWindow => {
               lw.onClick(x, y)
               //println(lw.getAnwser())
-              if(lw.getAnwser() == "load"){
+              if (lw.getAnwser() == "load") {
                 lineMachine.mop()
                 freeMachine.mop()
                 lineMachine.load(lw.getSelection())
@@ -216,7 +220,7 @@ class Game extends DesktopApplication(1920, 1080) {
                 lineMachine.endPoint.set(0f, 0f)
                 lineMachine.startPoint.set(0f, 0f)
               }
-              if(lw.getAnwser() == "cancel"){
+              if (lw.getAnwser() == "cancel") {
                 modesMachine.modeSwitcher("lines")
                 lineMachine.onClick("LEFT", -100000, -100000)
                 lineMachine.endPoint.set(0f, 0f)
