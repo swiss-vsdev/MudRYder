@@ -12,8 +12,10 @@ class MusicPlayer() {
       clip.stop()
       clip.close()
     }
-    if (currentMode != lastmode && clip.isActive && musicMode != "musicmute" ||
-      lastMusicmode != musicMode && musicMode != "musicmute") {
+
+    if (currentMode != lastmode  && musicMode != "musicmute" ||
+      lastMusicmode != musicMode && musicMode != "musicmute" ||
+      !clip.isActive && musicMode != "musicmute") {
       currentMode match {
         case "play" => {
           if(!clip.isActive || lastmode != "play") {
@@ -30,18 +32,23 @@ class MusicPlayer() {
           }
         }
         case ("free" | "lines" | "eraser" | "mop") => {
-          if(!clip.isActive ||
-            (lastmode != "free" && lastmode != "lines" && lastmode != "mop" && lastmode != "eraser")){
+          if(lastmode != "free" && lastmode != "lines" && lastmode != "mop" && lastmode != "eraser"){
+            clip.stop()
+            clip.close()
+          }
+          if(!clip.isActive &&
+            (lastmode != "free" || lastmode != "lines" || lastmode != "mop" || lastmode != "eraser")){
             if(lastmode != currentMode){
               clip.stop()
               clip.close()
               lastmode = currentMode
-              val musicfile = new File(s"./music/edit.wav")
-              val audio = AudioSystem.getAudioInputStream(musicfile)
-              clip.open(audio)
-              clip.loop(-1)
-              clip.start()
             }
+
+            val musicfile = new File(s"./music/edit.wav")
+            val audio = AudioSystem.getAudioInputStream(musicfile)
+            clip.open(audio)
+            clip.loop(-1)
+            clip.start()
           }
         }
         case _ => {
@@ -51,5 +58,6 @@ class MusicPlayer() {
         }
       }
     }
+    lastmode = currentMode
   }
 }
