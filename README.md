@@ -22,18 +22,18 @@ Draw your track, hit play, and watch your very own Mudry ride.
 
 ## Screenshots
 
-![alt text](https://github.com/swiss-vsdev/MudRYder/blob/master/screenshots/splash.png?raw=true)
+![alt text](https://github.com/swiss-vsdev/MudRYder/blob/main/screenshots/splash.png?raw=true)
 Game splashscreen
 
-![alt text](https://github.com/swiss-vsdev/MudRYder/blob/master/screenshots/ride.png?raw=true)
+![alt text](https://github.com/swiss-vsdev/MudRYder/blob/main/screenshots/ride.png?raw=true)
 Image of the game while it's playing
 
 ## Video
 
 [![Watch the video]
-(https://github.com/swiss-vsdev/MudRYder/blob/master/screenshots/videoThum.png)]
-(https://github.com/swiss-vsdev/MudRYder/blob/master/screenshots/video.mov)
-Image of the game while it's playing
+(https://github.com/swiss-vsdev/MudRYder/blob/main/screenshots/videoThum.png)]
+(https://github.com/swiss-vsdev/MudRYder/blob/main/screenshots/video.mp4)
+Game in action
 
 
 ## Roadmap
