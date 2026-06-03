@@ -30,11 +30,8 @@ Image of the game while it's playing
 
 ## Video
 
-[![Watch the video]
-(https://github.com/swiss-vsdev/MudRYder/blob/main/screenshots/videoThum.png)]
-(https://github.com/swiss-vsdev/MudRYder/blob/main/screenshots/video.mp4)
+![Watch the video](https://github.com/swiss-vsdev/MudRYder/blob/main/screenshots/video.gif)
 Game in action
-
 
 ## Roadmap
 - [x] Create the basic structure
