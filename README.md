@@ -1,17 +1,42 @@
 # MudRYder
 The best game ever created
-
 By Aurélien Santi and Gabriel Zeizer extends coffee-s
 
-### Goal
-The goal is to recreate a game similar to "Line Rider" fully in scala
+## Goal
+MudRYder is a remake of the iconic game *Line Rider* with a better rider.
+Draw your track, hit play, and watch your very own Mudry ride.
+
+### Key features:
+🖊️ Draw your track freely
+
+🏍️ Make your very own Mudry ride
+
+🔁 Scrub & replay
+
+🧪 Sandbox-first : no levels, no objectives, just freedom
 
 ## Dependencies
 - Scala 2.13.18
 - Java 25
 - gdx2D
 
-### TO DO :
+## Screenshots
+
+![alt text](https://github.com/swiss-vsdev/MudRYder/blob/master/screenshots/splash.png?raw=true)
+Game splashscreen
+
+![alt text](https://github.com/swiss-vsdev/MudRYder/blob/master/screenshots/ride.png?raw=true)
+Image of the game while it's playing
+
+## Video
+
+[![Watch the video]
+(https://github.com/swiss-vsdev/MudRYder/blob/master/screenshots/videoThum.png)]
+(https://github.com/swiss-vsdev/MudRYder/blob/master/screenshots/video.mov)
+Image of the game while it's playing
+
+
+## Roadmap
 - [x] Create the basic structure
 - [x] Use classes?
 - [x] Create the drawing system ->
@@ -23,14 +48,11 @@ The goal is to recreate a game similar to "Line Rider" fully in scala
 - [x] Add a "restart all over" button
 - [x] Add a "decoration" drawer without physics
 - [x] Button to move the camera back to center
-- [ ] Make the sled follow the angle of the slope underneath it
-- [ ] Allow saving the map to a file
-- [ ] Allow loading a map from a file
+- [x] Allow saving the map to a file
+- [x] Allow loading a map from a file
 - [ ] Add an "accelerator" drawer to speed up the Mudry
 - [ ] Make the sledding smoother during angled collisions (not sure if this is even possible without completely rewriting the physics engine)
+- [ ] Make the sled follow the angle of the slope underneath it
 
-Suggestions :
+## Suggestions :
 - Split Mudry into two separate assets: a sled that rotates according to the movement, and Mudry himself, who stays upright on top of it.
- 
- ### Note about commits
-Coded using "CodeTogether Cloud", so some personal commits are actually the product of joint work on the same Mac
