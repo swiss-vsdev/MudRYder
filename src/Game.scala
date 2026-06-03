@@ -40,6 +40,8 @@ class Game extends DesktopApplication(1920, 1080) {
   var isSaving = false
   var savefile = ""
   var saveTime: Long = _
+  var drawZoneX : Int = 0
+  var drawZoneY : Int = 0
 
   override def onInit(): Unit = {
     playerMachine = new MudryMachine("rider", new Vector2(960, 900), 4f, 0f, 0f, 0.00001f)
@@ -90,8 +92,11 @@ class Game extends DesktopApplication(1920, 1080) {
           playerMachine.angle = 0
         }
 
-        lineMachine.drawLines(g, modesMachine.currentMode(), modesMachine.getDrawMode())
-        freeMachine.drawFreeLines(g, modesMachine.currentMode(), modesMachine.getDrawMode())
+        if(currentMode != "play") drawZoneX = camX else drawZoneX = playerMachine.posX.toInt
+        if(currentMode != "play") drawZoneY = camY else drawZoneY = playerMachine.posY.toInt
+
+        lineMachine.drawLines(g, modesMachine.currentMode(), modesMachine.getDrawMode(),drawZoneX,drawZoneY)
+        freeMachine.drawFreeLines(g, modesMachine.currentMode(), modesMachine.getDrawMode(),drawZoneX,drawZoneY)
 
         lastMode = currentMode
         currentMode = modesMachine.currentMode()

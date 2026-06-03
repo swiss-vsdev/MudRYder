@@ -20,7 +20,7 @@ class FreeDrawMachine {
 
   ArrayEmptyFix()
 
-  def drawFreeLines(g: GdxGraphics, cm: String, dm: String): Unit = {
+  def drawFreeLines(g: GdxGraphics, cm: String, dm: String, camX : Int, camY : Int): Unit = {
     if (dm != "decoration") g.setColor(Color.BLACK) else g.setColor(Color.BLUE)
     if (endPoint.x != 0.0f && endPoint.y != 0.0f) g.drawLine(startPoint.x, startPoint.y, endPoint.x, endPoint.y)
     for (free <- FreeArray) {
@@ -30,7 +30,14 @@ class FreeDrawMachine {
         } else {
           segment.color = Color.BLACK
         }
-        segment.draw(g)
+        if(segment.p1x >= (camX-2000) && segment.p1x <= (camX+2000) ||
+          segment.p2x >= (camX-2000) && segment.p2x <= (camX+2000) ||
+          segment.p1y >= (camX-1500) && segment.p1y <= (camX+1500) ||
+          segment.p2y >= (camX-1500) && segment.p2y <= (camX+1500) ||
+          segment.p1x == -10000 && segment.p2y == -10000){
+          segment.draw(g)
+        }
+
       }
     }
   }

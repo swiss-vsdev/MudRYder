@@ -18,7 +18,7 @@ class LineDrawMachine {
 
   ArrayEmptyFix()
 
-  def drawLines(g: GdxGraphics, cm: String, dm: String): Unit = {
+  def drawLines(g: GdxGraphics, cm: String, dm: String, camX : Int, camY : Int): Unit = {
     if (dm != "decoration") g.setColor(Color.BLACK) else g.setColor(Color.BLUE)
     if (endPoint.x != 0.0f && endPoint.y != 0.0f) g.drawLine(startPoint.x, startPoint.y, endPoint.x, endPoint.y)
     for (line <- LineArray) {
@@ -27,7 +27,13 @@ class LineDrawMachine {
       } else {
         line.color = Color.BLACK
       }
-      line.draw(g)
+      if(line.p1x >= (camX-2000) && line.p1x <= (camX+2000) ||
+        line.p2x >= (camX-2000) && line.p2x <= (camX+2000) ||
+        line.p1y >= (camX-1500) && line.p1y <= (camX+1500) ||
+        line.p2y >= (camX-1500) && line.p2y <= (camX+1500) ||
+        line.p1x == -10000 && line.p2y == -10000){
+        line.draw(g)
+      }
     }
   }
 
