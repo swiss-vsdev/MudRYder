@@ -6,20 +6,20 @@ class MusicPlayer() {
   private var lastmode: String = ""
   private var lastMusicmode: String = ""
 
-  def play(currentMode: String, musicMode : String): Unit = {
-    if(musicMode == "musicmute" && clip.isActive){
+  def play(currentMode: String, musicMode: String): Unit = {
+    if (musicMode == "musicmute" && clip.isActive) {
       lastMusicmode = "musicmute"
       clip.stop()
       clip.close()
     }
 
-    if (currentMode != lastmode  && musicMode != "musicmute" ||
+    if (currentMode != lastmode && musicMode != "musicmute" ||
       lastMusicmode != musicMode && musicMode != "musicmute" ||
       !clip.isActive && musicMode != "musicmute") {
       currentMode match {
         case "play" => {
-          if(!clip.isActive || lastmode != "play") {
-            if(lastmode != currentMode){
+          if (!clip.isActive || lastmode != "play") {
+            if (lastmode != currentMode) {
               clip.stop()
               clip.close()
               lastmode = currentMode
@@ -32,13 +32,13 @@ class MusicPlayer() {
           }
         }
         case ("free" | "lines" | "eraser" | "mop") => {
-          if(lastmode != "free" && lastmode != "lines" && lastmode != "mop" && lastmode != "eraser"){
+          if (lastmode != "free" && lastmode != "lines" && lastmode != "mop" && lastmode != "eraser") {
             clip.stop()
             clip.close()
           }
-          if(!clip.isActive &&
-            (lastmode != "free" || lastmode != "lines" || lastmode != "mop" || lastmode != "eraser")){
-            if(lastmode != currentMode){
+          if (!clip.isActive &&
+            (lastmode != "free" || lastmode != "lines" || lastmode != "mop" || lastmode != "eraser")) {
+            if (lastmode != currentMode) {
               clip.stop()
               clip.close()
               lastmode = currentMode
