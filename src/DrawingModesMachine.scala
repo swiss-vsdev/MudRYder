@@ -98,7 +98,7 @@ class DrawingModesMachine {
     //vérifier pythagore vu que boutons ronds
     // Return true si un bouton du menu a été touché (pour prevent les actions quand clic sur le menu)
     for(m <- modes){
-      if(math.sqrt(math.pow(x - m.x, 2) + math.pow(y - m.y, 2)) < m.radius){
+      if(math.sqrt((x - m.x)*(x - m.x) + (y - m.y)*(y - m.y)) < m.radius){
         // bouton touché -> Changement de mode
         modeSwitcher(m.name)
         return true

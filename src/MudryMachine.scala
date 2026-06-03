@@ -52,8 +52,6 @@ class MudryMachine(name: String, position: Vector2, radius: Float, density: Floa
   def draw(g:GdxGraphics) : Unit = {
     loadImages()
 
-    this.getBodyPosition
-
     if (math.abs(this.angle) > 30){
       selectedImage = imgDown
     } else {
@@ -74,11 +72,9 @@ class MudryMachine(name: String, position: Vector2, radius: Float, density: Floa
   override def collision(other: AbstractPhysicsObject, energy: Float): Unit = {
     //this.angle = this.angle + 1 //prout <----- (commentaire relique de St-Mui)
     angle = (other.getBodyAngle * 180 / math.Pi).toFloat
+
     if (angle < -90 && other.getBodyAngle.toInt != 3){
       angle += 180
-    }
-    if(other.getBodyAngle.toInt == 3 || other.getBodyAngle.toInt == -3){
-      angle -= 180
     }
 
     lastCollision = 1.0f
