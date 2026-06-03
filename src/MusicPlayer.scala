@@ -4,19 +4,49 @@ import javax.sound.sampled.AudioSystem
 class MusicPlayer() {
   private val clip = AudioSystem.getClip()
   private var lastmode: String = ""
+  private var lastMusicmode: String = ""
 
-  def play(currentMode: String): Unit = {
-    if (currentMode != lastmode) {
-      lastmode = currentMode
+  def play(currentMode: String, musicMode : String): Unit = {
+    if(musicMode == "musicmute" && clip.isActive){
+      lastMusicmode = "musicmute"
+      clip.stop()
+      clip.close()
+    }
+    if (currentMode != lastmode && clip.isActive && musicMode != "musicmute" ||
+      lastMusicmode != musicMode && musicMode != "musicmute") {
       currentMode match {
         case "play" => {
-          clip.stop()
-          val musicfile = new File(s"./music/$currentMode.wav")
-          val audio = AudioSystem.getAudioInputStream(musicfile)
-          clip.open(audio)
-          clip.start()
+          if(!clip.isActive || lastmode != "play") {
+            if(lastmode != currentMode){
+              clip.stop()
+              clip.close()
+              lastmode = currentMode
+            }
+
+            val musicfile = new File(s"./music/play.wav")
+            val audio = AudioSystem.getAudioInputStream(musicfile)
+            clip.open(audio)
+            clip.start()
+          }
+        }
+        case ("free" | "lines" | "eraser" | "mop") => {
+          if(!clip.isActive ||
+            (lastmode != "free" && lastmode != "lines" && lastmode != "mop" && lastmode != "eraser")){
+            if(lastmode != currentMode){
+              clip.stop()
+              clip.close()
+              lastmode = currentMode
+            }
+
+            clip.loop(3000)
+            val musicfile = new File(s"./music/edit.wav")
+            val audio = AudioSystem.getAudioInputStream(musicfile)
+            clip.open(audio)
+            clip.start()
+          }
         }
         case _ => {
+          lastmode = currentMode
           clip.stop()
           clip.close()
         }

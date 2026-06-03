@@ -9,6 +9,7 @@ class DrawingModesMachine {
   val icons: ArrayBuffer[BitmapImage] = ArrayBuffer.empty
   private var cm: String = "lines"
   private var dm: String = "physic"
+  private var mm: String = "music"
   loadModes()
   private var firstRun: Boolean = true
 
@@ -28,32 +29,45 @@ class DrawingModesMachine {
     val radius = 18
 
     for (i <- modes.indices) {
-
-      if (modes(i).name == "physic" || modes(i).name == "decoration") {
-        if (getDrawMode() == modes(i).name) {
+      if(modes(i).name == "music" || modes(i).name == "musicmute"){
+        if (getMusicMode() == modes(i).name) {
           modes(i).x = startPointW
           modes(i).y = startPointH
           modes(i).radius = radius
 
-          if (getDrawMode() == modes(i).name) {
+          if (getMusicMode() == modes(i).name) {
             g.drawCircle(modes(i).x, modes(i).y, modes(i).radius, Color.BLUE)
           }
           g.drawTransformedPicture(startPointW, startPointH, 0, 0.05f, icons(i))
           startPointW += 50
         }
       } else {
-        modes(i).x = startPointW
-        modes(i).y = startPointH
-        modes(i).radius = radius
+        if (modes(i).name == "physic" || modes(i).name == "decoration") {
+          if (getDrawMode() == modes(i).name) {
+            modes(i).x = startPointW
+            modes(i).y = startPointH
+            modes(i).radius = radius
 
-        if (currentMode() == modes(i).name) {
-          g.drawCircle(modes(i).x, modes(i).y, modes(i).radius, Color.BLUE)
+            if (getDrawMode() == modes(i).name) {
+              g.drawCircle(modes(i).x, modes(i).y, modes(i).radius, Color.BLUE)
+            }
+            g.drawTransformedPicture(startPointW, startPointH, 0, 0.05f, icons(i))
+            startPointW += 50
+          }
+        } else {
+          modes(i).x = startPointW
+          modes(i).y = startPointH
+          modes(i).radius = radius
+
+          if (currentMode() == modes(i).name) {
+            g.drawCircle(modes(i).x, modes(i).y, modes(i).radius, Color.BLUE)
+          }
+          if (getDrawMode() == modes(i).name) {
+            g.drawCircle(modes(i).x, modes(i).y, modes(i).radius, Color.BLUE)
+          }
+          g.drawTransformedPicture(startPointW, startPointH, 0, 0.05f, icons(i))
+          startPointW += 50
         }
-        if (getDrawMode() == modes(i).name) {
-          g.drawCircle(modes(i).x, modes(i).y, modes(i).radius, Color.BLUE)
-        }
-        g.drawTransformedPicture(startPointW, startPointH, 0, 0.05f, icons(i))
-        startPointW += 50
       }
     }
   }
@@ -64,6 +78,10 @@ class DrawingModesMachine {
 
   def getDrawMode(): String = {
     return dm
+  }
+
+  def getMusicMode(): String = {
+    return mm
   }
 
   def onMenuClick(x: Int, y: Int): Boolean = {
@@ -87,10 +105,15 @@ class DrawingModesMachine {
       } else {
         dm = "physic"
       }
+    } else if (m == "music"){
+      if(mm == "music"){
+        mm = "musicmute"
+      } else {
+        mm = "music"
+      }
     } else {
       cm = m
     }
-
   }
 
   private def loadModes(): Unit = {
@@ -104,5 +127,7 @@ class DrawingModesMachine {
     modes.addOne(MenuModes("load", 0, 0, 10))
     modes.addOne(MenuModes("physic", 0, 0, 10))
     modes.addOne(MenuModes("decoration", 0, 0, 10))
+    modes.addOne(MenuModes("music", 0, 0, 10))
+    modes.addOne(MenuModes("musicmute", 0, 0, 10))
   }
 }

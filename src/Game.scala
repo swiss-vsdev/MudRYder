@@ -23,6 +23,7 @@ class Game extends DesktopApplication(1920, 1080) {
   var onMenuClick: Boolean = false
   var iAmClicked: Boolean = false
   var currentMode = ""
+  var musicMode = "music"
   var lastMouseClick = 1
   var cam = new OrthographicCamera
   var camX: Int = 1920 / 2
@@ -54,7 +55,7 @@ class Game extends DesktopApplication(1920, 1080) {
   }
 
   override def onGraphicRender(g: GdxGraphics): Unit = {
-    walkman.play(currentMode)
+    walkman.play(currentMode,musicMode)
     if (System.currentTimeMillis() - startTime < 3000) {
       s.render(g)
     } else {
@@ -100,6 +101,7 @@ class Game extends DesktopApplication(1920, 1080) {
 
         lastMode = currentMode
         currentMode = modesMachine.currentMode()
+        musicMode = modesMachine.getMusicMode()
 
 
         g.resetCamera()
