@@ -21,7 +21,7 @@ class Calculator {
     val vDir = new Vector2((sgmt.p2x-sgmt.p1x),(sgmt.p2y-sgmt.p1y))
     val vXP = new Vector2((point.x-sgmt.p1x),(point.y-sgmt.p1y))
     val vectorProduct = vDir.x*vXP.y - vDir.y*vXP.x
-    val vDirNorm = math.sqrt(math.pow(vDir.x,2) + math.pow(vDir.y,2))
+    val vDirNorm = math.sqrt(vDir.x * vDir.x + vDir.y * vDir.y)
     val distance = (math.abs(vectorProduct) / vDirNorm)
     distance
   }

@@ -15,6 +15,7 @@ class FreeDrawMachine {
   var FreeCnt : Int = -1
   var SegCnt : Int = 0
   var firstRun : Boolean = true
+  var cursorLoc = new Vector2()
 
   ArrayEmptyFix()
 
@@ -94,7 +95,7 @@ class FreeDrawMachine {
 
   def clean(x: Int, y: Int) : Unit = {
     ArrayEmptyFix()
-    val cursorLoc = new Vector2(x,y)
+    cursorLoc.set(x,y)
     val toRemove : ArrayBuffer[Line] = ArrayBuffer.empty
 
     for(free <- FreeArray){

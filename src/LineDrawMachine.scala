@@ -13,6 +13,7 @@ class LineDrawMachine {
   var lastEndPoint: Vector2 = new Vector2()
   var isMousePressed: Boolean = false
   var firstRun : Boolean = true
+  var cursorLoc = new Vector2()
 
   ArrayEmptyFix()
 
@@ -80,7 +81,7 @@ class LineDrawMachine {
 
   def clean(x: Int, y: Int) : Unit = {
     ArrayEmptyFix()
-    val cursorLoc = new Vector2(x,y)
+    cursorLoc.set(x,y)
     val toRemove : ArrayBuffer[Line] = ArrayBuffer.empty
 
     for(line <- LineArray){
