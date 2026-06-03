@@ -4,9 +4,7 @@ import com.badlogic.gdx.Gdx
 import com.badlogic.gdx.files.FileHandle
 import com.badlogic.gdx.graphics.Color
 import com.badlogic.gdx.math.Vector2
-
-import scala.collection.mutable.{ArrayBuffer, ListBuffer}
-import scala.io.Source
+import scala.collection.mutable.{ListBuffer}
 
 
 class LoadWindow extends RenderingScreen {
@@ -20,7 +18,6 @@ class LoadWindow extends RenderingScreen {
 
   override def onInit(): Unit = {
     files = Gdx.files.local("saves").list()
-    //println(files.mkString(";"))
     files.foreach{ f =>
       filesList.addOne(f.name())
     }
@@ -61,8 +58,6 @@ class LoadWindow extends RenderingScreen {
   }
 
   def onClick(x:Int,y:Int): Unit = {
-    //println(x + ";" + cancelButtonCo.x)
-    //println(y + ";" + cancelButtonCo.y)
     if (x >= cancelButtonCo.x -50 && x <= cancelButtonCo.x + 50 &&
       y >= cancelButtonCo.y -15 && y <= cancelButtonCo.y + 15) {
       answer = "cancel" // Cancel
@@ -74,7 +69,6 @@ class LoadWindow extends RenderingScreen {
     }
 
     for(c <- 0 until (filesList.length*30) by 30){
-      //println(x+";"+y)
       if(x >= 880 && x <= 1040 &&
        y >= 745-c && y <= 765-c){
         selectedSaveIndice = c/30
@@ -85,12 +79,12 @@ class LoadWindow extends RenderingScreen {
   }
 
   def getSelection() : String = {
-    return filesList(selectedSaveIndice)
+    filesList(selectedSaveIndice)
   }
 
 
   def getAnwser() : String = {
-    return answer
+    answer
   }
 
 }

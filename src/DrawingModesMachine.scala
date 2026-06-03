@@ -1,7 +1,6 @@
 import ch.hevs.gdx2d.components.bitmaps.BitmapImage
 import ch.hevs.gdx2d.lib.GdxGraphics
 import com.badlogic.gdx.graphics.Color
-
 import scala.collection.mutable.ArrayBuffer
 
 class DrawingModesMachine {
@@ -28,7 +27,6 @@ class DrawingModesMachine {
 
   def loadIcons() : Unit = {
     if(firstRun){
-      //println("I'm loading the icons")
       for (mode <- modes) {
         val img = new BitmapImage(s"./icons/${mode.name}.png")
         icons.addOne(img)
@@ -63,7 +61,6 @@ class DrawingModesMachine {
     var startPointW : Int = height + 30
     val radius = 18
 
-    //println(startPointW + ";" + startPointH)
     for(i <- modes.indices){
 
       if(modes(i).name == "physic" || modes(i).name == "decoration"){
@@ -84,7 +81,6 @@ class DrawingModesMachine {
         modes(i).radius = radius
 
         if(currentMode() == modes(i).name){
-          //println(modes(i).name + ";" + modes(i).x+";"+modes(i).y)
           g.drawCircle(modes(i).x,modes(i).y,modes(i).radius,Color.BLUE)
         }
         if(getDrawMode() == modes(i).name){

@@ -9,7 +9,6 @@ case class PhysicLine(p1x: Float, p1y: Float, p2x: Float, p2y: Float)
   var color : Color = Color.BLACK
 
   override def collision(other: AbstractPhysicsObject, energy: Float): Unit = {
-    //println(s"$name collided ${other.name} with energy $energy")
   }
 
   override def destroy(): Unit = {
