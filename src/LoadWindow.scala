@@ -73,7 +73,6 @@ class LoadWindow extends RenderingScreen {
       if (x >= 880 && x <= 1040 &&
         y >= 745 - c && y <= 765 - c) {
         selectedSaveIndice = c / 30
-        println(filesList(selectedSaveIndice))
       }
     }
 
