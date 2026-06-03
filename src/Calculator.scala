@@ -1,61 +1,34 @@
 import com.badlogic.gdx.math.Vector2
 
 class Calculator {
-  def areColinear(v1 : Vector2, v2 : Vector2) : Boolean = {
-    val op = ((v1.x * v2.y) - (v1.y * v2.x))
-    //println(op)
-    if (op == 0) true else false
-  }
-
-  def vectorProduct2D(v1 : Vector2, v2 : Vector2) : Double = {
-    val op = ((v1.x * v2.y) - (v1.y * v2.x))
-    op
-  }
-
-  def magnitude(v: Vector2): Double = {
-    val sum : Double = (math.pow(v.x, 2)) + (math.pow(v.y, 2))
-    math.sqrt(sum)
-  }
-
-  def getVectorFromLine(l :Line) : Vector2 = {
-    val x : Float = l.p2x - l.p1x
-    val y : Float = l.p2y - l.p1y
-    new Vector2(x,y)
-  }
-
-  def getVectorLinePoint(l: Line, p: Vector2): Vector2 = {
-    val x: Float = p.x - l.p1x
-    val y: Float = p.y - l.p1y
-    new Vector2(x, y)
-  }
-
-  def isPointInSegment(sgmt: Line, point : Vector2) : Boolean = {
-    val sgmtVector = getVectorFromLine(sgmt)
-    val linePointVector = getVectorLinePoint(sgmt,point)
-    val sgmtMagnitude = magnitude(sgmtVector)
-    val pointMagnitude = magnitude(linePointVector)
-
-    if (areColinear(sgmtVector,linePointVector)){
-      if(pointMagnitude < sgmtMagnitude || pointMagnitude == sgmtMagnitude){
-         true
-      } else {
-         false
+  def isPointInBoundaries(sgmt: Line, point: Vector2): Boolean = {
+    if ((math.min(sgmt.p1x, sgmt.p2x)) <= point.x && point.x <= (math.max(sgmt.p1x, sgmt.p2x))) {
+      if ((math.min(sgmt.p1y, sgmt.p2y)) <= point.y && point.y <= (math.max(sgmt.p1y, sgmt.p2y))) {
+        return true
       }
-    } else {
-       false
     }
+    false
   }
 
-  def isPointInLine(sgmt: Line, point : Vector2) : Boolean = {
-    val sgmtVector = getVectorFromLine(sgmt)
-    val linePointVector = getVectorLinePoint(sgmt,point)
-    val vectorProd = vectorProduct2D(sgmtVector,linePointVector)
+  def distanceToSegment(sgmt: Line, point: Vector2): Double = {
+    val vDir = new Vector2((sgmt.p2x-sgmt.p1x),(sgmt.p2y-sgmt.p1y))
+    val vXP = new Vector2((point.x-sgmt.p1x),(point.y-sgmt.p1y))
+    val vectorProduct = vDir.x*vXP.y - vDir.y*vXP.x
+    val vDirNorm = math.sqrt(math.pow(vDir.x,2) + math.pow(vDir.y,2))
+    val distance = (math.abs(vectorProduct) / vDirNorm)
+    distance
+  }
 
-    //println(vectorProd)
-    if (vectorProd >= -200 && vectorProd <= 200){
-      true
-    } else {
-      false
+  def isPointInSegment(sgmt: Line, point: Vector2): Boolean = {
+    if (isPointInBoundaries(sgmt, point)) {
+      if (distanceToSegment(sgmt, point) <= 5) {
+        return true
+      }
     }
+    false
+  }
+
+  def isPointInLine(sgmt: Line, point: Vector2): Boolean = {
+    isPointInSegment(sgmt,point)
   }
 }
