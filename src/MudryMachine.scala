@@ -73,8 +73,11 @@ class MudryMachine(name: String, position: Vector2, radius: Float, density: Floa
     //this.angle = this.angle + 1 //prout <----- (commentaire relique de St-Mui)
     angle = (other.getBodyAngle * 180 / math.Pi).toFloat
 
-    if (angle < -90 && other.getBodyAngle.toInt != 3) {
+    if (angle <= -120) {
       angle += 180
+    }
+    if (angle >= 120) {
+      angle -= 180
     }
 
     lastCollision = 1.0f
