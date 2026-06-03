@@ -96,7 +96,7 @@ class FreeDrawMachine {
     ArrayEmptyFix()
     val toRemove : ArrayBuffer[Line] = ArrayBuffer.empty
     val pixelSquare : ArrayBuffer[Vector2] = ArrayBuffer.empty
-    val tolerence : Int = 12
+    val tolerence : Int = 3
 
     for(i <- 0 to tolerence){
       for(j <- 0 to tolerence){

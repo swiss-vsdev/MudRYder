@@ -20,8 +20,8 @@ class Calculator {
   }
 
   def isPointInSegment(sgmt: Line, point: Vector2): Boolean = {
-    if (isPointInBoundaries(sgmt, point)) {
-      if (distanceToSegment(sgmt, point) <= 5) {
+    if (distanceToSegment(sgmt, point) <= 5) {
+      if (isPointInBoundaries(sgmt, point)) {
         return true
       }
     }
