@@ -166,8 +166,10 @@ class Game extends DesktopApplication(1920, 1080) {
           }
         }
         case "play" => {
-          playerMachine.setPos(960, 900)
-          playerMachine.awake()
+          if(lastMode != "play"){
+            playerMachine.setPos(960, 900)
+            playerMachine.awake()
+          }
         }
         case "eraser" => {
           playerMachine.setPos(960, 900)
