@@ -36,13 +36,12 @@ class MusicPlayer() {
               clip.stop()
               clip.close()
               lastmode = currentMode
+              val musicfile = new File(s"./music/edit.wav")
+              val audio = AudioSystem.getAudioInputStream(musicfile)
+              clip.open(audio)
+              clip.loop(-1)
+              clip.start()
             }
-
-            clip.loop(3000)
-            val musicfile = new File(s"./music/edit.wav")
-            val audio = AudioSystem.getAudioInputStream(musicfile)
-            clip.open(audio)
-            clip.start()
           }
         }
         case _ => {
