@@ -4,23 +4,18 @@ import com.badlogic.gdx.graphics.Color
 import com.badlogic.gdx.math.Vector2
 
 class AreYouSureWindow {
-  private var answer : String = ""
-
   val firstWindowPoint: Vector2 = new Vector2(200, 960)
   val windowHeight: Int = 60
   val windowWidth: Int = 130
-
   val windowCo: Array[Vector2] = Array(
     firstWindowPoint,
     new Vector2(firstWindowPoint.x, firstWindowPoint.y + windowHeight),
     new Vector2(firstWindowPoint.x + windowWidth, firstWindowPoint.y + windowHeight),
     new Vector2(firstWindowPoint.x + windowWidth, firstWindowPoint.y)
   )
-
   val buttonMargin: Int = 10
   val buttonHeight: Int = 20
-  val buttonWidth: Int  = 50
-
+  val buttonWidth: Int = 50
   // Yes — coin bas-gauche dans la fenêtre
   val firstButtonPoint: Vector2 = new Vector2(firstWindowPoint.x + buttonMargin, firstWindowPoint.y + buttonMargin)
   val yesButton: Array[Vector2] = Array(
@@ -29,7 +24,6 @@ class AreYouSureWindow {
     new Vector2(firstButtonPoint.x + buttonWidth, firstButtonPoint.y + buttonHeight),
     new Vector2(firstButtonPoint.x + buttonWidth, firstButtonPoint.y)
   )
-
   // No — à droite du Yes
   val noButtonPoint: Vector2 = new Vector2(firstButtonPoint.x + buttonWidth + buttonMargin, firstButtonPoint.y)
   val noButton: Array[Vector2] = Array(
@@ -38,11 +32,12 @@ class AreYouSureWindow {
     new Vector2(noButtonPoint.x + buttonWidth, noButtonPoint.y + buttonHeight),
     new Vector2(noButtonPoint.x + buttonWidth, noButtonPoint.y)
   )
+  private var answer: String = ""
 
   def drawWindow(g: GdxGraphics): Unit = {
     val oldColor = g.sbGetColor()
     g.setColor(Color.BLACK)
-    g.drawFilledPolygon(new Polygon(windowCo),Color.WHITE)
+    g.drawFilledPolygon(new Polygon(windowCo), Color.WHITE)
     g.drawPolygon(new Polygon(windowCo))
     g.drawString(firstWindowPoint.x + 13, firstWindowPoint.y + windowHeight - buttonMargin, "Are you sure ?")
     g.drawPolygon(new Polygon(yesButton))
@@ -64,7 +59,7 @@ class AreYouSureWindow {
     }
   }
 
-  def getAnwser() : String = {
+  def getAnwser(): String = {
     return answer
   }
 }

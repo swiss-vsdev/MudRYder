@@ -1,12 +1,12 @@
 import java.io.File
 import javax.sound.sampled.AudioSystem
 
-class MusicPlayer () {
+class MusicPlayer() {
   private val clip = AudioSystem.getClip()
-  private var lastmode : String = ""
+  private var lastmode: String = ""
 
-  def play(currentMode : String) : Unit = {
-    if(currentMode != lastmode){
+  def play(currentMode: String): Unit = {
+    if (currentMode != lastmode) {
       lastmode = currentMode
       currentMode match {
         case "play" => {

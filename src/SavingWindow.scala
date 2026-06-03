@@ -16,10 +16,10 @@ class SavingWindow {
     new Vector2(firstWindowPoint.x + windowWidth, firstWindowPoint.y)
   )
 
-  def drawWindow(g: GdxGraphics,fn:String): Unit = {
+  def drawWindow(g: GdxGraphics, fn: String): Unit = {
     val oldColor = g.sbGetColor()
     g.setColor(Color.BLACK)
-    g.drawFilledPolygon(new Polygon(windowCo),Color.WHITE)
+    g.drawFilledPolygon(new Polygon(windowCo), Color.WHITE)
     g.drawPolygon(new Polygon(windowCo))
     g.drawString(firstWindowPoint.x + 33, firstWindowPoint.y + windowHeight - 10, "Saving File...")
     g.drawString(firstWindowPoint.x + 10, firstWindowPoint.y + windowHeight - 33, fn)

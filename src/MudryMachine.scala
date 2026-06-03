@@ -10,13 +10,13 @@ class MudryMachine(name: String, position: Vector2, radius: Float, density: Floa
   extends PhysicsCircle(name, position, radius, density, restitution, friction) with DrawableObject {
 
   var firstRun = true
-  var posX : Float = 960
-  var posY : Float = 900
-  var angle : Float = 0
-  var img : BitmapImage = _
-  var rider : BitmapImage = _
-  var imgDown : BitmapImage = _
-  var selectedImage : BitmapImage = _
+  var posX: Float = 960
+  var posY: Float = 900
+  var angle: Float = 0
+  var img: BitmapImage = _
+  var rider: BitmapImage = _
+  var imgDown: BitmapImage = _
+  var selectedImage: BitmapImage = _
   private var lastCollision = 0.5f
 
   def setPos(x: Int, y: Int): Unit = {
@@ -37,22 +37,10 @@ class MudryMachine(name: String, position: Vector2, radius: Float, density: Floa
     this.setBodyAwake(false)
   }
 
-  def loadImages() : Unit = {
-    if(firstRun){
-      if(img == null) {
-        rider = new BitmapImage("./icons/no-sled-mud.png")
-        img = new BitmapImage("./icons/sledge.png")
-        imgDown = new BitmapImage("./icons/sledge.png")
-        selectedImage = img
-      }
-      firstRun = false
-    }
-  }
-
-  def draw(g:GdxGraphics) : Unit = {
+  def draw(g: GdxGraphics): Unit = {
     loadImages()
 
-    if (math.abs(this.angle) > 30){
+    if (math.abs(this.angle) > 30) {
       selectedImage = imgDown
     } else {
       selectedImage = img
@@ -61,6 +49,18 @@ class MudryMachine(name: String, position: Vector2, radius: Float, density: Floa
     g.drawTransformedPicture(posX, posY, this.angle, 0.1f, selectedImage)
     g.drawTransformedPicture(posX, posY, this.angle / 2, 0.1f, rider)
 
+  }
+
+  def loadImages(): Unit = {
+    if (firstRun) {
+      if (img == null) {
+        rider = new BitmapImage("./icons/no-sled-mud.png")
+        img = new BitmapImage("./icons/sledge.png")
+        imgDown = new BitmapImage("./icons/sledge.png")
+        selectedImage = img
+      }
+      firstRun = false
+    }
   }
 
   def update(): Unit = {
@@ -73,7 +73,7 @@ class MudryMachine(name: String, position: Vector2, radius: Float, density: Floa
     //this.angle = this.angle + 1 //prout <----- (commentaire relique de St-Mui)
     angle = (other.getBodyAngle * 180 / math.Pi).toFloat
 
-    if (angle < -90 && other.getBodyAngle.toInt != 3){
+    if (angle < -90 && other.getBodyAngle.toInt != 3) {
       angle += 180
     }
 
