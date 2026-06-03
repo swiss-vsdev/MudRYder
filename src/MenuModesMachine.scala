@@ -4,7 +4,7 @@ import com.badlogic.gdx.graphics.Color
 
 import scala.collection.mutable.ArrayBuffer
 
-class DrawingModesMachine {
+class MenuModesMachine {
   val modes: ArrayBuffer[MenuModes] = ArrayBuffer.empty
   val icons: ArrayBuffer[BitmapImage] = ArrayBuffer.empty
   private var cm: String = "lines"

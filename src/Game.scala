@@ -9,7 +9,7 @@ import java.util.Calendar
 
 class Game extends DesktopApplication(1920, 1080) {
   val lineMachine = new LineDrawMachine
-  val modesMachine = new DrawingModesMachine
+  val modesMachine = new MenuModesMachine
   val freeMachine = new FreeDrawMachine
   val uSure = new AreYouSureWindow
   val saveWin = new SavingWindow
