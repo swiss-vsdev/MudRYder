@@ -94,24 +94,16 @@ class FreeDrawMachine {
 
   def clean(x: Int, y: Int) : Unit = {
     ArrayEmptyFix()
+    val cursorLoc = new Vector2(x,y)
     val toRemove : ArrayBuffer[Line] = ArrayBuffer.empty
-    val pixelSquare : ArrayBuffer[Vector2] = ArrayBuffer.empty
-    val tolerence : Int = 3
-
-    for(i <- 0 to tolerence){
-      for(j <- 0 to tolerence){
-        pixelSquare.addOne(new Vector2((x-(tolerence/2))+i,(y-(tolerence/2))+j))
-      }
-    }
 
     for(free <- FreeArray){
       for(segment <- free){
-        for(coordinate <- pixelSquare){
-          if (calc.isPointInSegment(segment,coordinate)){
-            if(!toRemove.contains(segment)) toRemove.addOne(segment)
+          if (calc.isPointInSegment(segment,cursorLoc)){
+            if(!toRemove.contains(segment))
+              toRemove.addOne(segment)
           }
         }
-      }
     }
     for(free <- FreeArray){
       for (segment <- toRemove){

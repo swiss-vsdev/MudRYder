@@ -80,22 +80,14 @@ class LineDrawMachine {
 
   def clean(x: Int, y: Int) : Unit = {
     ArrayEmptyFix()
+    val cursorLoc = new Vector2(x,y)
     val toRemove : ArrayBuffer[Line] = ArrayBuffer.empty
-    val pixelSquare : ArrayBuffer[Vector2] = ArrayBuffer.empty
-    val tolerence : Int = 3
-
-    for(i <- 0 to tolerence){
-      for(j <- 0 to tolerence){
-        pixelSquare.addOne(new Vector2((x-(tolerence/2))+i,(y-(tolerence/2))+j))
-      }
-    }
 
     for(line <- LineArray){
-      for(coordinate <- pixelSquare){
-        if (calc.isPointInLine(line,coordinate)){
-          if(!toRemove.contains(line))toRemove.addOne(line)
+        if (calc.isPointInLine(line,cursorLoc)){
+          if(!toRemove.contains(line))
+            toRemove.addOne(line)
         }
-      }
     }
     for (line <- toRemove){
       LineArray -= line

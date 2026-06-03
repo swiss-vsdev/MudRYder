@@ -1,9 +1,16 @@
 import com.badlogic.gdx.math.Vector2
 
 class Calculator {
+  val tolerance = 8
+
   def isPointInBoundaries(sgmt: Line, point: Vector2): Boolean = {
-    if ((math.min(sgmt.p1x, sgmt.p2x)) <= point.x && point.x <= (math.max(sgmt.p1x, sgmt.p2x))) {
-      if ((math.min(sgmt.p1y, sgmt.p2y)) <= point.y && point.y <= (math.max(sgmt.p1y, sgmt.p2y))) {
+    val minX = math.min(sgmt.p1x, sgmt.p2x) - tolerance
+    val maxX = math.max(sgmt.p1x, sgmt.p2x) + tolerance
+    val minY = math.min(sgmt.p1y, sgmt.p2y) - tolerance
+    val maxY = math.max(sgmt.p1y, sgmt.p2y) + tolerance
+
+    if (minX <= point.x && point.x <= maxX) {
+      if (minY <= point.y && point.y <= maxY) {
         return true
       }
     }
@@ -20,7 +27,7 @@ class Calculator {
   }
 
   def isPointInSegment(sgmt: Line, point: Vector2): Boolean = {
-    if (distanceToSegment(sgmt, point) <= 5) {
+    if (distanceToSegment(sgmt, point) <= tolerance) {
       if (isPointInBoundaries(sgmt, point)) {
         return true
       }
