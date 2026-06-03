@@ -63,12 +63,6 @@ class MudryMachine(name: String, position: Vector2, radius: Float, density: Floa
     g.drawTransformedPicture(posX, posY, this.angle, 0.1f, selectedImage)
     g.drawTransformedPicture(posX, posY, this.angle / 2, 0.1f, rider)
 
-    /*if (this.getBodyAngularVelocity < 0 && this.getBodyLinearVelocity.x > 0.1
-      && this.getBodyLinearVelocity.x < 4.5){
-      g.drawTransformedPicture(posX, posY, this.angle, 0.1f, this.getImgDown)
-    } else {
-      g.drawTransformedPicture(posX, posY, this.angle, 0.13f, this.getImg)
-    }*/
   }
 
   def update(): Unit = {
@@ -86,7 +80,6 @@ class MudryMachine(name: String, position: Vector2, radius: Float, density: Floa
     if(other.getBodyAngle.toInt == 3 || other.getBodyAngle.toInt == -3){
       angle -= 180
     }
-    //println(s"$name angle ${this.angle} and other angle = ${other.getBodyAngle}")
 
     lastCollision = 1.0f
   }

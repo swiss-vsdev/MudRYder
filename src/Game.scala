@@ -4,7 +4,6 @@ import ch.hevs.gdx2d.lib.{GdxGraphics, ScreenManager}
 import com.badlogic.gdx.Input
 import com.badlogic.gdx.graphics.{Color, OrthographicCamera}
 import com.badlogic.gdx.math.Vector2
-
 import java.util.Calendar
 
 class Game extends DesktopApplication(1920, 1080) {
@@ -124,7 +123,6 @@ class Game extends DesktopApplication(1920, 1080) {
     currentX = x
     currentY = y
 
-    //var menuObjects : Array[Array[Int]] = Array(Array(20,40))
     lastMouseClick = button //On enregistre si click droit ou gache pour prevent le drag sur clic droit
 
     super.onClick(x, y, button)
@@ -132,7 +130,6 @@ class Game extends DesktopApplication(1920, 1080) {
     if (button == Input.Buttons.LEFT) {
       onMenuClick = modesMachine.onMenuClick(x + stableXOfset, y - stableYOfset)
       currentMode = modesMachine.currentMode()
-      //println("current mode = " + currentMode)
 
       //Maintenant que le monde bouge il faut calculer différement l'emplacement de la souris
       // x et y du clic sont relatif à la fenêtre et non au monde, le pixel haut gauche sera toujours à (0,0)
@@ -234,7 +231,6 @@ class Game extends DesktopApplication(1920, 1080) {
         }
       }
 
-      //println("Left button clicked")
     } else {
       RDragX = x
       RDragY = y
@@ -244,14 +240,12 @@ class Game extends DesktopApplication(1920, 1080) {
         camX = playerMachine.posX.toInt
         camY = playerMachine.posY.toInt
       }
-      //println("Right button clicked")
     }
 
 
   }
 
   override def onDrag(x: Int, y: Int): Unit = {
-    //println("I'm draaaged")
     currentX = x
     currentY = y
     val physicMode: String = modesMachine.getDrawMode()
@@ -267,12 +261,10 @@ class Game extends DesktopApplication(1920, 1080) {
         case "eraser" => {
           freeMachine.clean(inWorldClicX, inWorldClicY)
           lineMachine.clean(inWorldClicX, inWorldClicY)
-          //println("Draaaaaag")
         }
         case _ => {}
       }
     } else if (lastMouseClick == Input.Buttons.RIGHT && currentMode != "load") { // si drag sur clic droit
-      //println("I'm right draaaged")
       camX = camX - (x - RDragX)
       camY = camY - (y - RDragY)
       RDragX = x

@@ -1,5 +1,4 @@
 import ch.hevs.gdx2d.components.bitmaps.BitmapImage
-import ch.hevs.gdx2d.components.physics.primitives.PhysicsCircle
 import ch.hevs.gdx2d.components.screen_management.RenderingScreen
 import ch.hevs.gdx2d.lib.GdxGraphics
 import ch.hevs.gdx2d.lib.physics.PhysicsWorld
@@ -28,9 +27,6 @@ class SplashScreenWindow extends RenderingScreen {
     imgBitmap = new BitmapImage("icons/mudry2.png")
     mM = new MudryMachine("rider2", new Vector2(960, 900), 10, 1f, 0.65f, 0.6f)
     mM.loadImages()
-    /*mM.saintMudry.foreach { m =>
-      m.body = new BumpyBall(m, "rider", new Vector2(m.startX, m.startY), m.radius, 1f, 0.65f, 0.6f)
-    }*/
     mM.setPos(100,1200)
   }
 
@@ -45,15 +41,7 @@ class SplashScreenWindow extends RenderingScreen {
     mM.update()
     PhysicsWorld.updatePhysics()
 
-    //mM.drawMudry(g)
-
-    //mM.saintMudry match {
-      //case Some(sm) => {
-        //println(mM.posX + " " + mM.posY)
-        g.drawTransformedPicture(mM.posX, mM.posY, 0, 0.7f, imgBitmap)
-      //}
-      //case None => {}
-    //}
+    g.drawTransformedPicture(mM.posX, mM.posY, 0, 0.7f, imgBitmap)
     g.drawSchoolLogo()
   }
 

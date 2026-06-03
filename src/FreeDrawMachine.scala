@@ -2,7 +2,6 @@ import ch.hevs.gdx2d.lib.GdxGraphics
 import com.badlogic.gdx.graphics.Color
 import com.badlogic.gdx.math.Vector2
 import typesLibrary.Free
-
 import java.io.{FileOutputStream, PrintWriter}
 import scala.collection.mutable.ArrayBuffer
 
@@ -110,7 +109,6 @@ class FreeDrawMachine {
         for(coordinate <- pixelSquare){
           if (calc.isPointInSegment(segment,coordinate)){
             if(!toRemove.contains(segment)) toRemove.addOne(segment)
-            //println("Clean mee")
           }
         }
       }

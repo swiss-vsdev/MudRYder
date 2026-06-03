@@ -1,10 +1,7 @@
 import ch.hevs.gdx2d.lib.GdxGraphics
 import com.badlogic.gdx.graphics.Color
 import com.badlogic.gdx.math.Vector2
-
-import java.awt.{Desktop, FileDialog}
-import java.io.{File, FileOutputStream, PrintWriter}
-import javax.swing.{JFileChooser, JFrame}
+import java.io.{FileOutputStream, PrintWriter}
 import scala.collection.mutable.ArrayBuffer
 import scala.io.Source
 
@@ -36,8 +33,6 @@ class LineDrawMachine {
         line.color = Color.BLACK
       }
       line.draw(g)
-      //g.setColor(Color.BLACK)
-      //g.drawLine(line.p1x,line.p1y,line.p2x,line.p2y)
     }
   }
 
@@ -94,13 +89,11 @@ class LineDrawMachine {
         pixelSquare.addOne(new Vector2((x-(tolerence/2))+i,(y-(tolerence/2))+j))
       }
     }
-    //println("Clean Time " + LineArray.length)
 
     for(line <- LineArray){
       for(coordinate <- pixelSquare){
         if (calc.isPointInLine(line,coordinate)){
           if(!toRemove.contains(line))toRemove.addOne(line)
-          //println("Clean mee")
         }
       }
     }
@@ -111,7 +104,6 @@ class LineDrawMachine {
       endPoint.set(0f, 0f)
       startPoint.set(0f, 0f)
       ArrayEmptyFix()
-
   }
 
   def mop() : Unit = {
@@ -146,7 +138,6 @@ class LineDrawMachine {
       }
     }
   }
-
 }
 
 

@@ -51,7 +51,6 @@ class Calculator {
     val linePointVector = getVectorLinePoint(sgmt,point)
     val vectorProd = vectorProduct2D(sgmtVector,linePointVector)
 
-    //println(vectorProd)
     if (vectorProd >= -200 && vectorProd <= 200){
       true
     } else {
