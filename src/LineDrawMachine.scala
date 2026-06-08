@@ -29,8 +29,8 @@ class LineDrawMachine {
       }
       if(line.p1x >= (camX-2000) && line.p1x <= (camX+2000) ||
         line.p2x >= (camX-2000) && line.p2x <= (camX+2000) ||
-        line.p1y >= (camX-1500) && line.p1y <= (camX+1500) ||
-        line.p2y >= (camX-1500) && line.p2y <= (camX+1500) ||
+        line.p1y >= (camY-1500) && line.p1y <= (camY+1500) ||
+        line.p2y >= (camY-1500) && line.p2y <= (camY+1500) ||
         line.p1x == -10000 && line.p2y == -10000){
         line.draw(g)
       }
@@ -137,6 +137,7 @@ class LineDrawMachine {
         LineArray.addOne(DecoLine(a(1).toFloat, a(2).toFloat, a(3).toFloat, a(4).toFloat))
       }
     }
+    src.close()
   }
 }
 

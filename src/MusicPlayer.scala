@@ -9,8 +9,10 @@ class MusicPlayer() {
   def play(currentMode: String, musicMode: String): Unit = {
     if (musicMode == "musicmute" && clip.isActive) {
       lastMusicmode = "musicmute"
-      clip.stop()
-      clip.close()
+      if(clip.isOpen){
+        clip.stop()
+        clip.close()
+      }
     }
 
     if (currentMode != lastmode && musicMode != "musicmute" ||
@@ -20,8 +22,10 @@ class MusicPlayer() {
         case "play" => {
           if (!clip.isActive || lastmode != "play") {
             if (lastmode != currentMode) {
-              clip.stop()
-              clip.close()
+              if(clip.isOpen){
+                clip.stop()
+                clip.close()
+              }
               lastmode = currentMode
             }
 
@@ -33,14 +37,18 @@ class MusicPlayer() {
         }
         case ("free" | "lines" | "eraser" | "mop") => {
           if (lastmode != "free" && lastmode != "lines" && lastmode != "mop" && lastmode != "eraser") {
-            clip.stop()
-            clip.close()
+            if(clip.isOpen){
+              clip.stop()
+              clip.close()
+            }
           }
           if (!clip.isActive &&
             (lastmode != "free" || lastmode != "lines" || lastmode != "mop" || lastmode != "eraser")) {
             if (lastmode != currentMode) {
-              clip.stop()
-              clip.close()
+              if(clip.isOpen){
+                clip.stop()
+                clip.close()
+              }
               lastmode = currentMode
             }
 
@@ -53,8 +61,10 @@ class MusicPlayer() {
         }
         case _ => {
           lastmode = currentMode
-          clip.stop()
-          clip.close()
+          if(clip.isOpen){
+            clip.stop()
+            clip.close()
+          }
         }
       }
     }

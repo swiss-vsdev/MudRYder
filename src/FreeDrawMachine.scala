@@ -14,7 +14,6 @@ class FreeDrawMachine {
   var lastEndPoint: Vector2 = new Vector2()
   var isMousePressed: Boolean = false
   var FreeCnt: Int = -1
-  var SegCnt: Int = 0
   var firstRun: Boolean = true
   var cursorLoc = new Vector2()
 
@@ -32,8 +31,8 @@ class FreeDrawMachine {
         }
         if(segment.p1x >= (camX-2000) && segment.p1x <= (camX+2000) ||
           segment.p2x >= (camX-2000) && segment.p2x <= (camX+2000) ||
-          segment.p1y >= (camX-1500) && segment.p1y <= (camX+1500) ||
-          segment.p2y >= (camX-1500) && segment.p2y <= (camX+1500) ||
+          segment.p1y >= (camY-1500) && segment.p1y <= (camY+1500) ||
+          segment.p2y >= (camY-1500) && segment.p2y <= (camY+1500) ||
           segment.p1x == -10000 && segment.p2y == -10000){
           segment.draw(g)
         }
@@ -60,27 +59,20 @@ class FreeDrawMachine {
 
   def onDrag(x: Int, y: Int, dm: String): Unit = {
     endPoint.set(x, y)
-    SegCnt += 1
-    if (SegCnt > 0) {
       dm match {
         case "physic" => {
           val seg1 = PhysicLine(startPoint.x, startPoint.y, endPoint.x, endPoint.y)
           lastEndPoint.set(endPoint.x, endPoint.y)
           FreeArray(FreeCnt).addOne(seg1)
-          SegCnt = 0
           startPoint.set(endPoint.x, endPoint.y)
         }
         case "decoration" => {
           val seg1 = DecoLine(startPoint.x, startPoint.y, endPoint.x, endPoint.y)
           lastEndPoint.set(endPoint.x, endPoint.y)
           FreeArray(FreeCnt).addOne(seg1)
-          SegCnt = 0
           startPoint.set(endPoint.x, endPoint.y)
         }
       }
-
-    }
-
   }
 
   def onRelease(mode: String, x: Int, y: Int): Unit = {

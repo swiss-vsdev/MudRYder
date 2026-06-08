@@ -36,7 +36,8 @@ class Calculator {
     vDir.set((sgmt.p2x - sgmt.p1x), (sgmt.p2y - sgmt.p1y))
     vXP.set((point.x - sgmt.p1x), (point.y - sgmt.p1y))
     val vectorProduct = vDir.x * vXP.y - vDir.y * vXP.x
-    val vDirNorm = math.sqrt(vDir.x * vDir.x + vDir.y * vDir.y)
+    var vDirNorm = math.sqrt(vDir.x * vDir.x + vDir.y * vDir.y)
+    if (vDirNorm == 0) vDirNorm = Double.MinPositiveValue
     val distance = (math.abs(vectorProduct) / vDirNorm)
     distance
   }
