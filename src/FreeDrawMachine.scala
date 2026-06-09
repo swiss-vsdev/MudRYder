@@ -6,6 +6,10 @@ import typesLibrary.Free
 import java.io.{FileOutputStream, PrintWriter}
 import scala.collection.mutable.ArrayBuffer
 
+// THIS CLASS IS RESPONSIBLE FOR DRAWING THE FREE DRAWINGS, EITHER DECO OR PHYSICS
+// IT ALSO CAN REMOVE LINES (MOP, ERASER)
+// FINALLY IT SAVES THE FREELINES IN THE SAVE
+
 class FreeDrawMachine {
   val calc: Calculator = new Calculator
   var FreeArray: ArrayBuffer[Free] = ArrayBuffer.empty
@@ -19,6 +23,7 @@ class FreeDrawMachine {
 
   ArrayEmptyFix()
 
+  // IF THE LINE IS CLOSE TO THE VISIBLE AREA OF THE CAMERA, IT DRAWS IT
   def drawFreeLines(g: GdxGraphics, cm: String, dm: String, camX : Int, camY : Int): Unit = {
     if (dm != "decoration") g.setColor(Color.BLACK) else g.setColor(Color.BLUE)
     if (endPoint.x != 0.0f && endPoint.y != 0.0f) g.drawLine(startPoint.x, startPoint.y, endPoint.x, endPoint.y)

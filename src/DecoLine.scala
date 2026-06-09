@@ -1,6 +1,8 @@
 import ch.hevs.gdx2d.lib.GdxGraphics
 import com.badlogic.gdx.graphics.Color
 
+// THIS CASE CLASS IS STORING ALL THE DATA ABOUT A SAID DECOLINE
+
 case class DecoLine(p1x: Float, p1y: Float, p2x: Float, p2y: Float)
   extends Line {
   var color: Color = Color.BLACK;

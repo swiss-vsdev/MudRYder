@@ -6,6 +6,12 @@ import java.io.{FileOutputStream, PrintWriter}
 import scala.collection.mutable.ArrayBuffer
 import scala.io.Source
 
+// THIS CLASS IS RESPONSIBLE FOR DRAWING THE LINES, EITHER DECO OR PHYSICS
+// IT ALSO CAN REMOVE LINES (MOP, ERASER)
+// IT SAVES THE LINES IN THE SAVE
+// IT LOADS ANY LINES FROM A SAVE
+
+
 class LineDrawMachine {
   val calc: Calculator = new Calculator
   var LineArray: ArrayBuffer[Line] = ArrayBuffer.empty
@@ -18,6 +24,7 @@ class LineDrawMachine {
 
   ArrayEmptyFix()
 
+  // IF THE LINE IS CLOSE TO THE VISIBLE AREA OF THE CAMERA, IT DRAWS IT
   def drawLines(g: GdxGraphics, cm: String, dm: String, camX : Int, camY : Int): Unit = {
     if (dm != "decoration") g.setColor(Color.BLACK) else g.setColor(Color.BLUE)
     if (endPoint.x != 0.0f && endPoint.y != 0.0f) g.drawLine(startPoint.x, startPoint.y, endPoint.x, endPoint.y)
