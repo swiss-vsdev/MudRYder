@@ -20,7 +20,7 @@ class LoadWindow extends RenderingScreen {
   override def onInit(): Unit = {
     files = Gdx.files.local("saves").list()
     files.foreach { f =>
-      if(!f.name().contains(".DS_Store") && !f.name().contains(".ini"))
+      if(f.name().contains(".csv"))
       filesList.addOne(f.name())
     }
   }
