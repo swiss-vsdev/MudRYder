@@ -8,41 +8,38 @@ import com.badlogic.gdx.math.Vector2
 import java.util.Calendar
 
 class Game extends DesktopApplication(1920, 1080) {
-  val lineMachine = new LineDrawMachine
-  val modesMachine = new MenuModesMachine
-  val freeMachine = new FreeDrawMachine
-  val uSure = new AreYouSureWindow
-  val saveWin = new SavingWindow
-  val walkman = new MusicPlayer
+  private val lineMachine = new LineDrawMachine
+  private val modesMachine = new MenuModesMachine
+  private val freeMachine = new FreeDrawMachine
+  private val uSure = new AreYouSureWindow
+  private val saveWin = new SavingWindow
+  private val walkman = new MusicPlayer
   val s = new ScreenManager
-  val s1 = new ScreenManager
-  val startTime = System.currentTimeMillis()
-  val l = PhysicLine(0, 100, 1920, 100)
-  val l2 = PhysicLine(0, 1000, 1920, 100)
-  var playerMachine: MudryMachine = _
-  var onMenuClick: Boolean = false
-  var iAmClicked: Boolean = false
+  private val s1 = new ScreenManager
+  private val startTime = System.currentTimeMillis()
+  private val l = PhysicLine(0, 100, 1920, 100)
+  private val l2 = PhysicLine(0, 1000, 1920, 100)
+  private var playerMachine: MudryMachine = _
+  private var onMenuClick: Boolean = false
+  private var iAmClicked: Boolean = false
   var currentMode = ""
   var musicMode = "music"
-  var lastMouseClick = 1
-  var cam = new OrthographicCamera
+  private var lastMouseClick = 1
+  private var cam = new OrthographicCamera
   var camX: Int = 1920 / 2
   var camY: Int = 540
-  var RDragX: Int = 0
-  var RDragY: Int = 0
-  var lastMode = ""
-  var currentX: Int = 0
-  var currentY: Int = 0
-  var stableXOfset: Int = 0
-  var stableYOfset: Int = 0
-  var wasMopping: Boolean = false
-  var drawMode: String = "physic"
-  var firstRun = true
-  var isSaving = false
-  var savefile = ""
-  var saveTime: Long = _
-  var drawZoneX : Int = 0
-  var drawZoneY : Int = 0
+  private var RDragX: Int = 0
+  private var RDragY: Int = 0
+  private var lastMode = ""
+  private var currentX: Int = 0
+  private var currentY: Int = 0
+  private var wasMopping: Boolean = false
+  private var firstRun = true
+  private var isSaving = false
+  private var savefile = ""
+  private var saveTime: Long = _
+  private var drawZoneX: Int = 0
+  private var drawZoneY: Int = 0
 
   override def onInit(): Unit = {
     playerMachine = new MudryMachine("rider", new Vector2(960, 900), 4f, 0f, 0f, 0.00001f)
@@ -55,7 +52,7 @@ class Game extends DesktopApplication(1920, 1080) {
   }
 
   override def onGraphicRender(g: GdxGraphics): Unit = {
-    walkman.play(currentMode,musicMode)
+    walkman.play(currentMode, musicMode)
     if (System.currentTimeMillis() - startTime < 3000) {
       s.render(g)
     } else {
@@ -93,11 +90,11 @@ class Game extends DesktopApplication(1920, 1080) {
           playerMachine.angle = 0
         }
 
-        if(currentMode != "play") drawZoneX = camX else drawZoneX = playerMachine.posX.toInt
-        if(currentMode != "play") drawZoneY = camY else drawZoneY = playerMachine.posY.toInt
+        if (currentMode != "play") drawZoneX = camX else drawZoneX = playerMachine.posX.toInt
+        if (currentMode != "play") drawZoneY = camY else drawZoneY = playerMachine.posY.toInt
 
-        lineMachine.drawLines(g, modesMachine.currentMode(), modesMachine.getDrawMode(),drawZoneX,drawZoneY)
-        freeMachine.drawFreeLines(g, modesMachine.currentMode(), modesMachine.getDrawMode(),drawZoneX,drawZoneY)
+        lineMachine.drawLines(g, modesMachine.currentMode(), modesMachine.getDrawMode(), drawZoneX, drawZoneY)
+        freeMachine.drawFreeLines(g, modesMachine.currentMode(), modesMachine.getDrawMode(), drawZoneX, drawZoneY)
 
         lastMode = currentMode
         currentMode = modesMachine.currentMode()
@@ -120,8 +117,8 @@ class Game extends DesktopApplication(1920, 1080) {
           g.drawString(5, 50, s"X : ${playerMachine.posX.toInt}")
           g.drawString(5, 35, s"Y : ${playerMachine.posY.toInt}")
         } else {
-          g.drawString(5, 50, s"X : ${camX}")
-          g.drawString(5, 35, s"Y : ${camY}")
+          g.drawString(5, 50, s"X : $camX")
+          g.drawString(5, 35, s"Y : $camY")
         }
         g.setColor(oldColor)
         g.drawFPS(Color.BLACK)
@@ -139,7 +136,7 @@ class Game extends DesktopApplication(1920, 1080) {
     super.onClick(x, y, button)
 
     if (button == Input.Buttons.LEFT) {
-      onMenuClick = modesMachine.onMenuClick(x + stableXOfset, y - stableYOfset)
+      onMenuClick = modesMachine.onMenuClick(x, y)
       currentMode = modesMachine.currentMode()
 
       //Maintenant que le monde bouge il faut calculer différement l'emplacement de la souris
@@ -166,7 +163,7 @@ class Game extends DesktopApplication(1920, 1080) {
           }
         }
         case "play" => {
-          if(lastMode != "play"){
+          if (lastMode != "play") {
             playerMachine.setPos(960, 900)
             playerMachine.awake()
           }
@@ -180,14 +177,14 @@ class Game extends DesktopApplication(1920, 1080) {
         case "mop" => {
           uSure.onClick(x, y)
           wasMopping = true
-          if (uSure.getAnwser() == "yes") {
+          if (uSure.getAnswer == "yes") {
             freeMachine.mop()
             lineMachine.mop()
             modesMachine.modeSwitcher("lines")
             lineMachine.onClick("LEFT", -100000, -100000)
             lineMachine.endPoint.set(0f, 0f)
             lineMachine.startPoint.set(0f, 0f)
-          } else if (uSure.getAnwser() == "no") {
+          } else if (uSure.getAnswer == "no") {
             modesMachine.modeSwitcher("lines")
             lineMachine.onClick("LEFT", -100000, -100000)
             lineMachine.endPoint.set(0f, 0f)
@@ -219,7 +216,7 @@ class Game extends DesktopApplication(1920, 1080) {
           s1.getActiveScreen match {
             case lw: LoadWindow => {
               lw.onClick(x, y)
-              //println(lw.getAnwser())
+              //println(lw.getAnswer())
               if (lw.getAnwser() == "load") {
                 lineMachine.mop()
                 freeMachine.mop()

@@ -14,9 +14,9 @@ class MudryMachine(name: String, position: Vector2, radius: Float, density: Floa
   var posY: Float = 900
   var angle: Float = 0
   var img: BitmapImage = _
-  var rider: BitmapImage = _
-  var imgDown: BitmapImage = _
-  var selectedImage: BitmapImage = _
+  private var rider: BitmapImage = _
+  private var imgDown: BitmapImage = _
+  private var selectedImage: BitmapImage = _
   private var lastCollision = 0.5f
 
   def setPos(x: Int, y: Int): Unit = {

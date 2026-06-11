@@ -14,7 +14,7 @@ import scala.io.Source
 
 class LineDrawMachine {
   val calc: Calculator = new Calculator
-  var LineArray: ArrayBuffer[Line] = ArrayBuffer.empty
+  private val LineArray: ArrayBuffer[Line] = ArrayBuffer.empty
   var startPoint: Vector2 = new Vector2()
   var endPoint: Vector2 = new Vector2()
   var lastEndPoint: Vector2 = new Vector2()
@@ -25,7 +25,7 @@ class LineDrawMachine {
   ArrayEmptyFix()
 
   // IF THE LINE IS CLOSE TO THE VISIBLE AREA OF THE CAMERA, IT DRAWS IT
-  def drawLines(g: GdxGraphics, cm: String, dm: String, camX : Int, camY : Int): Unit = {
+  def drawLines(g: GdxGraphics, cm: String, dm: String, camX: Int, camY: Int): Unit = {
     if (dm != "decoration") g.setColor(Color.BLACK) else g.setColor(Color.BLUE)
     if (endPoint.x != 0.0f && endPoint.y != 0.0f) g.drawLine(startPoint.x, startPoint.y, endPoint.x, endPoint.y)
     for (line <- LineArray) {
@@ -34,11 +34,11 @@ class LineDrawMachine {
       } else {
         line.color = Color.BLACK
       }
-      if(line.p1x >= (camX-2000) && line.p1x <= (camX+2000) ||
-        line.p2x >= (camX-2000) && line.p2x <= (camX+2000) ||
-        line.p1y >= (camY-1500) && line.p1y <= (camY+1500) ||
-        line.p2y >= (camY-1500) && line.p2y <= (camY+1500) ||
-        line.p1x == -10000 && line.p2y == -10000){
+      if (line.p1x >= (camX - 2000) && line.p1x <= (camX + 2000) ||
+        line.p2x >= (camX - 2000) && line.p2x <= (camX + 2000) ||
+        line.p1y >= (camY - 1500) && line.p1y <= (camY + 1500) ||
+        line.p2y >= (camY - 1500) && line.p2y <= (camY + 1500) ||
+        line.p1x == -10000 && line.p2y == -10000) {
         line.draw(g)
       }
     }
@@ -46,9 +46,7 @@ class LineDrawMachine {
 
   def onClick(mode: String, x: Int, y: Int): Unit = {
     mode match {
-      case "RIGHT" => {
-
-      }
+      case "RIGHT" => {}
       case "LEFT" => {
         if (lastEndPoint.x == endPoint.x && lastEndPoint.y == endPoint.y) endPoint.set(x, y)
         startPoint.set(x, y)
@@ -63,9 +61,7 @@ class LineDrawMachine {
 
   def onRelease(mode: String, x: Int, y: Int, dm: String): Unit = {
     mode match {
-      case "RIGHT" => {
-
-      }
+      case "RIGHT" => {}
       case "LEFT" => {
         isMousePressed = false
         endPoint.set(x, y)

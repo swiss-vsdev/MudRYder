@@ -12,19 +12,19 @@ import scala.collection.mutable.ArrayBuffer
 
 class FreeDrawMachine {
   val calc: Calculator = new Calculator
-  var FreeArray: ArrayBuffer[Free] = ArrayBuffer.empty
+  private val FreeArray: ArrayBuffer[Free] = ArrayBuffer.empty
   var startPoint: Vector2 = new Vector2()
   var endPoint: Vector2 = new Vector2()
   var lastEndPoint: Vector2 = new Vector2()
   var isMousePressed: Boolean = false
-  var FreeCnt: Int = -1
+  private var FreeCnt: Int = -1
   var firstRun: Boolean = true
   var cursorLoc = new Vector2()
 
   ArrayEmptyFix()
 
   // IF THE LINE IS CLOSE TO THE VISIBLE AREA OF THE CAMERA, IT DRAWS IT
-  def drawFreeLines(g: GdxGraphics, cm: String, dm: String, camX : Int, camY : Int): Unit = {
+  def drawFreeLines(g: GdxGraphics, cm: String, dm: String, camX: Int, camY: Int): Unit = {
     if (dm != "decoration") g.setColor(Color.BLACK) else g.setColor(Color.BLUE)
     if (endPoint.x != 0.0f && endPoint.y != 0.0f) g.drawLine(startPoint.x, startPoint.y, endPoint.x, endPoint.y)
     for (free <- FreeArray) {
@@ -34,11 +34,11 @@ class FreeDrawMachine {
         } else {
           segment.color = Color.BLACK
         }
-        if(segment.p1x >= (camX-2000) && segment.p1x <= (camX+2000) ||
-          segment.p2x >= (camX-2000) && segment.p2x <= (camX+2000) ||
-          segment.p1y >= (camY-1500) && segment.p1y <= (camY+1500) ||
-          segment.p2y >= (camY-1500) && segment.p2y <= (camY+1500) ||
-          segment.p1x == -10000 && segment.p2y == -10000){
+        if (segment.p1x >= (camX - 2000) && segment.p1x <= (camX + 2000) ||
+          segment.p2x >= (camX - 2000) && segment.p2x <= (camX + 2000) ||
+          segment.p1y >= (camY - 1500) && segment.p1y <= (camY + 1500) ||
+          segment.p2y >= (camY - 1500) && segment.p2y <= (camY + 1500) ||
+          segment.p1x == -10000 && segment.p2y == -10000) {
           segment.draw(g)
         }
 
@@ -48,9 +48,7 @@ class FreeDrawMachine {
 
   def onClick(mode: String, x: Int, y: Int): Unit = {
     mode match {
-      case "RIGHT" => {
-
-      }
+      case "RIGHT" => {}
       case "LEFT" => {
         val f1 = new Free
         FreeArray.addOne(f1)
@@ -64,31 +62,26 @@ class FreeDrawMachine {
 
   def onDrag(x: Int, y: Int, dm: String): Unit = {
     endPoint.set(x, y)
-      dm match {
-        case "physic" => {
-          val seg1 = PhysicLine(startPoint.x, startPoint.y, endPoint.x, endPoint.y)
-          lastEndPoint.set(endPoint.x, endPoint.y)
-          FreeArray(FreeCnt).addOne(seg1)
-          startPoint.set(endPoint.x, endPoint.y)
-        }
-        case "decoration" => {
-          val seg1 = DecoLine(startPoint.x, startPoint.y, endPoint.x, endPoint.y)
-          lastEndPoint.set(endPoint.x, endPoint.y)
-          FreeArray(FreeCnt).addOne(seg1)
-          startPoint.set(endPoint.x, endPoint.y)
-        }
+    dm match {
+      case "physic" => {
+        val seg1 = PhysicLine(startPoint.x, startPoint.y, endPoint.x, endPoint.y)
+        lastEndPoint.set(endPoint.x, endPoint.y)
+        FreeArray(FreeCnt).addOne(seg1)
+        startPoint.set(endPoint.x, endPoint.y)
       }
+      case "decoration" => {
+        val seg1 = DecoLine(startPoint.x, startPoint.y, endPoint.x, endPoint.y)
+        lastEndPoint.set(endPoint.x, endPoint.y)
+        FreeArray(FreeCnt).addOne(seg1)
+        startPoint.set(endPoint.x, endPoint.y)
+      }
+    }
   }
 
   def onRelease(mode: String, x: Int, y: Int): Unit = {
     mode match {
-      case "RIGHT" => {
-
-      }
-      case "LEFT" => {
-        isMousePressed = false
-
-      }
+      case "RIGHT" => {}
+      case "LEFT" => isMousePressed = false
     }
   }
 

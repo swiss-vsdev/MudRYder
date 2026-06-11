@@ -11,7 +11,7 @@ class MusicPlayer() {
   def play(currentMode: String, musicMode: String): Unit = {
     if (musicMode == "musicmute" && clip.isActive) { // Si la musique est coupée en jeu, fermer le clip
       lastMusicmode = "musicmute"
-      if(clip.isOpen){
+      if (clip.isOpen) {
         clip.stop()
         clip.close()
       }
@@ -24,7 +24,7 @@ class MusicPlayer() {
         case "play" => {
           if (!clip.isActive || lastmode != "play") { //if the mode play is selected, play the music "play.wav"
             if (lastmode != currentMode) {
-              if(clip.isOpen){
+              if (clip.isOpen) {
                 clip.stop()
                 clip.close()
               }
@@ -39,7 +39,7 @@ class MusicPlayer() {
         }
         case ("free" | "lines" | "eraser" | "mop") => { //if an edition mode is selected, play the music "edit.wav"
           if (lastmode != "free" && lastmode != "lines" && lastmode != "mop" && lastmode != "eraser") {
-            if(clip.isOpen){
+            if (clip.isOpen) {
               clip.stop()
               clip.close()
             }
@@ -47,7 +47,7 @@ class MusicPlayer() {
           if (!clip.isActive &&
             (lastmode != "free" || lastmode != "lines" || lastmode != "mop" || lastmode != "eraser")) {
             if (lastmode != currentMode) {
-              if(clip.isOpen){
+              if (clip.isOpen) {
                 clip.stop()
                 clip.close()
               }
@@ -63,7 +63,7 @@ class MusicPlayer() {
         }
         case _ => { //else stop everything
           lastmode = currentMode
-          if(clip.isOpen){
+          if (clip.isOpen) {
             clip.stop()
             clip.close()
           }

@@ -17,7 +17,7 @@ class SplashScreenWindow extends RenderingScreen {
   param.color = Color.BLACK
   private val customFont: BitmapFont =
     new FreeTypeFontGenerator(Gdx.files.local("font/Acme-Regular.ttf")).generateFont(param)
-  var mM: MudryMachine = _
+  private var mM: MudryMachine = _
   var c = 0
   private var imgBitmap: BitmapImage = _
 

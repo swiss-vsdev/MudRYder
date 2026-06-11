@@ -4,9 +4,9 @@ import com.badlogic.gdx.math.Vector2
 // THIS LOGIC IS USED FOR THE ERASER FUNCTION
 
 class Calculator {
-  val tolerance = 8 //Mouse tolerance, nbr of pixels around the mouse
-  var vDir = new Vector2() //Vecteur Directeur
-  var vXP = new Vector2() // Vecteur entre le point X et le point P (P = Mouse location)
+  private val tolerance = 8 //Mouse tolerance, nbr of pixels around the mouse
+  private val vDir = new Vector2() //Vecteur Directeur
+  private val vXP = new Vector2() // Vecteur entre le point X et le point P (P = Mouse location)
 
   //The logic is the same as a Segment, but to make it consistant, we added this fonction that equals isPointInSegment
   def isPointInLine(sgmt: Line, point: Vector2): Boolean = {
@@ -24,7 +24,7 @@ class Calculator {
   }
 
   //Returns true if the point is part of a said segment
-  def isPointInBoundaries(sgmt: Line, point: Vector2): Boolean = {
+  private def isPointInBoundaries(sgmt: Line, point: Vector2): Boolean = {
     val minX = math.min(sgmt.p1x, sgmt.p2x) - tolerance
     val maxX = math.max(sgmt.p1x, sgmt.p2x) + tolerance
     val minY = math.min(sgmt.p1y, sgmt.p2y) - tolerance
@@ -39,7 +39,7 @@ class Calculator {
   }
 
   //Returns the distance between the mouse and the vector
-  def distanceToSegment(sgmt: Line, point: Vector2): Double = {
+  private def distanceToSegment(sgmt: Line, point: Vector2): Double = {
     vDir.set((sgmt.p2x - sgmt.p1x), (sgmt.p2y - sgmt.p1y))
     vXP.set((point.x - sgmt.p1x), (point.y - sgmt.p1y))
     val vectorProduct = vDir.x * vXP.y - vDir.y * vXP.x

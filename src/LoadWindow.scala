@@ -10,18 +10,18 @@ import scala.collection.mutable.ListBuffer
 
 class LoadWindow extends RenderingScreen {
   var files: Array[FileHandle] = _
-  var filesList: ListBuffer[String] = ListBuffer.empty
+  private val filesList: ListBuffer[String] = ListBuffer.empty
 
-  var cancelButtonCo: Vector2 = new Vector2(0, 0)
-  var loadButtonCo: Vector2 = new Vector2(0, 0)
+  private var cancelButtonCo: Vector2 = new Vector2(0, 0)
+  private var loadButtonCo: Vector2 = new Vector2(0, 0)
   var answer: String = ""
-  var selectedSaveIndice: Int = -1
+  private var selectedSaveIndice: Int = -1
 
   override def onInit(): Unit = {
     files = Gdx.files.local("saves").list()
     files.foreach { f =>
-      if(f.name().contains(".csv"))
-      filesList.addOne(f.name())
+      if (f.name().contains(".csv"))
+        filesList.addOne(f.name())
     }
   }
 

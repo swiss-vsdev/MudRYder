@@ -5,8 +5,8 @@ import com.badlogic.gdx.graphics.Color
 import scala.collection.mutable.ArrayBuffer
 
 class MenuModesMachine {
-  val modes: ArrayBuffer[MenuModes] = ArrayBuffer.empty
-  val icons: ArrayBuffer[BitmapImage] = ArrayBuffer.empty
+  private val modes: ArrayBuffer[MenuModes] = ArrayBuffer.empty
+  private val icons: ArrayBuffer[BitmapImage] = ArrayBuffer.empty
   private var cm: String = "lines"
   private var dm: String = "physic"
   private var mm: String = "music"
@@ -29,7 +29,7 @@ class MenuModesMachine {
     val radius = 18
 
     for (i <- modes.indices) {
-      if(modes(i).name == "music" || modes(i).name == "musicmute"){
+      if (modes(i).name == "music" || modes(i).name == "musicmute") {
         if (getMusicMode() == modes(i).name) {
           modes(i).x = startPointW
           modes(i).y = startPointH
@@ -73,15 +73,15 @@ class MenuModesMachine {
   }
 
   def currentMode(): String = {
-    return cm
+    cm
   }
 
   def getDrawMode(): String = {
-    return dm
+    dm
   }
 
   def getMusicMode(): String = {
-    return mm
+    mm
   }
 
   def onMenuClick(x: Int, y: Int): Boolean = {
@@ -105,8 +105,8 @@ class MenuModesMachine {
       } else {
         dm = "physic"
       }
-    } else if (m == "music"){
-      if(mm == "music"){
+    } else if (m == "music") {
+      if (mm == "music") {
         mm = "musicmute"
       } else {
         mm = "music"

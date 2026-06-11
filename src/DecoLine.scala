@@ -5,9 +5,9 @@ import com.badlogic.gdx.graphics.Color
 
 case class DecoLine(p1x: Float, p1y: Float, p2x: Float, p2y: Float)
   extends Line {
-  var color: Color = Color.BLACK;
+  var color: Color = Color.BLACK
 
-  override def destroy() = {
+  override def destroy(): Unit = {
     super.destroy()
   }
 
