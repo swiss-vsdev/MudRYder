@@ -20,21 +20,21 @@ class AreYouSureWindow {
   )
 
   //Button Margins
-  val buttonMargin: Int = 10
-  val buttonHeight: Int = 20
-  val buttonWidth: Int = 50
+  private val buttonMargin: Int = 10
+  private val buttonHeight: Int = 20
+  private val buttonWidth: Int = 50
 
   //Yes Button Coordinates
-  val firstButtonPoint: Vector2 = new Vector2(firstWindowPoint.x + buttonMargin, firstWindowPoint.y + buttonMargin)
-  val yesButton: Array[Vector2] = Array(
+  private val firstButtonPoint: Vector2 = new Vector2(firstWindowPoint.x + buttonMargin, firstWindowPoint.y + buttonMargin)
+  private val yesButton: Array[Vector2] = Array(
     firstButtonPoint,
     new Vector2(firstButtonPoint.x, firstButtonPoint.y + buttonHeight),
     new Vector2(firstButtonPoint.x + buttonWidth, firstButtonPoint.y + buttonHeight),
     new Vector2(firstButtonPoint.x + buttonWidth, firstButtonPoint.y)
   )
   //No Button Coordinates
-  val noButtonPoint: Vector2 = new Vector2(firstButtonPoint.x + buttonWidth + buttonMargin, firstButtonPoint.y)
-  val noButton: Array[Vector2] = Array(
+  private val noButtonPoint: Vector2 = new Vector2(firstButtonPoint.x + buttonWidth + buttonMargin, firstButtonPoint.y)
+  private val noButton: Array[Vector2] = Array(
     noButtonPoint,
     new Vector2(noButtonPoint.x, noButtonPoint.y + buttonHeight),
     new Vector2(noButtonPoint.x + buttonWidth, noButtonPoint.y + buttonHeight),
@@ -62,12 +62,12 @@ class AreYouSureWindow {
   }
 
   def onClick(x: Int, y: Int): Unit = {
-    //If the mouse is inside of the Yes button coordinates, answer = yes
+    //If the mouse is in the Yes button coordinates, answer = yes
     if (x >= firstButtonPoint.x && x <= firstButtonPoint.x + buttonWidth &&
       y >= firstButtonPoint.y && y <= firstButtonPoint.y + buttonHeight) {
       answer = "yes"
 
-      //If the mouse is inside of the NO button coordinates, answer = no
+      //If the mouse is in the NO button coordinates, answer = no
     } else if (x >= noButtonPoint.x && x <= noButtonPoint.x + buttonWidth &&
       y >= noButtonPoint.y && y <= noButtonPoint.y + buttonHeight) {
       answer = "no" // No
@@ -76,7 +76,7 @@ class AreYouSureWindow {
     }
   }
 
-  def getAnwser(): String = {
-    return answer
+  def getAnswer: String = {
+    answer
   }
 }
