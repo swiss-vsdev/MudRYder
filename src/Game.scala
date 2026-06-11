@@ -7,6 +7,7 @@ import com.badlogic.gdx.math.Vector2
 
 import java.util.Calendar
 
+// Main game class: handles rendering, input, camera, and mode switching
 class Game extends DesktopApplication(1920, 1080) {
   private val lineMachine = new LineDrawMachine
   private val modesMachine = new MenuModesMachine
@@ -41,6 +42,7 @@ class Game extends DesktopApplication(1920, 1080) {
   private var drawZoneX: Int = 0
   private var drawZoneY: Int = 0
 
+  // Initialises the player, window title, and overlay screens (splash, load)
   override def onInit(): Unit = {
     playerMachine = new MudryMachine("rider", new Vector2(960, 900), 4f, 0f, 0f, 0.00001f)
     camX = playerMachine.posX.toInt
@@ -51,16 +53,20 @@ class Game extends DesktopApplication(1920, 1080) {
     s1.registerScreen(classOf[LoadWindow])
   }
 
+  // Main render loop: splash screen first, then camera, physics, drawing lines, and HUD
   override def onGraphicRender(g: GdxGraphics): Unit = {
     walkman.play(currentMode, musicMode)
+    // Show splash screen for the first 3 seconds
     if (System.currentTimeMillis() - startTime < 3000) {
       s.render(g)
     } else {
+      // Destroy splashscreen physics lines and reposition player
       if (firstRun) {
         l.destroy()
         l2.destroy()
         playerMachine.setPos(camX, camY)
       }
+      // Load screen: reset camera and render the file picker
       if (currentMode == "load") {
         camX = 1920 / 2
         camY = 540
@@ -68,6 +74,7 @@ class Game extends DesktopApplication(1920, 1080) {
         cam.update()
         s1.render(g)
       } else {
+        // Main game rendering
         firstRun = false
         g.clear(Color.WHITE)
         g.setColor(Color.BLACK)
@@ -76,6 +83,7 @@ class Game extends DesktopApplication(1920, 1080) {
         PhysicsWorld.updatePhysics()
         playerMachine.update()
 
+        // Camera follows the player in play mode, otherwise stays at manually-set position
         if (currentMode == "play") {
           cam.position.set(playerMachine.posX, playerMachine.posY, 0)
         } else {
@@ -85,11 +93,13 @@ class Game extends DesktopApplication(1920, 1080) {
 
         playerMachine.draw(g)
 
+        // Freeze the player outside of play mode
         if (currentMode != "play") {
           playerMachine.sleep()
           playerMachine.angle = 0
         }
 
+        // Use camera or player position as the drawing reference point
         if (currentMode != "play") drawZoneX = camX else drawZoneX = playerMachine.posX.toInt
         if (currentMode != "play") drawZoneY = camY else drawZoneY = playerMachine.posY.toInt
 
@@ -101,6 +111,7 @@ class Game extends DesktopApplication(1920, 1080) {
         musicMode = modesMachine.getMusicMode()
 
 
+        // Draw the UI menu and mode-specific overlays
         g.resetCamera()
         modesMachine.drawModesMenu(g, g.getScreenHeight, 0)
         if (currentMode == "mop") {
@@ -113,6 +124,7 @@ class Game extends DesktopApplication(1920, 1080) {
 
         val oldColor = g.sbGetColor()
         g.setColor(Color.BLACK)
+        // Show coordinates (player or camera position)
         if (currentMode == "play") {
           g.drawString(5, 50, s"X : ${playerMachine.posX.toInt}")
           g.drawString(5, 35, s"Y : ${playerMachine.posY.toInt}")
@@ -127,6 +139,7 @@ class Game extends DesktopApplication(1920, 1080) {
     }
   }
 
+  // Handles mouse clicks
   override def onClick(x: Int, y: Int, button: Int): Unit = {
     currentX = x
     currentY = y
@@ -144,6 +157,7 @@ class Game extends DesktopApplication(1920, 1080) {
       // indépendament du mouvement dans le monde derrière
       // il faut donc calculer par nous même cette position
 
+      // Convert screen coordinates to world coordinates (accounting for camera offset)
       val inWorldClicX: Int = x + (camX - 960)
       val inWorldClicY: Int = y + (camY - 540)
 
@@ -198,7 +212,8 @@ class Game extends DesktopApplication(1920, 1080) {
         }
         case "save" => {
           isSaving = true
-          val c: Calendar = Calendar.getInstance()
+          // Generate a unique filename using the current date/time
+        val c: Calendar = Calendar.getInstance()
           val fn: String = "save_" +
             s"${c.get(Calendar.DAY_OF_YEAR)}" +
             s"${c.get(Calendar.HOUR_OF_DAY)}" +
@@ -242,6 +257,7 @@ class Game extends DesktopApplication(1920, 1080) {
       }
 
     } else {
+      // Right-click starts camera drag / in play mode switches to edit mode first
       RDragX = x
       RDragY = y
       if (currentMode == "play") {
@@ -255,6 +271,7 @@ class Game extends DesktopApplication(1920, 1080) {
 
   }
 
+  // Handles mouse drag: drawing input or camera panning
   override def onDrag(x: Int, y: Int): Unit = {
     currentX = x
     currentY = y
@@ -274,7 +291,8 @@ class Game extends DesktopApplication(1920, 1080) {
         }
         case _ => {}
       }
-    } else if (lastMouseClick == Input.Buttons.RIGHT && currentMode != "load") { // si drag sur clic droit
+    // Right-click drag: moves the camera
+    } else if (lastMouseClick == Input.Buttons.RIGHT && currentMode != "load") {
       camX = camX - (x - RDragX)
       camY = camY - (y - RDragY)
       RDragX = x
@@ -285,6 +303,7 @@ class Game extends DesktopApplication(1920, 1080) {
 
   }
 
+  // Handles mouse release: finalises the current drawing action
   override def onRelease(x: Int, y: Int, button: Int): Unit = {
     currentX = x
     currentY = y

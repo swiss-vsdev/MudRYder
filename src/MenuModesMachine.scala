@@ -4,6 +4,7 @@ import com.badlogic.gdx.graphics.Color
 
 import scala.collection.mutable.ArrayBuffer
 
+// Manages the mode menu: icon loading, mode switching
 class MenuModesMachine {
   private val modes: ArrayBuffer[MenuModes] = ArrayBuffer.empty
   private val icons: ArrayBuffer[BitmapImage] = ArrayBuffer.empty
@@ -13,6 +14,7 @@ class MenuModesMachine {
   loadModes()
   private var firstRun: Boolean = true
 
+  // Load icon images for each menu mode (called once)
   def loadIcons(): Unit = {
     if (firstRun) {
       for (mode <- modes) {
@@ -23,6 +25,7 @@ class MenuModesMachine {
     }
   }
 
+  // Draw all mode buttons on the top-right of the screen
   def drawModesMenu(g: GdxGraphics, width: Int, height: Int): Unit = {
     val startPointH: Int = width - 20
     var startPointW: Int = height + 30
@@ -84,13 +87,12 @@ class MenuModesMachine {
     mm
   }
 
+  // Check if the user clicked a menu button
+  // Returns true if a button was hit
   def onMenuClick(x: Int, y: Int): Boolean = {
-
-    //vérifier pythagore vu que boutons ronds
-    // Return true si un bouton du menu a été touché (pour prevent les actions quand clic sur le menu)
     for (m <- modes) {
       if (math.sqrt((x - m.x) * (x - m.x) + (y - m.y) * (y - m.y)) < m.radius) {
-        // bouton touché -> Changement de mode
+        // Button hit -> switch mode
         modeSwitcher(m.name)
         return true
       }
@@ -98,6 +100,7 @@ class MenuModesMachine {
     false
   }
 
+  // Handle mode toggles (physic/decoration, music/mute) and direct mode selection
   def modeSwitcher(m: String): Unit = {
     if (m == "physic") {
       if (dm == "physic") {
@@ -116,18 +119,19 @@ class MenuModesMachine {
     }
   }
 
+  // All Menus / Toggles added
   private def loadModes(): Unit = {
-    modes.addOne(MenuModes("free", 0, 0, 10))
-    modes.addOne(MenuModes("lines", 0, 0, 10))
-    modes.addOne(MenuModes("play", 0, 0, 10))
-    modes.addOne(MenuModes("eraser", 0, 0, 10))
-    modes.addOne(MenuModes("mop", 0, 0, 10))
-    modes.addOne(MenuModes("return", 0, 0, 10))
-    modes.addOne(MenuModes("save", 0, 0, 10))
-    modes.addOne(MenuModes("load", 0, 0, 10))
-    modes.addOne(MenuModes("physic", 0, 0, 10))
-    modes.addOne(MenuModes("decoration", 0, 0, 10))
-    modes.addOne(MenuModes("music", 0, 0, 10))
-    modes.addOne(MenuModes("musicmute", 0, 0, 10))
+    modes.addOne(MenuModes("free"))
+    modes.addOne(MenuModes("lines"))
+    modes.addOne(MenuModes("play"))
+    modes.addOne(MenuModes("eraser"))
+    modes.addOne(MenuModes("mop"))
+    modes.addOne(MenuModes("return"))
+    modes.addOne(MenuModes("save"))
+    modes.addOne(MenuModes("load"))
+    modes.addOne(MenuModes("physic"))
+    modes.addOne(MenuModes("decoration"))
+    modes.addOne(MenuModes("music"))
+    modes.addOne(MenuModes("musicmute"))
   }
 }

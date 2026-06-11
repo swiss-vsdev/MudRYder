@@ -1,7 +1,7 @@
 import java.io.File
 import javax.sound.sampled.AudioSystem
 
-// THIS CLASS IS RESPONSIBLE FOR MUSIC PART OF THE GAME
+// Manages background music, switching tracks based on the current game mode
 
 class MusicPlayer() {
   private val clip = AudioSystem.getClip()
@@ -34,6 +34,7 @@ class MusicPlayer() {
             val musicfile = new File(s"./music/play.wav")
             val audio = AudioSystem.getAudioInputStream(musicfile)
             clip.open(audio)
+            clip.loop(-1)
             clip.start()
           }
         }

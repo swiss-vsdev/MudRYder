@@ -8,6 +8,7 @@ import com.badlogic.gdx.math.Vector2
 import scala.collection.mutable.ListBuffer
 
 
+// Full-screen file selection screen for loading saved levels
 class LoadWindow extends RenderingScreen {
   var files: Array[FileHandle] = _
   private val filesList: ListBuffer[String] = ListBuffer.empty
@@ -17,6 +18,7 @@ class LoadWindow extends RenderingScreen {
   var answer: String = ""
   private var selectedSaveIndice: Int = -1
 
+  // List all .csv save files from the saves directory
   override def onInit(): Unit = {
     files = Gdx.files.local("saves").list()
     files.foreach { f =>
@@ -25,6 +27,7 @@ class LoadWindow extends RenderingScreen {
     }
   }
 
+  // Draw the file list and Cancel/Load buttons
   override def onGraphicRender(g: GdxGraphics): Unit = {
     g.clear(Color.WHITE)
     g.setColor(Color.BLACK)
@@ -59,13 +62,14 @@ class LoadWindow extends RenderingScreen {
     g.drawString((g.getScreenWidth / 2 + 65), 755 - c, "Load")
   }
 
+  // Handle clicks: selecting a file, or pressing Cancel/Load
   def onClick(x: Int, y: Int): Unit = {
     if (x >= cancelButtonCo.x - 50 && x <= cancelButtonCo.x + 50 &&
       y >= cancelButtonCo.y - 15 && y <= cancelButtonCo.y + 15) {
-      answer = "cancel" // Cancel
+      answer = "cancel"
     } else if (x >= loadButtonCo.x - 50 && x <= loadButtonCo.x + 50 &&
       y >= loadButtonCo.y - 15 && y <= loadButtonCo.y + 15) {
-      answer = "load" // Load
+      answer = "load"
     } else {
       answer = ""
     }
@@ -79,11 +83,13 @@ class LoadWindow extends RenderingScreen {
 
   }
 
+  // Return the filename the user selected
   def getSelection(): String = {
     filesList(selectedSaveIndice)
   }
 
 
+  // Return the user's button choice ("load" or "cancel")
   def getAnwser(): String = {
     answer
   }

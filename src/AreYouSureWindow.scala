@@ -3,7 +3,7 @@ import ch.hevs.gdx2d.lib.GdxGraphics
 import com.badlogic.gdx.graphics.Color
 import com.badlogic.gdx.math.Vector2
 
-// THIS CLASS IS RESPONSIBLE FOR THE SMALL WINDOW SHOWING IN CASE OF MOPPING
+// Confirmation dialog shown when the "mop" (clear all) action is triggered
 
 class AreYouSureWindow {
   //Window Size
@@ -70,7 +70,7 @@ class AreYouSureWindow {
       //If the mouse is in the NO button coordinates, answer = no
     } else if (x >= noButtonPoint.x && x <= noButtonPoint.x + buttonWidth &&
       y >= noButtonPoint.y && y <= noButtonPoint.y + buttonHeight) {
-      answer = "no" // No
+      answer = "no"
     } else {
       answer = ""
     }

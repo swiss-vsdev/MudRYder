@@ -3,6 +3,7 @@ import ch.hevs.gdx2d.lib.GdxGraphics
 import com.badlogic.gdx.graphics.Color
 import com.badlogic.gdx.math.Vector2
 
+// Temporary notification overlay shown after saving, displaying the filename
 class SavingWindow {
 
   val firstWindowPoint: Vector2 = new Vector2(280, 960)

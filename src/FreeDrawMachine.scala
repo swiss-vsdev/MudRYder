@@ -6,9 +6,7 @@ import typesLibrary.Free
 import java.io.{FileOutputStream, PrintWriter}
 import scala.collection.mutable.ArrayBuffer
 
-// THIS CLASS IS RESPONSIBLE FOR DRAWING THE FREE DRAWINGS, EITHER DECO OR PHYSICS
-// IT ALSO CAN REMOVE LINES (MOP, ERASER)
-// FINALLY IT SAVES THE FREELINES IN THE SAVE
+// Manages free-hand drawing (sequences of short segments), erasing, and saving
 
 class FreeDrawMachine {
   val calc: Calculator = new Calculator
@@ -34,6 +32,7 @@ class FreeDrawMachine {
         } else {
           segment.color = Color.BLACK
         }
+          // Only draw segments within the visible area (plus a margin), or the dummy placeholder
         if (segment.p1x >= (camX - 2000) && segment.p1x <= (camX + 2000) ||
           segment.p2x >= (camX - 2000) && segment.p2x <= (camX + 2000) ||
           segment.p1y >= (camY - 1500) && segment.p1y <= (camY + 1500) ||
@@ -60,6 +59,7 @@ class FreeDrawMachine {
     }
   }
 
+  // Add a new segment from the previous point to the current mouse position
   def onDrag(x: Int, y: Int, dm: String): Unit = {
     endPoint.set(x, y)
     dm match {
@@ -120,6 +120,7 @@ class FreeDrawMachine {
     ArrayEmptyFix()
   }
 
+  // HACK: creates a dummy segment so the physics world doesn't break when empty
   private def ArrayEmptyFix(): Unit = {
     if (FreeArray.isEmpty) {
       val l1 = PhysicLine(-10000, -10000, -10000, -10000)
@@ -131,6 +132,7 @@ class FreeDrawMachine {
     val pw = new PrintWriter(
       new FileOutputStream(s"./saves/$filename.csv", true)
     )
+    // Save format: TypeLine,p1x,p1y,p2x,p2y per line segment
     for (free <- FreeArray) {
       for (sgmt <- free) {
         pw.println(sgmt.getClass.getSimpleName + "," +

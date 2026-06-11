@@ -1,7 +1,6 @@
 import com.badlogic.gdx.math.Vector2
 
-// THIS CLASS IS RESPONSIBLE FOR THE CALCULATION
-// THIS LOGIC IS USED FOR THE ERASER FUNCTION
+// Geometry calculations for the eraser: point-to-segment distance and hit testing
 
 class Calculator {
   private val tolerance = 8 //Mouse tolerance, nbr of pixels around the mouse

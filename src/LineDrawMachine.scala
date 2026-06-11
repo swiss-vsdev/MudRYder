@@ -6,10 +6,7 @@ import java.io.{FileOutputStream, PrintWriter}
 import scala.collection.mutable.ArrayBuffer
 import scala.io.Source
 
-// THIS CLASS IS RESPONSIBLE FOR DRAWING THE LINES, EITHER DECO OR PHYSICS
-// IT ALSO CAN REMOVE LINES (MOP, ERASER)
-// IT SAVES THE LINES IN THE SAVE
-// IT LOADS ANY LINES FROM A SAVE
+// Manages drawing, erasing, saving, and loading physics and decorative lines
 
 
 class LineDrawMachine {
@@ -24,7 +21,6 @@ class LineDrawMachine {
 
   ArrayEmptyFix()
 
-  // IF THE LINE IS CLOSE TO THE VISIBLE AREA OF THE CAMERA, IT DRAWS IT
   def drawLines(g: GdxGraphics, cm: String, dm: String, camX: Int, camY: Int): Unit = {
     if (dm != "decoration") g.setColor(Color.BLACK) else g.setColor(Color.BLUE)
     if (endPoint.x != 0.0f && endPoint.y != 0.0f) g.drawLine(startPoint.x, startPoint.y, endPoint.x, endPoint.y)
@@ -34,6 +30,7 @@ class LineDrawMachine {
       } else {
         line.color = Color.BLACK
       }
+      // Only draw lines within the visible area (plus a margin), or the dummy placeholder
       if (line.p1x >= (camX - 2000) && line.p1x <= (camX + 2000) ||
         line.p2x >= (camX - 2000) && line.p2x <= (camX + 2000) ||
         line.p1y >= (camY - 1500) && line.p1y <= (camY + 1500) ||
@@ -110,6 +107,7 @@ class LineDrawMachine {
     ArrayEmptyFix()
   }
 
+  // HACK: creates a dummy line so the physics world doesn't break when empty
   private def ArrayEmptyFix(): Unit = {
     if (LineArray.isEmpty) {
       val l1 = PhysicLine(-10000, -10000, -10000, -10000)
@@ -121,6 +119,7 @@ class LineDrawMachine {
     val pw = new PrintWriter(
       new FileOutputStream(s"./saves/$filename.csv", true)
     )
+    // Save format: TypeLine,p1x,p1y,p2x,p2y per line
     for (line <- LineArray) {
       pw.println(line.getClass.getSimpleName + "," +
         line.p1x + "," + line.p1y + "," + line.p2x + "," + line.p2y)

@@ -10,6 +10,7 @@ import com.badlogic.gdx.graphics.g2d.freetype.FreeTypeFontGenerator.FreeTypeFont
 import com.badlogic.gdx.math.Vector2
 
 
+// Animated splash screen shown at startup with title and player image
 class SplashScreenWindow extends RenderingScreen {
 
   private val param: FreeTypeFontParameter = new FreeTypeFontParameter
@@ -21,6 +22,7 @@ class SplashScreenWindow extends RenderingScreen {
   var c = 0
   private var imgBitmap: BitmapImage = _
 
+  // Load splash image and create a dummy player for the animation
   override def onInit(): Unit = {
     imgBitmap = new BitmapImage("icons/mudry2.png")
     mM = new MudryMachine("rider2", new Vector2(960, 900), 10, 1f, 0.65f, 0.6f)
@@ -28,6 +30,7 @@ class SplashScreenWindow extends RenderingScreen {
     mM.setPos(100, 1200)
   }
 
+  // Render the splash: animated title text + falling player image + school logo
   override def onGraphicRender(g: GdxGraphics): Unit = {
     g.clear(Color.WHITE)
     g.setColor(Color.BLACK)
@@ -45,6 +48,7 @@ class SplashScreenWindow extends RenderingScreen {
 
   override def dispose(): Unit = {
     imgBitmap.dispose()
+    mM.destroy()
   }
 
 }
