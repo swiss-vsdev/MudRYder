@@ -52,6 +52,8 @@ Le projet a été entièrement écrit en Scala 2.13.18 à l'aide d'IntelliJ IDEA
 == GitHub
 Ce projet étant commun, l'utilisation de Git nous a permis de collaborer de manière efficace et rapide. Nous avons utilisé GitHub pour sa simplicité d'intégration dans notre processus de développement. 
 
+Le projet est disponible à l'adresse suivante : https://github.com/swiss-vsdev/MudRYder
+
 == GDX2D
 La bibliothèque GDX2D est un projet open-source créée par divers enseignants de l'HES-SO Valais/Wallis. Le projet a été basé sur une bibliothèque déjà existante : libGDX #cite(<libgdx>).
  
