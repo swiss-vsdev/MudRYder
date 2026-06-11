@@ -38,7 +38,7 @@ Nous avons choisi de recréer le jeu *Line Rider*, un classique du genre "bac à
 #figure(image("figs/splash.png", width: 90%), caption: [Écran de démarrage du jeu])
 
 = Moyens à disposition
-Afin d'assurer le bon déroulement de ce projet, nous avons utilisé la libraire GDX2, une bibliothèque Java simple, sur laquelle nous nous sommes appuyés afin de gérer la partie graphique et physique.
+Afin d'assurer le bon déroulement de ce projet, nous avons utilisé la bibliothèque GDX2, une bibliothèque Java simple, sur laquelle nous nous sommes appuyé afin de gérer la partie graphique et physique.
 Le projet a été entièrement écrit en Scala 2.13.18 à l'aide d'IntelliJ IDEA.
 
 #figure(
@@ -49,8 +49,8 @@ Le projet a été entièrement écrit en Scala 2.13.18 à l'aide d'IntelliJ IDEA
   )
 )
 
-== Github
-Ce projet étant commun, l'utilisation de Git nous a permis de collaborer de manière efficace et rapide. Nous avons utilisé Github pour sa simplicité d'intégration dans notre processus de développement. 
+== GitHub
+Ce projet étant commun, l'utilisation de Git nous a permis de collaborer de manière efficace et rapide. Nous avons utilisé GitHub pour sa simplicité d'intégration dans notre processus de développement. 
 
 == GDX2D
 La bibliothèque GDX2D est un projet open-source créée par divers enseignants de l'HES-SO Valais/Wallis. Le projet a été basé sur une bibliothèque déjà existante : libGDX #cite(<libgdx>).
@@ -125,7 +125,7 @@ Initialement, le personnage ne suivait pas correctement l'inclinaison des pentes
 
 == Optimisation des calculs vectoriels
 L'outil gomme utilisait des calculs de distance point-segment coûteux. Nous avons optimisé l'algorithme en ajoutant une vérification préalable des limites avant le calcul du produit vectoriel.
-Nous avons également essayé de réduire le nombre de cycles CPU nécessaires en modifiant certains calcul. En remplaçant un `math.pow(x,2)` par simplement `x * x` de cette manière, nous avons encore pû réduire l'impact des calculs.
+Nous avons également essayé de réduire le nombre de cycles CPU nécessaires en modifiant certains calculs. En remplaçant un `math.pow(x,2)` par simplement `x * x` de cette manière, nous avons encore pu réduire l'impact des calculs.
 
 = Fonctionnalités
 
@@ -151,14 +151,14 @@ Nous avons également essayé de réduire le nombre de cycles CPU nécessaires e
 - Unifier les deux systèmes de dessin (`LineDrawMachine` et `FreeDrawMachine`) pour réduire la duplication de code
 - Ajouter une gestion d'erreur (fichiers, index, dossier vide)
 - Remplacer le correctif _ArrayEmptyFix_ par une solution plus propre
-- Améliorer la structure du code pour le rendre plus simple a consulter et modifier
+- Améliorer la structure du code pour le rendre plus simple à consulter et modifier
 
 == Auto-critique
-Le projet s'est bien déroulé dans l'ensemble. L'utilisation de Git nous a permis de travailler en parallèle efficacement. Cependant, le découpage en classes aurait pu être mieux pensé en amont : la séparation en deux systèmes de dessin distincts a créé de la duplication et des incohérences, notamment pour la gomme et la sauvegarde. Nous avons passé beaucoup de temps a implémenter des fonctionnalités mais pas assez à restructurer le code et à l'optimiser. À l'avenir, il faudrait prioriser la robustesse du code avant les fonctionnalités secondaires.
+Le projet s'est bien déroulé dans l'ensemble. L'utilisation de Git nous a permis de travailler en parallèle efficacement. Cependant, le découpage en classes aurait pu être mieux pensé en amont : la séparation en deux systèmes de dessin distincts a créé de la duplication et des incohérences, notamment pour la gomme et la sauvegarde. Nous avons passé beaucoup de temps à implémenter des fonctionnalités mais pas assez à restructurer le code et à l'optimiser. À l'avenir, il faudrait prioriser la robustesse du code avant les fonctionnalités secondaires.
 
 = Conclusion
 
-Ce projet nous a permis de mettre en pratique les concepts de programmation orientée-objet vus durant le semestre : héritage, polymorphisme, traits, _case classes_ et _pattern matching_. Malgré quelques limitations, le jeu est fonctionnel et atteint les objectifs fixés. Nous sommes satisfaits du résultat et cette expérience nous a appris l'importance d'une bonne architecture logicielle ainsi que d'une répartition claire des tâches au sein d'une équipe.
+Ce projet nous a permis de mettre en pratique les concepts de programmation orientée-objet vus durant le semestre : héritage, polymorphisme, traits et les case classes. Malgré quelques limitations, le jeu est fonctionnel et atteint les objectifs fixés. Nous sommes satisfaits du résultat et cette expérience nous a appris l'importance d'une bonne architecture logicielle ainsi que d'une répartition claire des tâches au sein d'une équipe.
 
 = Annexes
 
