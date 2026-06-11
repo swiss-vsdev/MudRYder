@@ -64,7 +64,7 @@ Nous avons eu l'idée de nous lancer dans la création de ce jeu en nous inspira
 == Architecture générale
 Le projet est structuré autour d'une classe principale `Game` qui étend `DesktopApplication` de la bibliothèque GDX2D. Cette classe gère la boucle de jeu principale et délègue les différentes fonctionnalités à des sous-systèmes spécialisés : `LineDrawMachine` et `FreeDrawMachine` pour le dessin, `MenuModesMachine` pour la gestion des modes, `MudryMachine` pour le personnage, et `MusicPlayer` pour l'audio.
 
-#figure(image("figs/InGame.png", width: 90%), caption: [Mudry en pleine course sur les pistes])
+#figure(image("figs/uml.png", width: 83%), caption: [Diagramme de classes UML du projet])
 
 == Gestion des modes de jeu
 Nous avons implémenté une machine à états simple via la classe `MenuModesMachine`. Celle-ci gère les modes (`lines`, `free`, `play`, `eraser`, `mop`, `save`, `load`) ainsi que des toggles internes pour le mode de dessin (`physic`/`decoration`) et la musique (`music`/`musicmute`). Le mode courant est stocké sous forme de chaîne de caractères et transmis aux différentes machines de dessin, qui adaptent leur comportement en conséquence. Par exemple, en mode `play`, le dessin est désactivé et la caméra suit automatiquement le personnage.
@@ -73,6 +73,10 @@ Nous avons implémenté une machine à états simple via la classe `MenuModesMac
 
 == Deux systèmes de dessin distincts
 Nous avons fait le choix de séparer le dessin de lignes segmentées (`LineDrawMachine`) et le dessin de lignes libres (`FreeDrawMachine`). La première fonctionne par clic, glisser et relâcher pour créer un segment rectiligne entre deux points, tandis que la seconde génère des traits continus en ajoutant des segments à chaque frame de glissement. Cette séparation s'explique par la différence fondamentale d'interaction utilisateur et de structure de données : `LineArray` pour les segments fixes, `FreeArray` (tableau de tableaux) pour les traits libres.
+
+#figure(image("figs/InGame.png", width: 90%), caption: [Mudry en pleine course sur les pistes])
+
+#pagebreak()
 
 == Hiérarchie des lignes
 Nous avons défini un trait `Line` comme interface commune à toutes les lignes, imposant les propriétés `p1x`, `p1y`, `p2x`, `p2y` et les méthodes `draw` et `destroy`. Deux implémentations concrètes en `case class` en découlent :
@@ -88,6 +92,8 @@ La caméra fonctionne selon deux modes. En mode édition (dessin), l'utilisateur
 
 == Optimisation du rendu
 Afin de maintenir des performances élevées, seules les lignes situées dans un rayon de 2000 pixels autour de la caméra sont dessinées. Cela nous a permis de réduire l'impact sur la performance plus le nombre de lignes augmente.
+
+#pagebreak()
 
 == Système de sauvegarde et chargement
 Le format de sauvegarde choisi est le CSV, simple à lire et à écrire. Chaque ligne est enregistrée au format `TypeLigne,x1,y1,x2,y2` dans le dossier `./saves/`. Le nom de fichier est généré automatiquement à partir de la date et de l'heure (`save_JJJHHMMSS.csv`). Au chargement, le fichier est parsé et chaque ligne est reconstruite en `PhysicLine` ou `DecoLine` selon son type. Ce format texte présente l'avantage d'être lisible par un humain et facile à déboguer.
@@ -142,6 +148,9 @@ Nous avons également essayé de réduire le nombre de cycles CPU nécessaires e
 - La fenêtre de chargement suppose que le dossier `saves/` contient au moins un fichier valide
 - Si un fichier est généré / ajouté au dossier `saves/` après avoir lancé le jeu, il n'apparaîtra pas.
 - Le personnage ne suit pas parfaitement l'angle de la pente
+
+
+#pagebreak()
 
 = Améliorations et auto-critique
 
